@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { newArrivals } from "@/data/catalog";
-import { BookCard } from "@/components/site/BookCard";
+import { BookGrid } from "@/components/site/BookGrid";
 import { SectionHeader } from "@/components/site/SectionHeader";
 
 export const Route = createFileRoute("/new-arrivals")({
@@ -23,17 +23,13 @@ export const Route = createFileRoute("/new-arrivals")({
 
 function NewArrivalsPage() {
   return (
-    <div className="container-page py-14">
+    <div className="container-page py-10 sm:py-14">
       <SectionHeader
         eyebrow="Just landed"
         title="New arrivals"
         subtitle="Freshly unpacked and shelved this week."
       />
-      <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
-        {newArrivals.map((b) => (
-          <BookCard key={b.id} book={b} />
-        ))}
-      </div>
+      <BookGrid items={newArrivals} />
     </div>
   );
 }

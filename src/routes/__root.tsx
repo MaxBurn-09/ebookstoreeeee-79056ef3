@@ -18,6 +18,7 @@ import { CartDrawer } from "../components/site/CartDrawer";
 import { Toaster } from "../components/ui/sonner";
 import { SiteOpener } from "../components/site/SiteOpener";
 import { ScrollProgress } from "../components/site/ScrollProgress";
+import { PageTransition } from "../components/site/PageTransition";
 
 function NotFoundComponent() {
   return (
@@ -146,8 +147,10 @@ function RootComponent() {
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-1">
-            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-            <Outlet />
+            <PageTransition>
+              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+              <Outlet />
+            </PageTransition>
           </main>
           <Footer />
         </div>

@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { books } from "@/data/catalog";
-import { BookCard } from "@/components/site/BookCard";
+import { BookGrid } from "@/components/site/BookGrid";
 import { SectionHeader } from "@/components/site/SectionHeader";
+import { Reveal } from "@/components/site/Reveal";
 import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/wishlist")({
@@ -21,24 +22,21 @@ function WishlistPage() {
   const saved = books.filter((b) => wishlist.includes(b.id));
 
   return (
-    <div className="container-page py-14">
+    <div className="container-page py-10 sm:py-14">
       <SectionHeader eyebrow="Saved for later" title="Your wishlist" />
       {saved.length === 0 ? (
-        <div className="py-16 text-center">
+        <Reveal className="py-16 text-center">
           <p className="text-sm text-muted-foreground">Nothing saved yet.</p>
           <Link
             to="/books"
-            className="mt-5 inline-block rounded-sm bg-forest px-6 py-3 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase"
+            preload="intent"
+            className="press mt-5 inline-block rounded-sm bg-forest px-6 py-3 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase transition-colors hover:bg-forest/90"
           >
             Browse books
           </Link>
-        </div>
+        </Reveal>
       ) : (
-        <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
-          {saved.map((b) => (
-            <BookCard key={b.id} book={b} />
-          ))}
-        </div>
+        <BookGrid items={saved} />
       )}
     </div>
   );

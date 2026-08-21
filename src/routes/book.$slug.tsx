@@ -2,7 +2,9 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Heart, ShoppingBag, Truck, RotateCcw, ShieldCheck } from "lucide-react";
 import { books, formatPrice } from "@/data/catalog";
 import { Stars } from "@/components/site/Stars";
-import { BookCard } from "@/components/site/BookCard";
+import { BookGrid } from "@/components/site/BookGrid";
+import { Reveal } from "@/components/site/Reveal";
+import { Tilt } from "@/components/site/Motion";
 import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/book/$slug")({
@@ -38,7 +40,7 @@ function BookDetail() {
   const more = related.length ? related : books.filter((b) => b.id !== book.id).slice(0, 4);
 
   return (
-    <div className="container-page py-12">
+    <div className="container-page py-8 sm:py-12">
       <nav className="mb-8 text-xs text-muted-foreground">
         <Link to="/" className="hover:text-primary">Home</Link>
         <span className="px-2">/</span>
@@ -49,18 +51,22 @@ function BookDetail() {
         <span className="text-foreground">{book.title}</span>
       </nav>
 
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-        <div className="rounded-lg border border-border bg-cream p-8">
-          <img
-            src={book.cover}
-            alt={`Cover of ${book.title} by ${book.author}`}
-            className="mx-auto aspect-[2/3] w-full max-w-sm rounded-sm object-cover shadow-xl"
-          />
-        </div>
+      <div className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        <Reveal>
+          <Tilt max={7}>
+            <div className="shine group rounded-lg border border-border bg-cream p-5 sm:p-8">
+              <img
+                src={book.cover}
+                alt={`Cover of ${book.title} by ${book.author}`}
+                className="mx-auto aspect-[2/3] w-full max-w-[16rem] rounded-sm object-cover shadow-xl transition-transform duration-700 ease-out group-hover:scale-[1.03] sm:max-w-sm"
+              />
+            </div>
+          </Tilt>
+        </Reveal>
 
-        <div>
+        <Reveal delay={120}>
           {book.badge ? <p className="eyebrow">{book.badge}</p> : null}
-          <h1 className="mt-2 text-3xl md:text-5xl">{book.title}</h1>
+          <h1 className="mt-2 text-2xl leading-tight sm:text-3xl md:text-5xl">{book.title}</h1>
           <p className="mt-3 text-sm text-muted-foreground">by {book.author}</p>
 
           <div className="mt-4 flex items-center gap-2">
@@ -90,14 +96,14 @@ function BookDetail() {
             <button
               type="button"
               onClick={() => addToCart(book.id)}
-              className="inline-flex items-center gap-2 rounded-sm bg-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase hover:bg-charcoal"
+              className="press inline-flex flex-1 items-center justify-center gap-2 rounded-sm bg-forest px-7 transition-colors sm:flex-none py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase hover:bg-charcoal"
             >
               <ShoppingBag className="h-4 w-4" /> Add to cart
             </button>
             <button
               type="button"
               onClick={() => toggleWishlist(book.id)}
-              className="inline-flex items-center gap-2 rounded-sm border border-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest uppercase hover:bg-forest hover:text-forest-foreground"
+              className="press inline-flex flex-1 items-center justify-center gap-2 rounded-sm border border-forest px-7 transition-colors sm:flex-none py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest uppercase hover:bg-forest hover:text-forest-foreground"
             >
               <Heart className={isWishlisted(book.id) ? "h-4 w-4 fill-current" : "h-4 w-4"} />
               {isWishlisted(book.id) ? "Saved" : "Wishlist"}
@@ -119,16 +125,14 @@ function BookDetail() {
               </div>
             ))}
           </dl>
-        </div>
+        </Reveal>
       </div>
 
-      <section className="mt-20">
-        <h2 className="mb-8 text-2xl md:text-3xl">You may also like</h2>
-        <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
-          {more.map((b) => (
-            <BookCard key={b.id} book={b} />
-          ))}
-        </div>
+      <section className="mt-16 sm:mt-20">
+        <Reveal>
+          <h2 className="mb-8 text-2xl md:text-3xl">You may also like</h2>
+        </Reveal>
+        <BookGrid items={more} />
       </section>
     </div>
   );
