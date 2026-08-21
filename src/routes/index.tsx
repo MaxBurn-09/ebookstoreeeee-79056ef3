@@ -210,7 +210,7 @@ function Categories() {
 function Bestsellers() {
   return (
     <section className="bg-cream py-16">
-      <div className="container">
+      <div className="container-page">
         <SectionHeader
           eyebrow="Reader favourites"
           title="Bestsellers this season"
