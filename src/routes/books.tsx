@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { books } from "@/data/catalog";
-import { BookCard } from "@/components/site/BookCard";
+import { BookGrid } from "@/components/site/BookGrid";
 import { SectionHeader } from "@/components/site/SectionHeader";
 
 type BooksSearch = { q?: string | undefined; category?: string | undefined };
@@ -49,14 +49,14 @@ function BooksPage() {
   const cats = ["All", ...Array.from(new Set(books.map((b) => b.category)))];
 
   return (
-    <div className="container-page py-14">
+    <div className="container-page py-10 sm:py-14">
       <SectionHeader
         eyebrow="The shelf"
         title={q ? `Results for “${q}”` : category ? category : "All books"}
         subtitle={`${filtered.length} title${filtered.length === 1 ? "" : "s"} available`}
       />
 
-      <div className="mb-8 flex flex-wrap gap-2">
+      <div className="mb-8 -mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
         {cats.map((c) => {
           const active = c === "All" ? !category : category === c;
           return (
@@ -69,7 +69,7 @@ function BooksPage() {
                   search: (prev) => ({ ...prev, category: c === "All" ? undefined : c }),
                 })
               }
-              className={`rounded-full border px-4 py-2 text-[0.68rem] font-semibold tracking-[0.14em] uppercase transition-colors ${
+              className={`shrink-0 snap-start rounded-full border px-4 py-2 text-[0.68rem] font-semibold tracking-[0.14em] uppercase transition-colors ${
                 active
                   ? "border-forest bg-forest text-forest-foreground"
                   : "border-border text-muted-foreground hover:border-forest hover:text-forest"
@@ -86,11 +86,7 @@ function BooksPage() {
           No books matched. Try another search.
         </p>
       ) : (
-        <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
-          {filtered.map((b) => (
-            <BookCard key={b.id} book={b} />
-          ))}
-        </div>
+        <BookGrid items={filtered} />
       )}
     </div>
   );
