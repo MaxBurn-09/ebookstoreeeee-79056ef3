@@ -16,6 +16,8 @@ import { Header } from "../components/site/Header";
 import { Footer } from "../components/site/Footer";
 import { CartDrawer } from "../components/site/CartDrawer";
 import { Toaster } from "../components/ui/sonner";
+import { SiteOpener } from "../components/site/SiteOpener";
+import { ScrollProgress } from "../components/site/ScrollProgress";
 
 function NotFoundComponent() {
   return (
