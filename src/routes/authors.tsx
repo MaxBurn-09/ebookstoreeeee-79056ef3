@@ -1,6 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { authors } from "@/data/catalog";
 import { SectionHeader } from "@/components/site/SectionHeader";
+import { AuthorCard } from "@/components/site/AuthorCard";
+import { Reveal } from "@/components/site/Reveal";
 
 export const Route = createFileRoute("/authors")({
   head: () => ({
@@ -22,34 +24,17 @@ export const Route = createFileRoute("/authors")({
 
 function AuthorsPage() {
   return (
-    <div className="container-page py-14">
+    <div className="container-page py-10 sm:py-14">
       <SectionHeader
         eyebrow="In conversation"
         title="Authors we love"
         subtitle="The voices behind our most-recommended shelves."
       />
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {authors.map((a) => (
-          <article key={a.slug} className="text-center">
-            <img
-              src={a.portrait}
-              alt={`Portrait of ${a.name}`}
-              loading="lazy"
-              className="mx-auto h-40 w-40 rounded-full object-cover"
-            />
-            <h2 className="mt-5 font-serif text-xl">{a.name}</h2>
-            <p className="mt-1 text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
-              {a.books} books
-            </p>
-            <p className="mt-3 text-sm text-muted-foreground">{a.note}</p>
-            <Link
-              to="/books"
-              search={{ q: a.name, category: undefined }}
-              className="mt-4 inline-block text-[0.68rem] font-semibold tracking-[0.16em] text-forest uppercase hover:text-primary"
-            >
-              View titles
-            </Link>
-          </article>
+      <div className="grid gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4">
+        {authors.map((a, i) => (
+          <Reveal key={a.slug} delay={Math.min(i * 90, 500)}>
+            <AuthorCard author={a} />
+          </Reveal>
         ))}
       </div>
     </div>
