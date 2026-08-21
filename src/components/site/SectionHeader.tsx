@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, type LinkProps } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 export function SectionHeader({
@@ -12,7 +12,7 @@ export function SectionHeader({
   title: string;
   subtitle?: string;
   linkLabel?: string;
-  linkTo?: string;
+  linkTo?: LinkProps["to"];
 }) {
   return (
     <div className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:flex sm:justify-between">
