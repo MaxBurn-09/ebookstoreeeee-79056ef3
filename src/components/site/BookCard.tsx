@@ -56,7 +56,11 @@ export function BookCard({ book }: { book: Book }) {
 
       <div className="mt-3 flex min-w-0 flex-1 flex-col">
         <h3 className="line-clamp-2 font-sans text-sm leading-snug font-medium">
-          <Link to="/book/$slug" params={{ slug: book.slug }} className="hover:text-primary">
+          <Link
+            to="/book/$slug"
+            params={{ slug: book.slug }}
+            className="link-sweep hover:text-primary"
+          >
             {book.title}
           </Link>
         </h3>
