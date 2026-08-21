@@ -38,7 +38,7 @@ function BookDetail() {
   const more = related.length ? related : books.filter((b) => b.id !== book.id).slice(0, 4);
 
   return (
-    <div className="container py-12">
+    <div className="container-page py-12">
       <nav className="mb-8 text-xs text-muted-foreground">
         <Link to="/" className="hover:text-primary">Home</Link>
         <span className="px-2">/</span>

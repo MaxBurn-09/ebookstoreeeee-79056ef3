@@ -5,7 +5,7 @@ import { storeConfig, categories } from "@/data/catalog";
 export function Footer() {
   return (
     <footer className="mt-20 bg-forest text-forest-foreground">
-      <div className="container grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-2">
             <BookOpen className="h-6 w-6" />
@@ -70,7 +70,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-forest-foreground/15">
-        <div className="container flex flex-col items-center justify-between gap-2 py-5 text-xs opacity-70 sm:flex-row">
+        <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-xs opacity-70 sm:flex-row">
           <p>© {new Date().getFullYear()} {storeConfig.name}. All rights reserved.</p>
           <p>Secure payments · Easy 7-day returns</p>
         </div>

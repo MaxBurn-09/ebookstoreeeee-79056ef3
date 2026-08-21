@@ -224,7 +224,7 @@ export const storeConfig = {
     { label: "New Arrivals", to: "/new-arrivals" },
     { label: "Authors", to: "/authors" },
     { label: "About Us", to: "/about" },
-  ],
+  ] as const,
 };
 
 export const formatPrice = (value: number) => `₹${value.toLocaleString("en-IN")}`;
