@@ -79,7 +79,7 @@ function Home() {
 function Hero() {
   return (
     <section className="bg-cream">
-      <div className="container grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-24">
+      <div className="container-page grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-24">
         <div>
           <p className="eyebrow">Independent since 2014</p>
           <h1 className="mt-4 text-4xl leading-[1.05] md:text-6xl">
@@ -156,7 +156,7 @@ function Benefits() {
   ];
   return (
     <section className="border-y border-border bg-background">
-      <div className="container grid gap-6 py-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="container-page grid gap-6 py-8 sm:grid-cols-2 lg:grid-cols-4">
         {items.map(({ icon: Icon, title, note }) => (
           <div key={title} className="flex items-center gap-3">
             <Icon className="h-6 w-6 shrink-0 text-forest" />
@@ -173,7 +173,7 @@ function Benefits() {
 
 function Categories() {
   return (
-    <section className="container py-16">
+    <section className="container-page py-16">
       <SectionHeader
         eyebrow="Browse by mood"
         title="Shop by category"
@@ -233,7 +233,7 @@ function NewArrivals() {
   const shown = newArrivals.filter((b) => filter === "All" || b.category === filter);
 
   return (
-    <section className="container py-16">
+    <section className="container-page py-16">
       <SectionHeader
         eyebrow="Just landed"
         title="New arrivals"
@@ -276,7 +276,7 @@ function BookOfTheMonth() {
   const book = bookOfTheMonth;
   return (
     <section className="bg-forest text-forest-foreground">
-      <div className="container grid items-center gap-10 py-16 lg:grid-cols-2">
+      <div className="container-page grid items-center gap-10 py-16 lg:grid-cols-2">
         <img
           src={editorial}
           alt={`Editorial photograph of ${book.title}`}
@@ -320,7 +320,7 @@ function BookOfTheMonth() {
 
 function Authors() {
   return (
-    <section className="container py-16">
+    <section className="container-page py-16">
       <SectionHeader
         eyebrow="In conversation"
         title="Authors we love"
@@ -350,7 +350,7 @@ function Authors() {
 
 function Promo() {
   return (
-    <section className="container pb-16">
+    <section className="container-page pb-16">
       <div className="grid items-center gap-0 overflow-hidden rounded-lg border border-border lg:grid-cols-2">
         <img
           src={promo}
@@ -381,7 +381,7 @@ function Newsletter() {
   const [email, setEmail] = useState("");
   return (
     <section className="border-t border-border bg-background py-16">
-      <div className="container max-w-2xl text-center">
+      <div className="container-page max-w-2xl text-center">
         <p className="eyebrow">Letters from the shop</p>
         <h2 className="mt-3 text-3xl md:text-4xl">One good book, every Friday</h2>
         <p className="mt-3 text-sm text-muted-foreground">

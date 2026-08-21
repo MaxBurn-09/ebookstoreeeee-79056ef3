@@ -22,7 +22,7 @@ export const Route = createFileRoute("/authors")({
 
 function AuthorsPage() {
   return (
-    <div className="container py-14">
+    <div className="container-page py-14">
       <SectionHeader
         eyebrow="In conversation"
         title="Authors we love"

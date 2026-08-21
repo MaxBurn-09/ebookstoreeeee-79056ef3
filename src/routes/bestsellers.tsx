@@ -23,7 +23,7 @@ export const Route = createFileRoute("/bestsellers")({
 
 function BestsellersPage() {
   return (
-    <div className="container py-14">
+    <div className="container-page py-14">
       <SectionHeader
         eyebrow="Reader favourites"
         title="Bestsellers this season"

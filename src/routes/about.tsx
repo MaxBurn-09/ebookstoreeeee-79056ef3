@@ -23,7 +23,7 @@ export const Route = createFileRoute("/about")({
 
 function AboutPage() {
   return (
-    <div className="container py-14">
+    <div className="container-page py-14">
       <SectionHeader eyebrow="Our story" title="A bookshop for slow readers" />
       <div className="grid items-center gap-10 lg:grid-cols-2">
         <img

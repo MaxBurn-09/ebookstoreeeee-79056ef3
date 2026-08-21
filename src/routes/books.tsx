@@ -49,7 +49,7 @@ function BooksPage() {
   const cats = ["All", ...Array.from(new Set(books.map((b) => b.category)))];
 
   return (
-    <div className="container py-14">
+    <div className="container-page py-14">
       <SectionHeader
         eyebrow="The shelf"
         title={q ? `Results for “${q}”` : category ? category : "All books"}

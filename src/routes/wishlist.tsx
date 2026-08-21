@@ -21,7 +21,7 @@ function WishlistPage() {
   const saved = books.filter((b) => wishlist.includes(b.id));
 
   return (
-    <div className="container py-14">
+    <div className="container-page py-14">
       <SectionHeader eyebrow="Saved for later" title="Your wishlist" />
       {saved.length === 0 ? (
         <div className="py-16 text-center">

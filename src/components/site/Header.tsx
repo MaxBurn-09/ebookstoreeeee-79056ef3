@@ -19,7 +19,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50">
       <div className="bg-forest text-forest-foreground">
-        <div className="container flex h-9 items-center justify-center gap-3 text-[0.66rem] tracking-[0.18em] uppercase">
+        <div className="container-page flex h-9 items-center justify-center gap-3 text-[0.66rem] tracking-[0.18em] uppercase">
           <span>{storeConfig.announcement}</span>
           <span className="hidden opacity-70 sm:inline">•</span>
           <span className="hidden opacity-70 sm:inline">{storeConfig.announcementSecondary}</span>
@@ -27,7 +27,7 @@ export function Header() {
       </div>
 
       <div className="border-b border-border bg-background/95 backdrop-blur">
-        <div className="container flex h-16 items-center gap-4">
+        <div className="container-page flex h-16 items-center gap-4">
           <button
             type="button"
             className="grid h-10 w-10 place-items-center rounded-sm lg:hidden"
