@@ -141,6 +141,8 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <StoreProvider>
+        <SiteOpener />
+        <ScrollProgress />
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-1">
