@@ -7,9 +7,11 @@ type BooksSearch = { q?: string | undefined; category?: string | undefined };
 
 export const Route = createFileRoute("/books")({
   validateSearch: (search: Record<string, unknown>): BooksSearch => ({
-    q: typeof search.q === "string" && search.q ? search.q : undefined,
+    q: typeof search["q"] === "string" && search["q"] ? search["q"] : undefined,
     category:
-      typeof search.category === "string" && search.category ? search.category : undefined,
+      typeof search["category"] === "string" && search["category"]
+        ? search["category"]
+        : undefined,
   }),
   head: () => ({
     meta: [
