@@ -228,3 +228,47 @@ export const storeConfig = {
 };
 
 export const formatPrice = (value: number) => `₹${value.toLocaleString("en-IN")}`;
+
+export type Publisher = { name: string; note: string };
+
+export const publishers: Publisher[] = [
+  { name: "Harper Vale", note: "Literary fiction" },
+  { name: "Northwind", note: "Essays & ideas" },
+  { name: "Marigold Press", note: "Illustrated" },
+  { name: "Oakline", note: "Classics" },
+  { name: "Ardent House", note: "Romance" },
+  { name: "Lantern & Co.", note: "Children's" },
+];
+
+export type Testimonial = { name: string; city: string; quote: string; rating: number };
+
+export const testimonials: Testimonial[] = [
+  {
+    name: "Ananya Rao",
+    city: "Bengaluru",
+    quote:
+      "The handwritten note tucked into my parcel made me order again the same week. Nothing else feels this personal.",
+    rating: 5,
+  },
+  {
+    name: "Dev Mehta",
+    city: "Ahmedabad",
+    quote:
+      "Packaging is genuinely premium — spines arrive perfect. Delivery beat the estimate by two days.",
+    rating: 5,
+  },
+  {
+    name: "Farah Siddiqui",
+    city: "Hyderabad",
+    quote:
+      "I asked for something like my last read and got three suggestions that were all right. Real booksellers, not an algorithm.",
+    rating: 5,
+  },
+  {
+    name: "Karan Bedi",
+    city: "Delhi",
+    quote:
+      "Flash sale pricing on hardcovers is unbeatable, and returns took one message. Easily my default bookshop now.",
+    rating: 4,
+  },
+];
