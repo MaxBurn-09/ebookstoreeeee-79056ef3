@@ -16,6 +16,9 @@ import {
 import { BookCard } from "@/components/site/BookCard";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { Stars } from "@/components/site/Stars";
+import { Reveal } from "@/components/site/Reveal";
+import { Parallax, Tilt, CountUp } from "@/components/site/Motion";
+import { Marquee } from "@/components/site/Marquee";
 import { useStore } from "@/lib/store";
 import { toast } from "sonner";
 
@@ -64,6 +67,15 @@ function Home() {
   return (
     <>
       <Hero />
+      <Marquee
+        items={[
+          "Hand-picked by booksellers",
+          "Free shipping over ₹999",
+          "Signed first editions",
+          "7-day easy returns",
+          "New arrivals every Friday",
+        ]}
+      />
       <Benefits />
       <Categories />
       <Bestsellers />
@@ -78,70 +90,116 @@ function Home() {
 
 function Hero() {
   return (
-    <section className="bg-cream">
-      <div className="container-page grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-24">
+    <section className="grain relative overflow-hidden bg-cream">
+      <div
+        aria-hidden
+        className="float-slow pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-gold/15 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="float-slow pointer-events-none absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-forest/10 blur-3xl"
+        style={{ animationDelay: "1.5s" }}
+      />
+      <div className="container-page relative grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-24">
         <div>
-          <p className="eyebrow">Independent since 2014</p>
+          <p className="eyebrow reveal" style={{ animationDelay: "80ms" }}>
+            Independent since 2014
+          </p>
           <h1 className="mt-4 text-4xl leading-[1.05] md:text-6xl">
-            Find the book
-            <br />
-            you'll reread
-            <br />
-            <span className="italic text-forest">for years.</span>
+            {["Find the book", "you'll reread"].map((line, i) => (
+              <span key={line} className="block overflow-hidden">
+                <span
+                  className="reveal block"
+                  style={{ animationDelay: `${160 + i * 120}ms` }}
+                >
+                  {line}
+                </span>
+              </span>
+            ))}
+            <span className="block overflow-hidden">
+              <span
+                className="reveal text-gold-shimmer block italic"
+                style={{ animationDelay: "400ms" }}
+              >
+                for years.
+              </span>
+            </span>
           </h1>
-          <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
+          <p
+            className="reveal mt-6 max-w-md text-sm leading-relaxed text-muted-foreground"
+            style={{ animationDelay: "520ms" }}
+          >
             A small shop with a big table in the middle. Every title on these shelves has been read,
             argued over and recommended by someone on our team.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="reveal mt-8 flex flex-wrap gap-3" style={{ animationDelay: "620ms" }}>
             <Link
               to="/books"
-              className="inline-flex items-center gap-2 rounded-sm bg-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase hover:bg-charcoal"
+              className="press group inline-flex items-center gap-2 overflow-hidden rounded-sm bg-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase shadow-lg shadow-forest/20 transition-all hover:bg-charcoal hover:shadow-xl hover:shadow-forest/30"
             >
-              Shop all books <ArrowRight className="h-4 w-4" />
+              Shop all books
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
             </Link>
             <Link
               to="/bestsellers"
-              className="inline-flex items-center gap-2 rounded-sm border border-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest uppercase hover:bg-forest hover:text-forest-foreground"
+              className="press inline-flex items-center gap-2 rounded-sm border border-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest uppercase transition-colors hover:bg-forest hover:text-forest-foreground"
             >
               Bestsellers
             </Link>
           </div>
-          <dl className="mt-12 grid max-w-md grid-cols-3 gap-4 border-t border-taupe pt-6">
-            {[
-              ["12k+", "Titles"],
-              ["48k", "Orders"],
-              ["4.8★", "Rating"],
-            ].map(([v, l]) => (
-              <div key={l}>
-                <dt className="font-serif text-2xl">{v}</dt>
-                <dd className="text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
-                  {l}
-                </dd>
-              </div>
-            ))}
+          <dl className="reveal mt-12 grid max-w-md grid-cols-3 gap-4 border-t border-taupe pt-6" style={{ animationDelay: "720ms" }}>
+            <div>
+              <dt className="font-serif text-2xl">
+                <CountUp value={12} suffix="k+" />
+              </dt>
+              <dd className="text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
+                Titles
+              </dd>
+            </div>
+            <div>
+              <dt className="font-serif text-2xl">
+                <CountUp value={48} suffix="k" />
+              </dt>
+              <dd className="text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
+                Orders
+              </dd>
+            </div>
+            <div>
+              <dt className="font-serif text-2xl">
+                <CountUp value={4.8} suffix="★" />
+              </dt>
+              <dd className="text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
+                Rating
+              </dd>
+            </div>
           </dl>
         </div>
 
-        <div className="relative">
-          <img
-            src={heroBooks}
-            alt="A stack of hardcover books on a warm cream backdrop"
-            className="w-full rounded-lg object-cover shadow-lg"
-            width={1024}
-            height={1024}
-          />
-          <div className="absolute bottom-5 left-5 hidden rounded-md bg-background/95 p-4 shadow-md backdrop-blur sm:block">
-            <p className="text-[0.6rem] tracking-[0.18em] text-muted-foreground uppercase">
-              Staff pick
-            </p>
-            <p className="mt-1 font-serif text-lg">{bookOfTheMonth.title}</p>
-            <div className="mt-1 flex items-center gap-2">
-              <Stars rating={bookOfTheMonth.rating} />
-              <span className="text-xs text-muted-foreground">{formatPrice(bookOfTheMonth.price)}</span>
+        <Parallax speed={0.06}>
+          <Tilt className="relative" max={7}>
+            <div className="shine relative overflow-hidden rounded-lg">
+              <img
+                src={heroBooks}
+                alt="A stack of hardcover books on a warm cream backdrop"
+                className="w-full rounded-lg object-cover shadow-2xl"
+                width={1024}
+                height={1024}
+              />
             </div>
-          </div>
-        </div>
+            <div className="float-slow absolute bottom-5 left-5 hidden rounded-md bg-background/95 p-4 shadow-md backdrop-blur sm:block">
+              <p className="text-[0.6rem] tracking-[0.18em] text-muted-foreground uppercase">
+                Staff pick
+              </p>
+              <p className="mt-1 font-serif text-lg">{bookOfTheMonth.title}</p>
+              <div className="mt-1 flex items-center gap-2">
+                <Stars rating={bookOfTheMonth.rating} />
+                <span className="text-xs text-muted-foreground">
+                  {formatPrice(bookOfTheMonth.price)}
+                </span>
+              </div>
+            </div>
+          </Tilt>
+        </Parallax>
       </div>
     </section>
   );
@@ -155,16 +213,18 @@ function Benefits() {
     { icon: Headphones, title: "Bookseller help", note: "Mon–Sat, 10am–8pm" },
   ];
   return (
-    <section className="border-y border-border bg-background">
+    <section className="border-b border-border bg-background">
       <div className="container-page grid gap-6 py-8 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map(({ icon: Icon, title, note }) => (
-          <div key={title} className="flex items-center gap-3">
-            <Icon className="h-6 w-6 shrink-0 text-forest" />
-            <div>
-              <p className="text-sm font-medium">{title}</p>
-              <p className="text-xs text-muted-foreground">{note}</p>
+        {items.map(({ icon: Icon, title, note }, i) => (
+          <Reveal key={title} delay={i * 90}>
+            <div className="group flex items-center gap-3">
+              <Icon className="h-6 w-6 shrink-0 text-forest transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-110 group-hover:text-gold" />
+              <div>
+                <p className="text-sm font-medium">{title}</p>
+                <p className="text-xs text-muted-foreground">{note}</p>
+              </div>
             </div>
-          </div>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -174,33 +234,39 @@ function Benefits() {
 function Categories() {
   return (
     <section className="container-page py-16">
-      <SectionHeader
-        eyebrow="Browse by mood"
-        title="Shop by category"
-        subtitle="Six shelves, endlessly restocked."
-        linkLabel="All categories"
-        linkTo="/categories"
-      />
+      <Reveal>
+        <SectionHeader
+          eyebrow="Browse by mood"
+          title="Shop by category"
+          subtitle="Six shelves, endlessly restocked."
+          linkLabel="All categories"
+          linkTo="/categories"
+        />
+      </Reveal>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {categories.map((c) => (
-          <Link
-            key={c.slug}
-            to="/books"
-            search={{ category: c.name, q: undefined }}
-            className="group relative overflow-hidden rounded-lg border border-border"
-          >
-            <img
-              src={c.image}
-              alt={`${c.name} books`}
-              loading="lazy"
-              className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 to-transparent" />
-            <div className="absolute bottom-4 left-5 text-cream">
-              <p className="text-[0.6rem] tracking-[0.2em] uppercase opacity-80">{c.tagline}</p>
-              <h3 className="mt-1 font-serif text-2xl">{c.name}</h3>
-            </div>
-          </Link>
+        {categories.map((c, i) => (
+          <Reveal key={c.slug} delay={i * 80}>
+            <Link
+              to="/books"
+              search={{ category: c.name, q: undefined }}
+              className="shine hover-lift group relative block overflow-hidden rounded-lg border border-border"
+            >
+              <img
+                src={c.image}
+                alt={`${c.name} books`}
+                loading="lazy"
+                className="h-56 w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/20 to-transparent transition-opacity duration-500 group-hover:from-forest/90" />
+              <div className="absolute bottom-4 left-5 text-cream transition-transform duration-500 group-hover:-translate-y-1">
+                <p className="text-[0.6rem] tracking-[0.2em] uppercase opacity-80">{c.tagline}</p>
+                <h3 className="mt-1 font-serif text-2xl">{c.name}</h3>
+                <span className="mt-2 flex items-center gap-2 text-[0.6rem] tracking-[0.2em] uppercase opacity-0 transition-all duration-500 group-hover:opacity-90">
+                  Browse shelf <ArrowRight className="h-3 w-3" />
+                </span>
+              </div>
+            </Link>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -211,16 +277,20 @@ function Bestsellers() {
   return (
     <section className="bg-cream py-16">
       <div className="container-page">
-        <SectionHeader
-          eyebrow="Reader favourites"
-          title="Bestsellers this season"
-          subtitle="What's leaving our shelves fastest."
-          linkLabel="View all"
-          linkTo="/bestsellers"
-        />
+        <Reveal>
+          <SectionHeader
+            eyebrow="Reader favourites"
+            title="Bestsellers this season"
+            subtitle="What's leaving our shelves fastest."
+            linkLabel="View all"
+            linkTo="/bestsellers"
+          />
+        </Reveal>
         <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-6">
-          {bestsellers.map((b) => (
-            <BookCard key={b.id} book={b} />
+          {bestsellers.map((b, i) => (
+            <Reveal key={b.id} delay={i * 60}>
+              <BookCard book={b} />
+            </Reveal>
           ))}
         </div>
       </div>
@@ -234,36 +304,49 @@ function NewArrivals() {
 
   return (
     <section className="container-page py-16">
-      <SectionHeader
-        eyebrow="Just landed"
-        title="New arrivals"
-        linkLabel="See everything"
-        linkTo="/new-arrivals"
-      />
-      <div className="mb-8 flex flex-wrap gap-2">
-        {newArrivalFilters.map((f) => (
-          <button
-            key={f}
-            type="button"
-            onClick={() => setFilter(f)}
-            className={`rounded-full border px-4 py-2 text-[0.66rem] font-semibold tracking-[0.14em] uppercase transition-colors ${
-              filter === f
-                ? "border-forest bg-forest text-forest-foreground"
-                : "border-border text-muted-foreground hover:border-forest hover:text-forest"
-            }`}
-          >
-            {f}
-          </button>
-        ))}
-      </div>
+      <Reveal>
+        <SectionHeader
+          eyebrow="Just landed"
+          title="New arrivals"
+          linkLabel="See everything"
+          linkTo="/new-arrivals"
+        />
+      </Reveal>
+      <Reveal>
+        <div className="mb-8 flex flex-wrap gap-2">
+          {newArrivalFilters.map((f) => (
+            <button
+              key={f}
+              type="button"
+              onClick={() => setFilter(f)}
+              className={`press rounded-full border px-4 py-2 text-[0.66rem] font-semibold tracking-[0.14em] uppercase transition-all duration-300 ${
+                filter === f
+                  ? "border-forest bg-forest text-forest-foreground shadow-md shadow-forest/25"
+                  : "border-border text-muted-foreground hover:-translate-y-0.5 hover:border-forest hover:text-forest"
+              }`}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+      </Reveal>
       {shown.length === 0 ? (
         <p className="py-12 text-center text-sm text-muted-foreground">
           Nothing new in this shelf yet — check back next week.
         </p>
       ) : (
-        <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-6">
-          {shown.map((b) => (
-            <BookCard key={b.id} book={b} />
+        <div
+          key={filter}
+          className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-6"
+        >
+          {shown.map((b, i) => (
+            <div
+              key={b.id}
+              className="reveal"
+              style={{ animationDelay: `${Math.min(i * 60, 400)}ms` }}
+            >
+              <BookCard book={b} />
+            </div>
           ))}
         </div>
       )}
@@ -275,44 +358,58 @@ function BookOfTheMonth() {
   const { addToCart } = useStore();
   const book = bookOfTheMonth;
   return (
-    <section className="bg-forest text-forest-foreground">
-      <div className="container-page grid items-center gap-10 py-16 lg:grid-cols-2">
-        <img
-          src={editorial}
-          alt={`Editorial photograph of ${book.title}`}
-          loading="lazy"
-          className="w-full rounded-lg object-cover"
-        />
-        <div>
-          <p className="text-[0.62rem] tracking-[0.24em] uppercase opacity-70">Book of the month</p>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl">{book.title}</h2>
-          <p className="mt-3 text-sm opacity-80">by {book.author}</p>
-          <p className="mt-6 max-w-md text-sm leading-relaxed opacity-85">{book.blurb}</p>
-          <p className="mt-6 font-serif text-2xl">
-            {formatPrice(book.price)}
-            {book.oldPrice ? (
-              <span className="ml-3 text-sm line-through opacity-60">
-                {formatPrice(book.oldPrice)}
-              </span>
-            ) : null}
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() => addToCart(book.id)}
-              className="rounded-sm bg-cream px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-charcoal uppercase hover:bg-background"
-            >
-              Add to cart
-            </button>
-            <Link
-              to="/book/$slug"
-              params={{ slug: book.slug }}
-              className="rounded-sm border border-forest-foreground/40 px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] uppercase hover:bg-forest-foreground/10"
-            >
-              Read more
-            </Link>
+    <section className="grain relative overflow-hidden bg-forest text-forest-foreground">
+      <div
+        aria-hidden
+        className="float-slow pointer-events-none absolute top-1/3 -left-16 h-72 w-72 rounded-full bg-gold/15 blur-3xl"
+      />
+      <div className="container-page relative grid items-center gap-10 py-16 lg:grid-cols-2">
+        <Reveal>
+          <Tilt max={6}>
+            <div className="shine overflow-hidden rounded-lg">
+              <img
+                src={editorial}
+                alt={`Editorial photograph of ${book.title}`}
+                loading="lazy"
+                className="w-full object-cover transition-transform duration-[900ms] hover:scale-105"
+              />
+            </div>
+          </Tilt>
+        </Reveal>
+        <Reveal delay={120}>
+          <div>
+            <p className="text-[0.62rem] tracking-[0.24em] uppercase opacity-70">
+              Book of the month
+            </p>
+            <h2 className="mt-4 font-serif text-3xl md:text-5xl">{book.title}</h2>
+            <p className="mt-3 text-sm opacity-80">by {book.author}</p>
+            <p className="mt-6 max-w-md text-sm leading-relaxed opacity-85">{book.blurb}</p>
+            <p className="mt-6 font-serif text-2xl">
+              {formatPrice(book.price)}
+              {book.oldPrice ? (
+                <span className="ml-3 text-sm line-through opacity-60">
+                  {formatPrice(book.oldPrice)}
+                </span>
+              ) : null}
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => addToCart(book.id)}
+                className="press rounded-sm bg-cream px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-charcoal uppercase transition-all hover:-translate-y-0.5 hover:bg-gold"
+              >
+                Add to cart
+              </button>
+              <Link
+                to="/book/$slug"
+                params={{ slug: book.slug }}
+                className="press rounded-sm border border-forest-foreground/40 px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] uppercase transition-colors hover:bg-forest-foreground/10"
+              >
+                Read more
+              </Link>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -321,27 +418,36 @@ function BookOfTheMonth() {
 function Authors() {
   return (
     <section className="container-page py-16">
-      <SectionHeader
-        eyebrow="In conversation"
-        title="Authors we love"
-        linkLabel="All authors"
-        linkTo="/authors"
-      />
+      <Reveal>
+        <SectionHeader
+          eyebrow="In conversation"
+          title="Authors we love"
+          linkLabel="All authors"
+          linkTo="/authors"
+        />
+      </Reveal>
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {authors.map((a) => (
-          <article key={a.slug} className="text-center">
-            <img
-              src={a.portrait}
-              alt={`Portrait of ${a.name}`}
-              loading="lazy"
-              className="mx-auto h-36 w-36 rounded-full object-cover"
-            />
-            <h3 className="mt-5 font-serif text-xl">{a.name}</h3>
-            <p className="mt-1 text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
-              {a.books} books
-            </p>
-            <p className="mt-3 text-sm text-muted-foreground">{a.note}</p>
-          </article>
+        {authors.map((a, i) => (
+          <Reveal key={a.slug} delay={i * 100}>
+            <article className="group text-center">
+              <div className="relative mx-auto h-36 w-36">
+                <span className="absolute inset-0 scale-90 rounded-full border border-gold/0 transition-all duration-500 group-hover:scale-110 group-hover:border-gold/60" />
+                <img
+                  src={a.portrait}
+                  alt={`Portrait of ${a.name}`}
+                  loading="lazy"
+                  className="h-36 w-36 rounded-full object-cover transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl"
+                />
+              </div>
+              <h3 className="mt-5 font-serif text-xl transition-colors group-hover:text-forest">
+                {a.name}
+              </h3>
+              <p className="mt-1 text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
+                {a.books} books
+              </p>
+              <p className="mt-3 text-sm text-muted-foreground">{a.note}</p>
+            </article>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -351,28 +457,33 @@ function Authors() {
 function Promo() {
   return (
     <section className="container-page pb-16">
-      <div className="grid items-center gap-0 overflow-hidden rounded-lg border border-border lg:grid-cols-2">
-        <img
-          src={promo}
-          alt="A reader with a book and coffee in a warm bookshop corner"
-          loading="lazy"
-          className="h-full w-full object-cover"
-        />
-        <div className="bg-cream p-10 lg:p-14">
-          <p className="eyebrow">Members read more</p>
-          <h2 className="mt-4 text-3xl md:text-4xl">Join the Pine Circle</h2>
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
-            Ten percent off every order, early access to signed editions and one handwritten
-            recommendation a month from a bookseller who knows your shelf.
-          </p>
-          <Link
-            to="/about"
-            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase hover:bg-charcoal"
-          >
-            Learn more <ArrowRight className="h-4 w-4" />
-          </Link>
+      <Reveal>
+        <div className="grid items-center gap-0 overflow-hidden rounded-lg border border-border lg:grid-cols-2">
+          <div className="shine h-full overflow-hidden">
+            <img
+              src={promo}
+              alt="A reader with a book and coffee in a warm bookshop corner"
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-[1200ms] hover:scale-105"
+            />
+          </div>
+          <div className="bg-cream p-10 lg:p-14">
+            <p className="eyebrow">Members read more</p>
+            <h2 className="mt-4 text-3xl md:text-4xl">Join the Pine Circle</h2>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
+              Ten percent off every order, early access to signed editions and one handwritten
+              recommendation a month from a bookseller who knows your shelf.
+            </p>
+            <Link
+              to="/about"
+              className="press group mt-8 inline-flex items-center gap-2 rounded-sm bg-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase transition-all hover:-translate-y-0.5 hover:bg-charcoal"
+            >
+              Learn more
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1.5" />
+            </Link>
+          </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -381,7 +492,7 @@ function Newsletter() {
   const [email, setEmail] = useState("");
   return (
     <section className="border-t border-border bg-background py-16">
-      <div className="container-page max-w-2xl text-center">
+      <Reveal className="container-page max-w-2xl text-center">
         <p className="eyebrow">Letters from the shop</p>
         <h2 className="mt-3 text-3xl md:text-4xl">One good book, every Friday</h2>
         <p className="mt-3 text-sm text-muted-foreground">
@@ -398,7 +509,7 @@ function Newsletter() {
           <label htmlFor="newsletter-email" className="sr-only">
             Email address
           </label>
-          <div className="flex flex-1 items-center gap-2 rounded-sm border border-border bg-card px-4 py-3">
+          <div className="flex flex-1 items-center gap-2 rounded-sm border border-border bg-card px-4 py-3 transition-colors focus-within:border-forest">
             <Search className="h-4 w-4 text-muted-foreground" />
             <input
               id="newsletter-email"
@@ -412,12 +523,12 @@ function Newsletter() {
           </div>
           <button
             type="submit"
-            className="rounded-sm bg-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase hover:bg-charcoal"
+            className="press rounded-sm bg-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase transition-all hover:-translate-y-0.5 hover:bg-charcoal"
           >
             Subscribe
           </button>
         </form>
-      </div>
+      </Reveal>
     </section>
   );
 }
