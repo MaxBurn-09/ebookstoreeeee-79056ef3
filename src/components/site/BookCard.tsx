@@ -11,7 +11,7 @@ export function BookCard({ book }: { book: Book }) {
 
   return (
     <article className="group flex h-full flex-col">
-      <div className="relative overflow-hidden rounded-md border border-border bg-muted">
+      <div className="shine hover-lift relative overflow-hidden rounded-md border border-border bg-muted">
         <Link
           to="/book/$slug"
           params={{ slug: book.slug }}
