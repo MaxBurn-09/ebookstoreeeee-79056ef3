@@ -85,15 +85,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Page & Pine — Independent Bookshop" },
+      { title: "Future Grow Academy — Independent Bookshop" },
       {
         name: "description",
         content:
           "Curated books from an independent bookshop: fiction, non-fiction, classics and more.",
       },
-      { name: "author", content: "Page & Pine" },
-      { property: "og:site_name", content: "Page & Pine" },
-      { property: "og:title", content: "Page & Pine — Independent Bookshop" },
+      { name: "author", content: "Future Grow Academy" },
+      { property: "og:site_name", content: "Future Grow Academy" },
+      { property: "og:title", content: "Future Grow Academy — Independent Bookshop" },
       {
         property: "og:description",
         content: "Curated books, hand-picked by booksellers. Free shipping over ₹999.",

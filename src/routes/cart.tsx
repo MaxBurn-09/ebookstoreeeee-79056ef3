@@ -12,16 +12,16 @@ const FREE_SHIPPING = 999;
 export const Route = createFileRoute("/cart")({
   head: () => ({
     meta: [
-      { title: "Your Bag — Page & Pine Bookshop" },
+      { title: "Your Bag — Future Grow Academy" },
       {
         name: "description",
         content:
           "Review the books in your bag, adjust quantities and check out. Free shipping over ₹999 and easy 7-day returns.",
       },
-      { property: "og:title", content: "Your Bag — Page & Pine Bookshop" },
+      { property: "og:title", content: "Your Bag — Future Grow Academy" },
       {
         property: "og:description",
-        content: "Review your books and check out at Page & Pine.",
+        content: "Review your books and check out at Future Grow Academy.",
       },
       { property: "og:type", content: "website" },
       { name: "robots", content: "noindex" },

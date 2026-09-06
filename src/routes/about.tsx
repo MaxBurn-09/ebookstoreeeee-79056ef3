@@ -5,13 +5,13 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Page & Pine — Independent Bookshop" },
+      { title: "About Future Grow Academy — Independent Bookshop" },
       {
         name: "description",
         content:
-          "Page & Pine is an independent bookshop in Mumbai for slow readers: curated shelves, honest recommendations and beautifully made editions.",
+          "Future Grow Academy is an independent bookshop in Mumbai for slow readers: curated shelves, honest recommendations and beautifully made editions.",
       },
-      { property: "og:title", content: "About Page & Pine — Independent Bookshop" },
+      { property: "og:title", content: "About Future Grow Academy — Independent Bookshop" },
       {
         property: "og:description",
         content: "An independent Mumbai bookshop for slow readers, curated by hand since 2014.",

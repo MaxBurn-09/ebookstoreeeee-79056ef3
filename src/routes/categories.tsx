@@ -7,16 +7,16 @@ import { Reveal } from "@/components/site/Reveal";
 export const Route = createFileRoute("/categories")({
   head: () => ({
     meta: [
-      { title: "Browse Categories — Page & Pine Bookshop" },
+      { title: "Browse Categories — Future Grow Academy" },
       {
         name: "description",
         content:
           "Find your next read by genre: fiction, non-fiction, self-help, romance, children's books and classics.",
       },
-      { property: "og:title", content: "Browse Categories — Page & Pine Bookshop" },
+      { property: "og:title", content: "Browse Categories — Future Grow Academy" },
       {
         property: "og:description",
-        content: "Find your next read by genre at Page & Pine.",
+        content: "Find your next read by genre at Future Grow Academy.",
       },
     ],
   }),

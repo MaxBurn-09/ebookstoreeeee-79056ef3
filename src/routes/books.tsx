@@ -15,16 +15,16 @@ export const Route = createFileRoute("/books")({
   }),
   head: () => ({
     meta: [
-      { title: "All Books — Page & Pine Bookshop" },
+      { title: "All Books — Future Grow Academy" },
       {
         name: "description",
         content:
-          "Browse the full Page & Pine shelf: fiction, non-fiction, self-help, romance, mystery and classics, hand-picked by our booksellers.",
+          "Browse the full Future Grow Academy shelf: fiction, non-fiction, self-help, romance, mystery and classics, hand-picked by our booksellers.",
       },
-      { property: "og:title", content: "All Books — Page & Pine Bookshop" },
+      { property: "og:title", content: "All Books — Future Grow Academy" },
       {
         property: "og:description",
-        content: "Browse every title on the Page & Pine shelf, hand-picked by our booksellers.",
+        content: "Browse every title on the Future Grow Academy shelf, hand-picked by our booksellers.",
       },
     ],
   }),

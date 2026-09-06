@@ -6,12 +6,12 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 export const Route = createFileRoute("/bestsellers")({
   head: () => ({
     meta: [
-      { title: "Bestsellers — Page & Pine Bookshop" },
+      { title: "Bestsellers — Future Grow Academy" },
       {
         name: "description",
         content: "The most-loved books on our shelves this season, ranked by our readers.",
       },
-      { property: "og:title", content: "Bestsellers — Page & Pine Bookshop" },
+      { property: "og:title", content: "Bestsellers — Future Grow Academy" },
       {
         property: "og:description",
         content: "The most-loved books on our shelves this season, ranked by our readers.",

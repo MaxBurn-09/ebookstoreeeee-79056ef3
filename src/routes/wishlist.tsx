@@ -8,10 +8,10 @@ import { useStore } from "@/lib/store";
 export const Route = createFileRoute("/wishlist")({
   head: () => ({
     meta: [
-      { title: "Your Wishlist — Page & Pine Bookshop" },
-      { name: "description", content: "The titles you've saved for later at Page & Pine." },
-      { property: "og:title", content: "Your Wishlist — Page & Pine Bookshop" },
-      { property: "og:description", content: "The titles you've saved for later at Page & Pine." },
+      { title: "Your Wishlist — Future Grow Academy" },
+      { name: "description", content: "The titles you've saved for later at Future Grow Academy." },
+      { property: "og:title", content: "Your Wishlist — Future Grow Academy" },
+      { property: "og:description", content: "The titles you've saved for later at Future Grow Academy." },
     ],
   }),
   component: WishlistPage,
