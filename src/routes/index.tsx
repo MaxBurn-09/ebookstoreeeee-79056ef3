@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Truck, RotateCcw, ShieldCheck, Headphones, Search } from "lucide-react";
+import { ArrowRight, Download, Smartphone, BadgeCheck, Wallet } from "lucide-react";
 import heroBooks from "@/assets/hero-books.jpg";
-import editorial from "@/assets/editorial-book.jpg";
 import promo from "@/assets/promo-reading.jpg";
 import {
+  books,
   bestsellers,
   newArrivals,
   newArrivalFilters,
   categories,
-  authors,
+  benefits,
+  whyUs,
+  testimonials,
   bookOfTheMonth,
+  storeConfig,
   formatPrice,
 } from "@/data/catalog";
 import { BookCard } from "@/components/site/BookCard";
@@ -25,20 +28,23 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Page & Pine — Independent Bookshop for Slow Readers" },
+      { title: "Future Grow Academy — Premium Self-Growth eBooks, Instant Download" },
       {
         name: "description",
         content:
-          "Curated fiction, non-fiction and classics from an independent bookshop. Free shipping over ₹999, 7-day returns and hand-picked recommendations.",
+          "Download premium ebooks on mindset, money, relationships, parenting and health. Instant PDF delivery worldwide, no shipping, just $2.97 each.",
       },
-      { property: "og:title", content: "Page & Pine — Independent Bookshop for Slow Readers" },
+      {
+        property: "og:title",
+        content: "Future Grow Academy — Premium Self-Growth eBooks, Instant Download",
+      },
       {
         property: "og:description",
         content:
-          "Curated fiction, non-fiction and classics, hand-picked by booksellers. Free shipping over ₹999.",
+          "Premium ebooks for real life change. Instant PDF download, readable on any device, worldwide.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/" }],
     scripts: [
@@ -46,14 +52,14 @@ export const Route = createFileRoute("/")({
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "BookStore",
-          name: "Page & Pine",
-          description: "Independent bookshop with curated fiction, non-fiction and classics.",
+          "@type": "Store",
+          name: storeConfig.name,
+          description: storeConfig.tagline,
+          email: storeConfig.email,
           address: {
             "@type": "PostalAddress",
-            streetAddress: "14 Linden Lane, Bandra West",
-            addressLocality: "Mumbai",
-            postalCode: "400050",
+            streetAddress: "134, Sector 105",
+            addressLocality: "Gurgaon",
             addressCountry: "IN",
           },
         }),
@@ -69,19 +75,20 @@ function Home() {
       <Hero />
       <Marquee
         items={[
-          "Hand-picked by booksellers",
-          "Free shipping over ₹999",
-          "Signed first editions",
-          "7-day easy returns",
-          "New arrivals every Friday",
+          "100% digital — no shipping charges",
+          "Instant PDF download",
+          "Readable on phone, tablet and laptop",
+          "Loved by readers in the USA, UK, Europe and India",
+          "80% off every ebook",
         ]}
       />
       <Benefits />
       <Categories />
       <Bestsellers />
       <NewArrivals />
-      <BookOfTheMonth />
-      <Authors />
+      <FeaturedRead />
+      <WhyUs />
+      <Testimonials />
       <Promo />
       <Newsletter />
     </>
@@ -100,18 +107,15 @@ function Hero() {
         className="float-slow pointer-events-none absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-forest/10 blur-3xl"
         style={{ animationDelay: "1.5s" }}
       />
-      <div className="container-page relative grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-24">
+      <div className="container-page relative grid items-center gap-10 py-14 lg:grid-cols-2 lg:py-24">
         <div>
           <p className="eyebrow reveal" style={{ animationDelay: "80ms" }}>
-            Independent since 2014
+            {storeConfig.offer.label} · {storeConfig.offer.headline}
           </p>
-          <h1 className="mt-4 text-4xl leading-[1.05] md:text-6xl">
-            {["Find the book", "you'll reread"].map((line, i) => (
+          <h1 className="mt-4 text-3xl leading-[1.05] sm:text-4xl md:text-6xl">
+            {["Transform your future", "with powerful"].map((line, i) => (
               <span key={line} className="block overflow-hidden">
-                <span
-                  className="reveal block"
-                  style={{ animationDelay: `${160 + i * 120}ms` }}
-                >
+                <span className="reveal block" style={{ animationDelay: `${160 + i * 120}ms` }}>
                   {line}
                 </span>
               </span>
@@ -121,7 +125,7 @@ function Hero() {
                 className="reveal text-gold-shimmer block italic"
                 style={{ animationDelay: "400ms" }}
               >
-                for years.
+                eBooks.
               </span>
             </span>
           </h1>
@@ -129,15 +133,14 @@ function Hero() {
             className="reveal mt-6 max-w-md text-sm leading-relaxed text-muted-foreground"
             style={{ animationDelay: "520ms" }}
           >
-            A small shop with a big table in the middle. Every title on these shelves has been read,
-            argued over and recommended by someone on our team.
+            {storeConfig.heroSubtitle}
           </p>
           <div className="reveal mt-8 flex flex-wrap gap-3" style={{ animationDelay: "620ms" }}>
             <Link
               to="/books"
               className="press group inline-flex items-center gap-2 overflow-hidden rounded-sm bg-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase shadow-lg shadow-forest/20 transition-all hover:bg-charcoal hover:shadow-xl hover:shadow-forest/30"
             >
-              Shop all books
+              Shop all ebooks
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
             </Link>
             <Link
@@ -147,21 +150,24 @@ function Hero() {
               Bestsellers
             </Link>
           </div>
-          <dl className="reveal mt-12 grid max-w-md grid-cols-3 gap-4 border-t border-taupe pt-6" style={{ animationDelay: "720ms" }}>
+          <dl
+            className="reveal mt-12 grid max-w-md grid-cols-3 gap-4 border-t border-taupe pt-6"
+            style={{ animationDelay: "720ms" }}
+          >
             <div>
               <dt className="font-serif text-2xl">
-                <CountUp value={12} suffix="k+" />
+                <CountUp value={books.length} suffix="" />
               </dt>
               <dd className="text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
-                Titles
+                eBooks
               </dd>
             </div>
             <div>
               <dt className="font-serif text-2xl">
-                <CountUp value={48} suffix="k" />
+                <CountUp value={9} suffix="k+" />
               </dt>
               <dd className="text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
-                Orders
+                Readers
               </dd>
             </div>
             <div>
@@ -180,7 +186,7 @@ function Hero() {
             <div className="shine relative overflow-hidden rounded-lg">
               <img
                 src={heroBooks}
-                alt="A stack of hardcover books on a warm cream backdrop"
+                alt="Premium self-growth ebooks displayed on a warm cream backdrop"
                 className="w-full rounded-lg object-cover shadow-2xl"
                 width={1024}
                 height={1024}
@@ -188,7 +194,7 @@ function Hero() {
             </div>
             <div className="float-slow absolute bottom-5 left-5 hidden rounded-md bg-background/95 p-4 shadow-md backdrop-blur sm:block">
               <p className="text-[0.6rem] tracking-[0.18em] text-muted-foreground uppercase">
-                Staff pick
+                Reader favourite
               </p>
               <p className="mt-1 font-serif text-lg">{bookOfTheMonth.title}</p>
               <div className="mt-1 flex items-center gap-2">
@@ -205,27 +211,26 @@ function Hero() {
   );
 }
 
+const benefitIcons = [Wallet, Download, BadgeCheck, Smartphone];
+
 function Benefits() {
-  const items = [
-    { icon: Truck, title: "Free shipping", note: "On orders over ₹999" },
-    { icon: RotateCcw, title: "7-day returns", note: "No questions asked" },
-    { icon: ShieldCheck, title: "Secure payments", note: "UPI, cards, netbanking" },
-    { icon: Headphones, title: "Bookseller help", note: "Mon–Sat, 10am–8pm" },
-  ];
   return (
     <section className="border-b border-border bg-background">
       <div className="container-page grid gap-6 py-8 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map(({ icon: Icon, title, note }, i) => (
-          <Reveal key={title} delay={i * 90}>
-            <div className="group flex items-center gap-3">
-              <Icon className="h-6 w-6 shrink-0 text-forest transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-110 group-hover:text-gold" />
-              <div>
-                <p className="text-sm font-medium">{title}</p>
-                <p className="text-xs text-muted-foreground">{note}</p>
+        {benefits.map((b, i) => {
+          const Icon = benefitIcons[i] ?? Download;
+          return (
+            <Reveal key={b.title} delay={i * 90}>
+              <div className="group flex items-center gap-3">
+                <Icon className="h-6 w-6 shrink-0 text-forest transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-110 group-hover:text-gold" />
+                <div>
+                  <p className="text-sm font-medium">{b.title}</p>
+                  <p className="text-xs text-muted-foreground">{b.note}</p>
+                </div>
               </div>
-            </div>
-          </Reveal>
-        ))}
+            </Reveal>
+          );
+        })}
       </div>
     </section>
   );
@@ -233,12 +238,12 @@ function Benefits() {
 
 function Categories() {
   return (
-    <section className="container-page py-16">
+    <section className="container-page py-14 sm:py-16">
       <Reveal>
         <SectionHeader
-          eyebrow="Browse by mood"
+          eyebrow="Find your focus"
           title="Shop by category"
-          subtitle="Six shelves, endlessly restocked."
+          subtitle="Five growth shelves — pick where you want change first."
           linkLabel="All categories"
           linkTo="/categories"
         />
@@ -252,12 +257,12 @@ function Categories() {
               className="shine hover-lift group relative block overflow-hidden rounded-lg border border-border"
             >
               <img
-                src={c.image}
-                alt={`${c.name} books`}
+                src={c.cover}
+                alt={`${c.name} ebooks`}
                 loading="lazy"
                 className="h-56 w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/20 to-transparent transition-opacity duration-500 group-hover:from-forest/90" />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/25 to-transparent transition-opacity duration-500 group-hover:from-forest/90" />
               <div className="absolute bottom-4 left-5 text-cream transition-transform duration-500 group-hover:-translate-y-1">
                 <p className="text-[0.6rem] tracking-[0.2em] uppercase opacity-80">{c.tagline}</p>
                 <h3 className="mt-1 font-serif text-2xl">{c.name}</h3>
@@ -275,18 +280,18 @@ function Categories() {
 
 function Bestsellers() {
   return (
-    <section className="bg-cream py-16">
+    <section className="bg-cream py-14 sm:py-16">
       <div className="container-page">
         <Reveal>
           <SectionHeader
             eyebrow="Reader favourites"
-            title="Bestsellers this season"
-            subtitle="What's leaving our shelves fastest."
+            title="Bestselling ebooks"
+            subtitle="The titles downloaded most this month."
             linkLabel="View all"
             linkTo="/bestsellers"
           />
         </Reveal>
-        <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-9 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-6">
           {bestsellers.map((b, i) => (
             <Reveal key={b.id} delay={i * 60}>
               <BookCard book={b} />
@@ -303,23 +308,23 @@ function NewArrivals() {
   const shown = newArrivals.filter((b) => filter === "All" || b.category === filter);
 
   return (
-    <section className="container-page py-16">
+    <section className="container-page py-14 sm:py-16">
       <Reveal>
         <SectionHeader
-          eyebrow="Just landed"
-          title="New arrivals"
+          eyebrow="Just published"
+          title="New additions"
           linkLabel="See everything"
           linkTo="/new-arrivals"
         />
       </Reveal>
       <Reveal>
-        <div className="mb-8 flex flex-wrap gap-2">
+        <div className="mb-8 -mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
           {newArrivalFilters.map((f) => (
             <button
               key={f}
               type="button"
               onClick={() => setFilter(f)}
-              className={`press rounded-full border px-4 py-2 text-[0.66rem] font-semibold tracking-[0.14em] uppercase transition-all duration-300 ${
+              className={`press shrink-0 snap-start rounded-full border px-4 py-2 text-[0.66rem] font-semibold tracking-[0.14em] uppercase transition-all duration-300 ${
                 filter === f
                   ? "border-forest bg-forest text-forest-foreground shadow-md shadow-forest/25"
                   : "border-border text-muted-foreground hover:-translate-y-0.5 hover:border-forest hover:text-forest"
@@ -332,12 +337,12 @@ function NewArrivals() {
       </Reveal>
       {shown.length === 0 ? (
         <p className="py-12 text-center text-sm text-muted-foreground">
-          Nothing new in this shelf yet — check back next week.
+          Nothing new on this shelf yet — check back soon.
         </p>
       ) : (
         <div
           key={filter}
-          className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-6"
+          className="grid grid-cols-2 gap-x-4 gap-y-9 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-6"
         >
           {shown.map((b, i) => (
             <div
@@ -354,7 +359,7 @@ function NewArrivals() {
   );
 }
 
-function BookOfTheMonth() {
+function FeaturedRead() {
   const { addToCart } = useStore();
   const book = bookOfTheMonth;
   return (
@@ -363,15 +368,15 @@ function BookOfTheMonth() {
         aria-hidden
         className="float-slow pointer-events-none absolute top-1/3 -left-16 h-72 w-72 rounded-full bg-gold/15 blur-3xl"
       />
-      <div className="container-page relative grid items-center gap-10 py-16 lg:grid-cols-2">
+      <div className="container-page relative grid items-center gap-10 py-14 sm:py-16 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
         <Reveal>
           <Tilt max={6}>
             <div className="shine overflow-hidden rounded-lg">
               <img
-                src={editorial}
-                alt={`Editorial photograph of ${book.title}`}
+                src={book.cover}
+                alt={`Cover of ${book.title}`}
                 loading="lazy"
-                className="w-full object-cover transition-transform duration-[900ms] hover:scale-105"
+                className="mx-auto w-full max-w-xs object-cover shadow-2xl transition-transform duration-[900ms] hover:scale-105"
               />
             </div>
           </Tilt>
@@ -379,18 +384,15 @@ function BookOfTheMonth() {
         <Reveal delay={120}>
           <div>
             <p className="text-[0.62rem] tracking-[0.24em] uppercase opacity-70">
-              Book of the month
+              Featured this month
             </p>
             <h2 className="mt-4 font-serif text-3xl md:text-5xl">{book.title}</h2>
-            <p className="mt-3 text-sm opacity-80">by {book.author}</p>
-            <p className="mt-6 max-w-md text-sm leading-relaxed opacity-85">{book.blurb}</p>
+            <p className="mt-6 max-w-xl text-sm leading-relaxed opacity-85">{book.blurb}</p>
             <p className="mt-6 font-serif text-2xl">
               {formatPrice(book.price)}
-              {book.oldPrice ? (
-                <span className="ml-3 text-sm line-through opacity-60">
-                  {formatPrice(book.oldPrice)}
-                </span>
-              ) : null}
+              <span className="ml-3 text-sm line-through opacity-60">
+                {formatPrice(book.oldPrice)}
+              </span>
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <button
@@ -415,38 +417,20 @@ function BookOfTheMonth() {
   );
 }
 
-function Authors() {
+function WhyUs() {
   return (
-    <section className="container-page py-16">
+    <section className="container-page py-14 sm:py-16">
       <Reveal>
-        <SectionHeader
-          eyebrow="In conversation"
-          title="Authors we love"
-          linkLabel="All authors"
-          linkTo="/authors"
-        />
+        <SectionHeader eyebrow="Why readers choose us" title="Growth you can actually apply" />
       </Reveal>
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {authors.map((a, i) => (
-          <Reveal key={a.slug} delay={i * 100}>
-            <article className="group text-center">
-              <div className="relative mx-auto h-36 w-36">
-                <span className="absolute inset-0 scale-90 rounded-full border border-gold/0 transition-all duration-500 group-hover:scale-110 group-hover:border-gold/60" />
-                <img
-                  src={a.portrait}
-                  alt={`Portrait of ${a.name}`}
-                  loading="lazy"
-                  className="h-36 w-36 rounded-full object-cover transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl"
-                />
-              </div>
-              <h3 className="mt-5 font-serif text-xl transition-colors group-hover:text-forest">
-                {a.name}
-              </h3>
-              <p className="mt-1 text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
-                {a.books} books
-              </p>
-              <p className="mt-3 text-sm text-muted-foreground">{a.note}</p>
-            </article>
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {whyUs.map((w, i) => (
+          <Reveal key={w.title} delay={i * 90}>
+            <div className="hover-lift h-full rounded-lg border border-border bg-cream p-6 transition-colors hover:border-forest">
+              <span className="text-2xl">{w.emoji}</span>
+              <h3 className="mt-4 font-serif text-xl">{w.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{w.note}</p>
+            </div>
           </Reveal>
         ))}
       </div>
@@ -454,31 +438,66 @@ function Authors() {
   );
 }
 
+function Testimonials() {
+  return (
+    <section className="bg-cream py-14 sm:py-16">
+      <div className="container-page">
+        <Reveal>
+          <SectionHeader
+            eyebrow="Loved worldwide"
+            title="What readers say"
+            subtitle="From New York to Berlin, Singapore to São Paulo."
+          />
+        </Reveal>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {testimonials.map((t, i) => (
+            <Reveal key={t.name} delay={i * 80}>
+              <figure className="hover-lift h-full rounded-lg border border-border bg-background p-6">
+                <Stars rating={t.rating} />
+                <blockquote className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                  “{t.quote}”
+                </blockquote>
+                <figcaption className="mt-5 text-sm font-medium">
+                  {t.name}
+                  <span className="block text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
+                    {t.location}
+                  </span>
+                </figcaption>
+              </figure>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Promo() {
   return (
-    <section className="container-page pb-16">
+    <section className="container-page py-14 sm:py-16">
       <Reveal>
         <div className="grid items-center gap-0 overflow-hidden rounded-lg border border-border lg:grid-cols-2">
           <div className="shine h-full overflow-hidden">
             <img
               src={promo}
-              alt="A reader with a book and coffee in a warm bookshop corner"
+              alt="A reader studying an ebook on a tablet with a warm cup of coffee"
               loading="lazy"
               className="h-full w-full object-cover transition-transform duration-[1200ms] hover:scale-105"
             />
           </div>
-          <div className="bg-cream p-10 lg:p-14">
-            <p className="eyebrow">Members read more</p>
-            <h2 className="mt-4 text-3xl md:text-4xl">Join the Pine Circle</h2>
+          <div className="bg-cream p-8 sm:p-10 lg:p-14">
+            <p className="eyebrow">{storeConfig.offer.label}</p>
+            <h2 className="mt-4 text-3xl md:text-4xl">
+              {storeConfig.offer.headline} {storeConfig.offer.sub}
+            </h2>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Ten percent off every order, early access to signed editions and one handwritten
-              recommendation a month from a bookseller who knows your shelf.
+              {storeConfig.offer.note}
             </p>
             <Link
-              to="/about"
+              to="/books"
               className="press group mt-8 inline-flex items-center gap-2 rounded-sm bg-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase transition-all hover:-translate-y-0.5 hover:bg-charcoal"
             >
-              Learn more
+              Claim the offer
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1.5" />
             </Link>
           </div>
@@ -491,39 +510,33 @@ function Promo() {
 function Newsletter() {
   const [email, setEmail] = useState("");
   return (
-    <section className="border-t border-border bg-background py-16">
+    <section className="border-t border-border bg-background py-14 sm:py-16">
       <Reveal className="container-page max-w-2xl text-center">
-        <p className="eyebrow">Letters from the shop</p>
-        <h2 className="mt-3 text-3xl md:text-4xl">One good book, every Friday</h2>
-        <p className="mt-3 text-sm text-muted-foreground">
-          No spam, no algorithms — just a short note about what we're reading.
+        <p className="eyebrow">Stay in the loop</p>
+        <h2 className="mt-3 text-3xl md:text-4xl">New ebooks, straight to your inbox</h2>
+        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+          One short email when we publish something new, plus reader-only discounts.
         </p>
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            toast.success("You're on the list — see you Friday.");
             setEmail("");
+            toast.success("You're on the list — check your inbox.");
           }}
-          className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
+          className="mt-7 flex flex-col gap-3 sm:flex-row"
         >
-          <label htmlFor="newsletter-email" className="sr-only">
-            Email address
-          </label>
-          <div className="flex flex-1 items-center gap-2 rounded-sm border border-border bg-card px-4 py-3 transition-colors focus-within:border-forest">
-            <Search className="h-4 w-4 text-muted-foreground" />
-            <input
-              id="newsletter-email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              className="w-full bg-transparent text-sm outline-none"
-            />
-          </div>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@email.com"
+            aria-label="Email address"
+            className="flex-1 rounded-sm border border-border bg-card px-4 py-3 text-sm outline-none transition-all focus:border-forest"
+          />
           <button
             type="submit"
-            className="press rounded-sm bg-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase transition-all hover:-translate-y-0.5 hover:bg-charcoal"
+            className="press rounded-sm bg-forest px-7 py-3 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase transition-colors hover:bg-charcoal"
           >
             Subscribe
           </button>
