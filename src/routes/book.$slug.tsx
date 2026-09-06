@@ -16,11 +16,11 @@ export const Route = createFileRoute("/book/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Book not found — Page & Pine" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Book not found — Future Grow Academy" }, { name: "robots", content: "noindex" }],
       };
     }
     const { book } = loaderData;
-    const title = `${book.title} by ${book.author} — Page & Pine`;
+    const title = `${book.title} by Future Grow Academy — Future Grow Academy`;
     return {
       meta: [
         { title },
@@ -57,7 +57,7 @@ function BookDetail() {
             <div className="shine group rounded-lg border border-border bg-cream p-5 sm:p-8">
               <img
                 src={book.cover}
-                alt={`Cover of ${book.title} by ${book.author}`}
+                alt={`Cover of ${book.title} by Future Grow Academy`}
                 className="mx-auto aspect-[2/3] w-full max-w-[16rem] rounded-sm object-cover shadow-xl transition-transform duration-700 ease-out group-hover:scale-[1.03] sm:max-w-sm"
               />
             </div>
@@ -67,7 +67,7 @@ function BookDetail() {
         <Reveal delay={120}>
           {book.badge ? <p className="eyebrow">{book.badge}</p> : null}
           <h1 className="mt-2 text-2xl leading-tight sm:text-3xl md:text-5xl">{book.title}</h1>
-          <p className="mt-3 text-sm text-muted-foreground">by {book.author}</p>
+          <p className="mt-3 text-sm text-muted-foreground">by {book.category}</p>
 
           <div className="mt-4 flex items-center gap-2">
             <Stars rating={book.rating} />

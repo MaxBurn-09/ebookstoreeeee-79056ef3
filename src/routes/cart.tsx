@@ -92,7 +92,7 @@ function CartPage() {
                         {book.title}
                       </Link>
                     </h2>
-                    <p className="mt-1 text-xs text-muted-foreground">{book.author}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{book.category}</p>
                     <p className="mt-1 text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
                       {book.category}
                     </p>

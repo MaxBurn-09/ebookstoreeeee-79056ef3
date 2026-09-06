@@ -41,7 +41,7 @@ function BooksPage() {
     const matchesQuery =
       !needle ||
       b.title.toLowerCase().includes(needle) ||
-      b.author.toLowerCase().includes(needle) ||
+      b.blurb.toLowerCase().includes(needle) ||
       b.category.toLowerCase().includes(needle);
     return matchesCategory && matchesQuery;
   });

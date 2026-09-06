@@ -41,7 +41,7 @@ function CategoriesPage() {
               className="group shine hover-lift relative block overflow-hidden rounded-lg border border-border"
             >
               <img
-                src={c.image}
+                src={c.cover}
                 alt={`${c.name} books`}
                 loading="lazy"
                 className="h-52 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 sm:h-60 lg:h-64"
