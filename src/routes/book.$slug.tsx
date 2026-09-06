@@ -20,7 +20,7 @@ export const Route = createFileRoute("/book/$slug")({
       };
     }
     const { book } = loaderData;
-    const title = `${book.title} by Future Grow Academy — Future Grow Academy`;
+    const title = `${book.title} — Future Grow Academy eBook`;
     return {
       meta: [
         { title },
