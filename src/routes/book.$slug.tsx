@@ -112,9 +112,9 @@ function BookDetail() {
 
           <dl className="mt-10 grid gap-4 border-t border-border pt-6 sm:grid-cols-3">
             {[
-              { icon: Truck, label: "Free shipping", note: "On orders over ₹999" },
-              { icon: RotateCcw, label: "7-day returns", note: "No questions asked" },
-              { icon: ShieldCheck, label: "Secure payment", note: "UPI, cards, netbanking" },
+              { icon: Truck, label: "No shipping", note: "100% digital delivery" },
+              { icon: RotateCcw, label: "Instant access", note: "Download right after payment" },
+              { icon: ShieldCheck, label: "Secure payment", note: "Cards accepted worldwide" },
             ].map(({ icon: Icon, label, note }) => (
               <div key={label} className="flex items-start gap-3">
                 <Icon className="mt-0.5 h-5 w-5 text-forest" />

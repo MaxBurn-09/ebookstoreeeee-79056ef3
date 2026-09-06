@@ -85,18 +85,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Future Grow Academy — Independent Bookshop" },
+      { title: "Future Grow Academy — Premium Self-Growth eBooks" },
       {
         name: "description",
         content:
-          "Curated books from an independent bookshop: fiction, non-fiction, classics and more.",
+          "Premium ebooks on mindset, money, relationships, parenting and health. Instant PDF download worldwide for $2.97.",
       },
       { name: "author", content: "Future Grow Academy" },
       { property: "og:site_name", content: "Future Grow Academy" },
-      { property: "og:title", content: "Future Grow Academy — Independent Bookshop" },
+      { property: "og:title", content: "Future Grow Academy — Premium Self-Growth eBooks" },
       {
         property: "og:description",
-        content: "Curated books, hand-picked by booksellers. Free shipping over ₹999.",
+        content: "Premium self-growth ebooks. Instant download, no shipping, just $2.97 each.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

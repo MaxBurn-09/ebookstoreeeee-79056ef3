@@ -11,12 +11,12 @@ export const Route = createFileRoute("/categories")({
       {
         name: "description",
         content:
-          "Find your next read by genre: fiction, non-fiction, self-help, romance, children's books and classics.",
+          "Find your next ebook by topic: relationships, money, self-care, health and parenting.",
       },
       { property: "og:title", content: "Browse Categories — Future Grow Academy" },
       {
         property: "og:description",
-        content: "Find your next read by genre at Future Grow Academy.",
+        content: "Find your next ebook by topic at Future Grow Academy.",
       },
     ],
   }),
@@ -27,9 +27,9 @@ function CategoriesPage() {
   return (
     <div className="container-page py-10 sm:py-14">
       <SectionHeader
-        eyebrow="Browse by mood"
+        eyebrow="Browse by goal"
         title="Categories"
-        subtitle="Six shelves, endlessly restocked."
+        subtitle="Five focused collections for real-life change."
       />
       <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
         {categories.map((c, i) => (
@@ -42,7 +42,7 @@ function CategoriesPage() {
             >
               <img
                 src={c.cover}
-                alt={`${c.name} books`}
+                alt={`${c.name} ebooks`}
                 loading="lazy"
                 className="h-52 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 sm:h-60 lg:h-64"
               />
@@ -51,7 +51,7 @@ function CategoriesPage() {
                 <p className="text-[0.6rem] tracking-[0.2em] uppercase opacity-80">{c.tagline}</p>
                 <h2 className="mt-1 font-serif text-xl sm:text-2xl">{c.name}</h2>
                 <span className="mt-1 inline-flex translate-y-2 items-center gap-1.5 text-[0.62rem] font-semibold tracking-[0.18em] text-gold uppercase opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                  Browse shelf <ArrowRight className="h-3.5 w-3.5" />
+                  Browse collection <ArrowRight className="h-3.5 w-3.5" />
                 </span>
               </div>
             </Link>

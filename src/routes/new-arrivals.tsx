@@ -6,15 +6,15 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 export const Route = createFileRoute("/new-arrivals")({
   head: () => ({
     meta: [
-      { title: "New Arrivals — Future Grow Academy" },
+      { title: "New Additions — Future Grow Academy" },
       {
         name: "description",
-        content: "Fresh off the press: the newest titles to land on the Future Grow Academy table.",
+        content: "The newest Future Grow Academy ebooks, ready for instant download.",
       },
-      { property: "og:title", content: "New Arrivals — Future Grow Academy" },
+      { property: "og:title", content: "New Additions — Future Grow Academy" },
       {
         property: "og:description",
-        content: "Fresh off the press: the newest titles to land on the Future Grow Academy table.",
+        content: "The newest Future Grow Academy ebooks, ready for instant download.",
       },
     ],
   }),
@@ -25,9 +25,9 @@ function NewArrivalsPage() {
   return (
     <div className="container-page py-10 sm:py-14">
       <SectionHeader
-        eyebrow="Just landed"
-        title="New arrivals"
-        subtitle="Freshly unpacked and shelved this week."
+        eyebrow="Just published"
+        title="New additions"
+        subtitle="Just published and ready to download."
       />
       <BookGrid items={newArrivals} />
     </div>

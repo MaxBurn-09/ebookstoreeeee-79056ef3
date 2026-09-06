@@ -9,12 +9,12 @@ export const Route = createFileRoute("/bestsellers")({
       { title: "Bestsellers — Future Grow Academy" },
       {
         name: "description",
-        content: "The most-loved books on our shelves this season, ranked by our readers.",
+        content: "Our most downloaded ebooks, ranked by readers around the world.",
       },
       { property: "og:title", content: "Bestsellers — Future Grow Academy" },
       {
         property: "og:description",
-        content: "The most-loved books on our shelves this season, ranked by our readers.",
+        content: "Our most downloaded ebooks, ranked by readers around the world.",
       },
     ],
   }),
@@ -26,8 +26,8 @@ function BestsellersPage() {
     <div className="container-page py-10 sm:py-14">
       <SectionHeader
         eyebrow="Reader favourites"
-        title="Bestsellers this season"
-        subtitle="Ranked by what's leaving our shelves fastest."
+        title="Bestselling ebooks"
+        subtitle="The titles readers download the most, worldwide."
       />
       <BookGrid items={bestsellers} />
     </div>
