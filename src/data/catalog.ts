@@ -28,6 +28,7 @@ export type Book = {
   blurb: string;
   description: string[];
   bullets: string[];
+  badge?: string;
 };
 
 export const books: Book[] = [
@@ -474,6 +475,11 @@ export const bestsellers = [...books].sort((a, b) => b.bought - a.bought).slice(
 export const newArrivals = [...books].slice(-6).reverse();
 export const mostPopular = [...books].sort((a, b) => b.reviews - a.reviews).slice(0, 6);
 export const featuredBook = books[0] as Book;
+export const bookOfTheMonth = books[0] as Book;
+for (const b of [...books].sort((a, z) => z.bought - a.bought).slice(0, 3)) b.badge = "Bestseller";
+for (const b of books.slice(-3)) if (!b.badge) b.badge = "New";
+
+export const newArrivalFilters = ["All", "Self-Care", "Relationship", "Money", "Health", "Parenting"] as const;
 
 export type Category = {
   slug: string;
@@ -575,6 +581,8 @@ export const storeConfig = {
   heroTitle: "Transform Your Future with Powerful eBooks.",
   heroSubtitle:
     "Discover powerful ebooks on personal growth, mindset, finance, relationships and success. Read anytime on your phone, tablet or laptop and start building a better future today.",
+  announcement: "80% OFF everything — instant PDF download",
+  announcementSecondary: "Digital delivery worldwide · No shipping charges",
   offer: { label: "Limited time offer", headline: "Get 80% OFF", sub: "On Every eBook", note: "Learn new skills with instant PDF downloads. Offer ends soon." },
   email: "help@futuregrowacademy.co",
   address: "134, Sector 105, Gurgaon, India",
