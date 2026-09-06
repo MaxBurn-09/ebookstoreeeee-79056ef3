@@ -7,21 +7,21 @@ import { Reveal } from "@/components/site/Reveal";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { toast } from "sonner";
 
-const FREE_SHIPPING = 999;
+
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
     meta: [
-      { title: "Your Bag — Page & Pine Bookshop" },
+      { title: "Your Bag — Future Grow Academy" },
       {
         name: "description",
         content:
-          "Review the books in your bag, adjust quantities and check out. Free shipping over ₹999 and easy 7-day returns.",
+          "Review the ebooks in your bag and check out. Instant PDF download, no shipping charges.",
       },
-      { property: "og:title", content: "Your Bag — Page & Pine Bookshop" },
+      { property: "og:title", content: "Your Bag — Future Grow Academy" },
       {
         property: "og:description",
-        content: "Review your books and check out at Page & Pine.",
+        content: "Review your ebooks and check out at Future Grow Academy.",
       },
       { property: "og:type", content: "website" },
       { name: "robots", content: "noindex" },
@@ -32,8 +32,8 @@ export const Route = createFileRoute("/cart")({
 
 function CartPage() {
   const { lineBooks, setQty, removeFromCart, cartSubtotal } = useStore();
-  const shipping = cartSubtotal === 0 || cartSubtotal >= FREE_SHIPPING ? 0 : 79;
-  const tax = Math.round(cartSubtotal * 0.05);
+  const shipping = 0;
+  const tax = 0;
   const total = cartSubtotal + shipping + tax;
   const suggestions = books.filter((b) => !lineBooks.some((l) => l.book.id === b.id)).slice(0, 4);
 
@@ -45,7 +45,7 @@ function CartPage() {
           title="Your bag"
           subtitle={
             lineBooks.length
-              ? `${lineBooks.length} title${lineBooks.length === 1 ? "" : "s"} waiting to be read.`
+              ? `${lineBooks.length} ebook${lineBooks.length === 1 ? "" : "s"} ready to download.`
               : "Nothing here yet."
           }
         />
@@ -55,7 +55,7 @@ function CartPage() {
         <Reveal className="rounded-lg border border-dashed border-taupe py-20 text-center">
           <ShoppingBag className="float-slow mx-auto h-10 w-10 text-taupe" />
           <p className="mt-4 text-sm text-muted-foreground">
-            Your bag is empty. There's a shelf full of good excuses next door.
+            Your bag is empty. Every ebook is just $2.97 today.
           </p>
           <Link
             to="/books"
@@ -92,7 +92,7 @@ function CartPage() {
                         {book.title}
                       </Link>
                     </h2>
-                    <p className="mt-1 text-xs text-muted-foreground">{book.author}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{book.category}</p>
                     <p className="mt-1 text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
                       {book.category}
                     </p>
@@ -136,8 +136,8 @@ function CartPage() {
               <h2 className="font-serif text-xl">Order summary</h2>
               <dl className="mt-5 space-y-3 text-sm">
                 <Row label="Subtotal" value={formatPrice(cartSubtotal)} />
-                <Row label="Shipping" value={shipping === 0 ? "Free" : formatPrice(shipping)} />
-                <Row label="Estimated tax" value={formatPrice(tax)} />
+                <Row label="Delivery" value="Instant download" />
+                
                 <div className="flex items-baseline justify-between border-t border-taupe pt-3">
                   <dt className="text-sm font-medium">Total</dt>
                   <dd className="font-serif text-2xl tabular-nums">{formatPrice(total)}</dd>
@@ -153,10 +153,10 @@ function CartPage() {
               </button>
               <ul className="mt-6 space-y-3 border-t border-taupe pt-5 text-xs text-muted-foreground">
                 <li className="flex items-center gap-2">
-                  <Truck className="h-4 w-4 text-forest" /> Free shipping over ₹999
+                  <Truck className="h-4 w-4 text-forest" /> No shipping — instant PDF download
                 </li>
                 <li className="flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4 text-forest" /> UPI, cards and netbanking
+                  <ShieldCheck className="h-4 w-4 text-forest" /> Secure checkout, cards accepted worldwide
                 </li>
               </ul>
             </aside>
@@ -167,7 +167,7 @@ function CartPage() {
       {suggestions.length ? (
         <section className="mt-20">
           <Reveal>
-            <SectionHeader eyebrow="One more?" title="Readers also picked up" />
+            <SectionHeader eyebrow="One more?" title="Readers also downloaded" />
           </Reveal>
           <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
             {suggestions.map((b, i) => (

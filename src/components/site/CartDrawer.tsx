@@ -115,7 +115,7 @@ export function CartDrawer() {
                   </Link>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm leading-snug font-medium">{book.title}</p>
-                    <p className="text-xs text-muted-foreground">{book.author}</p>
+                    <p className="text-xs text-muted-foreground">{book.category}</p>
                     <div className="mt-2 flex items-center gap-3">
                       <div className="flex items-center rounded-sm border border-border">
                         <button

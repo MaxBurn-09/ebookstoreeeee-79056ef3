@@ -1,13 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { BookOpen, Instagram, Twitter, Facebook } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { storeConfig, categories } from "@/data/catalog";
 import { Reveal } from "./Reveal";
-
-const socials = [
-  { Icon: Instagram, label: "Instagram" },
-  { Icon: Twitter, label: "Twitter" },
-  { Icon: Facebook, label: "Facebook" },
-];
 
 export function Footer() {
   return (
@@ -22,26 +16,24 @@ export function Footer() {
             <BookOpen className="h-6 w-6 transition-transform duration-500 group-hover:-rotate-6" />
             <span className="font-serif text-xl">{storeConfig.name}</span>
           </div>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed opacity-80">
-            An independent bookshop for slow readers — curated shelves, honest recommendations and
-            beautifully made editions.
-          </p>
-          <div className="mt-5 flex gap-3">
-            {socials.map(({ Icon, label }) => (
+          <p className="mt-4 max-w-xs text-sm leading-relaxed opacity-80">{storeConfig.tagline}</p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {storeConfig.socials.map((s) => (
               <a
-                key={label}
-                href="#"
-                aria-label={label}
-                className="grid h-9 w-9 place-items-center rounded-full border border-forest-foreground/25 transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:bg-gold hover:text-gold-foreground"
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="rounded-full border border-forest-foreground/25 px-3 py-1.5 text-[0.6rem] tracking-[0.16em] uppercase transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:bg-gold hover:text-gold-foreground"
               >
-                <Icon className="h-4 w-4" />
+                {s.label}
               </a>
             ))}
           </div>
         </Reveal>
 
         <Reveal delay={90}>
-          <h3 className="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Shop</h3>
+          <h3 className="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Explore</h3>
           <ul className="mt-4 space-y-2 text-sm">
             {storeConfig.nav.slice(1).map((item) => (
               <li key={item.to}>
@@ -75,28 +67,37 @@ export function Footer() {
         </Reveal>
 
         <Reveal delay={270}>
-          <h3 className="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Visit us</h3>
-          <p className="mt-4 text-sm leading-relaxed opacity-80">
-            14 Linden Lane, Bandra West
-            <br />
-            Mumbai 400050, India
-          </p>
-          <p className="mt-3 text-sm opacity-80">Mon–Sat · 10am – 8pm</p>
+          <h3 className="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Get in touch</h3>
+          <p className="mt-4 text-sm leading-relaxed opacity-80">{storeConfig.address}</p>
           <a
-            href="mailto:hello@pageandpine.in"
+            href={`mailto:${storeConfig.email}`}
             className="link-sweep mt-3 inline-block text-sm opacity-80 hover:text-gold hover:opacity-100"
           >
-            hello@pageandpine.in
+            {storeConfig.email}
           </a>
+          <ul className="mt-5 space-y-2 text-xs">
+            {storeConfig.legal.map((l) => (
+              <li key={l.label}>
+                <a
+                  href={l.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="opacity-70 transition-colors hover:text-gold hover:opacity-100"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </Reveal>
       </div>
 
       <div className="relative border-t border-forest-foreground/15">
         <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-xs opacity-70 sm:flex-row">
           <p>
-            © {new Date().getFullYear()} {storeConfig.name}. Built by hand in Mumbai.
+            © {new Date().getFullYear()} {storeConfig.name}. All rights reserved.
           </p>
-          <p>Secure payments · Easy 7-day returns</p>
+          <p>Instant PDF download · Secure checkout · Worldwide access</p>
         </div>
       </div>
     </footer>

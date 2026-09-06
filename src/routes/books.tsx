@@ -15,16 +15,16 @@ export const Route = createFileRoute("/books")({
   }),
   head: () => ({
     meta: [
-      { title: "All Books — Page & Pine Bookshop" },
+      { title: "All eBooks — Future Grow Academy" },
       {
         name: "description",
         content:
-          "Browse the full Page & Pine shelf: fiction, non-fiction, self-help, romance, mystery and classics, hand-picked by our booksellers.",
+          "Browse every Future Grow Academy ebook: mindset, money, relationships, parenting and health. Instant PDF download worldwide for $2.97.",
       },
-      { property: "og:title", content: "All Books — Page & Pine Bookshop" },
+      { property: "og:title", content: "All eBooks — Future Grow Academy" },
       {
         property: "og:description",
-        content: "Browse every title on the Page & Pine shelf, hand-picked by our booksellers.",
+        content: "Every Future Grow Academy ebook, instantly downloadable for $2.97.",
       },
     ],
   }),
@@ -41,7 +41,7 @@ function BooksPage() {
     const matchesQuery =
       !needle ||
       b.title.toLowerCase().includes(needle) ||
-      b.author.toLowerCase().includes(needle) ||
+      b.blurb.toLowerCase().includes(needle) ||
       b.category.toLowerCase().includes(needle);
     return matchesCategory && matchesQuery;
   });
@@ -51,9 +51,9 @@ function BooksPage() {
   return (
     <div className="container-page py-10 sm:py-14">
       <SectionHeader
-        eyebrow="The shelf"
-        title={q ? `Results for “${q}”` : category ? category : "All books"}
-        subtitle={`${filtered.length} title${filtered.length === 1 ? "" : "s"} available`}
+        eyebrow="The library"
+        title={q ? `Results for “${q}”` : category ? category : "All ebooks"}
+        subtitle={`${filtered.length} ebook${filtered.length === 1 ? "" : "s"} available for instant download`}
       />
 
       <div className="mb-8 -mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">

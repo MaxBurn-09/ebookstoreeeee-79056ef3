@@ -186,9 +186,9 @@ export function Header() {
               ))}
             </nav>
             <p className="mt-auto pt-8 text-xs leading-relaxed text-muted-foreground">
-              14 Linden Lane, Bandra West
+              {storeConfig.address}
               <br />
-              Mon–Sat · 10am – 8pm
+              {storeConfig.email}
             </p>
           </div>
         </div>
