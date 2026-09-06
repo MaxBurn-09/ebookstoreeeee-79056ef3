@@ -22,7 +22,7 @@ export function BookCard({ book }: { book: Book }) {
           >
             <img
               src={book.cover}
-              alt={`Cover of ${book.title} by ${book.author}`}
+              alt={`Cover of the ebook ${book.title}`}
               loading="lazy"
               width={640}
               height={960}
@@ -78,7 +78,7 @@ export function BookCard({ book }: { book: Book }) {
           </Link>
         </h3>
         <p className="mt-1 truncate text-[0.7rem] text-muted-foreground sm:text-xs">
-          {book.author}
+          {book.category}
         </p>
         <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
           <Stars rating={book.rating} />
