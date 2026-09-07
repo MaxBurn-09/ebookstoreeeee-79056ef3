@@ -7,7 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -16,9 +16,9 @@ import { Header } from "../components/site/Header";
 import { Footer } from "../components/site/Footer";
 import { CartDrawer } from "../components/site/CartDrawer";
 import { Toaster } from "../components/ui/sonner";
-import { SiteOpener } from "../components/site/SiteOpener";
-import { ScrollProgress } from "../components/site/ScrollProgress";
 import { PageTransition } from "../components/site/PageTransition";
+import { SearchDialog } from "../components/site/SearchDialog";
+import { MobileTabBar } from "../components/site/MobileTabBar";
 
 function NotFoundComponent() {
   return (
@@ -112,7 +112,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..800;1,400..700&family=Inter:wght@300..700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap",
       },
     ],
   }),
@@ -138,15 +138,29 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      const typing =
+        el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable);
+      if (typing) return;
+      if (e.key === "/" || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k")) {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
       <StoreProvider>
-        <SiteOpener />
-        <ScrollProgress />
         <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">
+          <Header onSearch={() => setSearchOpen(true)} />
+          <main id="main" className="flex-1 pb-14 md:pb-0">
             <PageTransition>
               {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
               <Outlet />
@@ -154,6 +168,8 @@ function RootComponent() {
           </main>
           <Footer />
         </div>
+        <MobileTabBar onSearch={() => setSearchOpen(true)} />
+        <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
         <CartDrawer />
         <Toaster />
       </StoreProvider>

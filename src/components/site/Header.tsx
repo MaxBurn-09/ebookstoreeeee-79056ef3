@@ -1,26 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu, Search, ShoppingBag, Heart, X, BookOpen } from "lucide-react";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { Menu, Search, ShoppingBag, Heart, X } from "lucide-react";
 import { storeConfig } from "@/data/catalog";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
-export function Header() {
+export function Header({ onSearch }: { onSearch: () => void }) {
   const { cartCount, wishlist, setDrawerOpen } = useStore();
   const [open, setOpen] = useState(false);
-  const [q, setQ] = useState("");
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const lastY = useRef(0);
-  const navigate = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 24);
-      setHidden(y > 220 && y > lastY.current);
-      lastY.current = y;
-    };
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -28,113 +21,121 @@ export function Header() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    if (open) closeRef.current?.focus();
     return () => {
       document.body.style.overflow = "";
     };
   }, [open]);
 
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    navigate({ to: "/books", search: { q: q.trim() || undefined, category: undefined } });
-    setOpen(false);
-  };
+  useEffect(() => setOpen(false), [pathname]);
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-        hidden && !open && "-translate-y-full",
-      )}
-    >
-      {/* announcement rail — collapses away once you start reading */}
-      <div
-        className={cn(
-          "overflow-hidden bg-forest text-forest-foreground transition-all duration-500",
-          scrolled ? "h-0 opacity-0" : "h-9 opacity-100",
-        )}
+    <header className="sticky top-0 z-50">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-foreground focus:px-3 focus:py-2 focus:text-sm focus:text-background"
       >
-        <div className="container-page flex h-9 items-center justify-center gap-3 text-[0.66rem] tracking-[0.18em] uppercase">
+        Skip to content
+      </a>
+
+      <div className="bg-foreground text-background">
+        <div className="container-page flex h-8 items-center justify-center gap-3 text-[0.66rem] tracking-[0.1em]">
           <span>{storeConfig.announcement}</span>
-          <span className="hidden opacity-70 sm:inline">•</span>
+          <span className="hidden opacity-50 sm:inline">·</span>
           <span className="hidden opacity-70 sm:inline">{storeConfig.announcementSecondary}</span>
         </div>
       </div>
 
       <div
         className={cn(
-          "border-b bg-background/85 backdrop-blur-md transition-all duration-500",
-          scrolled ? "border-border/80 shadow-[0_10px_30px_-24px_var(--charcoal)]" : "border-border",
+          "border-b bg-background/88 backdrop-blur-md transition-shadow duration-300",
+          scrolled ? "border-border shadow-[0_1px_0_var(--border)]" : "border-transparent",
         )}
       >
-        <div
-          className={cn(
-            "container-page flex items-center gap-4 transition-[height] duration-500",
-            scrolled ? "h-14" : "h-16",
-          )}
-        >
+        <div className="container-page flex h-16 items-center gap-4">
           <button
             type="button"
-            className="press grid h-10 w-10 place-items-center rounded-sm transition-colors hover:text-primary lg:hidden"
+            className="press -ml-2 grid h-11 w-11 place-items-center rounded-md text-foreground hover:bg-muted lg:hidden"
             aria-label="Open menu"
+            aria-expanded={open}
             onClick={() => setOpen(true)}
           >
             <Menu className="h-5 w-5" />
           </button>
 
-          <Link to="/" className="group flex shrink-0 items-center gap-2">
-            <BookOpen className="h-6 w-6 text-forest transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110" />
-            <span className="font-serif text-xl leading-none">
-              {storeConfig.name}
-              <span className="block text-[0.55rem] tracking-[0.3em] text-muted-foreground uppercase transition-colors group-hover:text-gold">
-                {storeConfig.tagline}
+          <Link to="/" className="group flex shrink-0 items-center gap-2.5" aria-label="Home">
+            <Mark />
+            <span className="font-display text-[0.98rem] leading-tight font-semibold tracking-[-0.02em]">
+              Future Grow
+              <span className="block text-[0.58rem] font-medium tracking-[0.2em] text-muted-foreground uppercase">
+                Academy
               </span>
             </span>
           </Link>
 
-          <nav className="mx-auto hidden items-center gap-7 lg:flex">
-            {storeConfig.nav.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                preload="intent"
-                activeProps={{ className: "text-primary" }}
-                className="link-sweep text-[0.72rem] font-medium tracking-[0.14em] uppercase transition-colors hover:text-primary"
-              >
-                {item.label}
-              </Link>
-            ))}
+          <nav aria-label="Main" className="mx-auto hidden items-center gap-1 lg:flex">
+            {storeConfig.nav.map((item) => {
+              const active = pathname === item.to;
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  preload="intent"
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "relative rounded-md px-3 py-2 text-[0.82rem] font-medium transition-colors hover:text-foreground",
+                    active ? "text-foreground" : "text-muted-foreground",
+                  )}
+                >
+                  {item.label}
+                  <span
+                    className={cn(
+                      "absolute inset-x-3 -bottom-0.5 h-px origin-left bg-foreground transition-transform duration-300",
+                      active ? "scale-x-100" : "scale-x-0",
+                    )}
+                  />
+                </Link>
+              );
+            })}
           </nav>
 
-          <form onSubmit={submit} className="ml-auto hidden max-w-xs flex-1 items-center md:flex">
-            <div className="flex w-full items-center gap-2 rounded-sm border border-border bg-card px-3 py-2 transition-all duration-300 focus-within:border-forest focus-within:shadow-[0_0_0_3px_color-mix(in_oklab,var(--forest)_10%,transparent)]">
-              <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
-              <input
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Search books, authors…"
-                aria-label="Search books"
-                className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-              />
-            </div>
-          </form>
+          <div className="ml-auto flex items-center gap-1">
+            <button
+              type="button"
+              onClick={onSearch}
+              className="press hidden h-10 items-center gap-2 rounded-full border border-border px-3.5 text-[0.8rem] text-muted-foreground hover:border-foreground/25 hover:text-foreground md:flex"
+            >
+              <Search className="h-4 w-4" />
+              <span className="pr-6">Search ebooks</span>
+              <kbd className="grid h-5 place-items-center rounded border border-border bg-muted px-1.5 font-sans text-[0.62rem]">
+                /
+              </kbd>
+            </button>
+            <button
+              type="button"
+              onClick={onSearch}
+              aria-label="Search"
+              className="press grid h-11 w-11 place-items-center rounded-md hover:bg-muted md:hidden"
+            >
+              <Search className="h-5 w-5" />
+            </button>
 
-          <div className="ml-auto flex items-center gap-1 md:ml-0">
             <Link
               to="/wishlist"
               preload="intent"
-              aria-label="Wishlist"
-              className="press group relative grid h-10 w-10 place-items-center rounded-sm hover:text-primary"
+              aria-label={`Saved ebooks (${wishlist.length})`}
+              className="press relative hidden h-11 w-11 place-items-center rounded-md hover:bg-muted md:grid"
             >
-              <Heart className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+              <Heart className="h-5 w-5" />
               {wishlist.length > 0 ? <Badge>{wishlist.length}</Badge> : null}
             </Link>
             <button
               type="button"
               onClick={() => setDrawerOpen(true)}
-              aria-label="Open cart"
-              className="press group relative grid h-10 w-10 place-items-center rounded-sm hover:text-primary"
+              aria-label={`Open bag (${cartCount} items)`}
+              className="press relative hidden h-11 w-11 place-items-center rounded-md hover:bg-muted md:grid"
             >
-              <ShoppingBag className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110" />
+              <ShoppingBag className="h-5 w-5" />
               {cartCount > 0 ? <Badge>{cartCount}</Badge> : null}
             </button>
           </div>
@@ -144,47 +145,45 @@ export function Header() {
       {open ? (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div
-            className="absolute inset-0 animate-[fade-in_0.3s_ease-out_both] bg-charcoal/55 backdrop-blur-sm"
+            className="absolute inset-0 animate-[fade-in_0.2s_ease-out_both] bg-charcoal/45"
             onClick={() => setOpen(false)}
+            aria-hidden
           />
-          <div className="absolute inset-y-0 left-0 flex w-[84%] max-w-sm animate-[slide-right_0.45s_cubic-bezier(0.22,1,0.36,1)_both] flex-col bg-background p-5 shadow-2xl">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            className="absolute inset-y-0 left-0 flex w-[86%] max-w-sm animate-[slide-right_0.28s_cubic-bezier(0.22,1,0.36,1)_both] flex-col bg-background p-5 shadow-[var(--shadow-overlay)]"
+          >
             <div className="flex items-center justify-between">
-              <span className="font-serif text-lg">{storeConfig.name}</span>
+              <span className="font-display text-base font-semibold">{storeConfig.name}</span>
               <button
+                ref={closeRef}
                 type="button"
                 aria-label="Close menu"
                 onClick={() => setOpen(false)}
-                className="press"
+                className="press grid h-10 w-10 place-items-center rounded-md hover:bg-muted"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <form
-              onSubmit={submit}
-              className="mt-5 flex items-center gap-2 rounded-sm border border-border px-3 py-2 focus-within:border-forest"
-            >
-              <Search className="h-4 w-4 text-muted-foreground" />
-              <input
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Search books…"
-                aria-label="Search books"
-                className="w-full bg-transparent text-sm outline-none"
-              />
-            </form>
-            <nav className="mt-6 flex flex-col">
-              {storeConfig.nav.map((item, i) => (
+
+            <nav aria-label="Mobile" className="mt-6 flex flex-col">
+              {storeConfig.nav.map((item) => (
                 <Link
                   key={item.to}
                   to={item.to}
                   onClick={() => setOpen(false)}
-                  style={{ animationDelay: `${120 + i * 55}ms` }}
-                  className="animate-[slide-right_0.5s_cubic-bezier(0.22,1,0.36,1)_both] border-b border-border py-3 text-sm tracking-[0.1em] uppercase transition-[padding,color] duration-300 hover:pl-2 hover:text-primary"
+                  className={cn(
+                    "border-b border-border py-3.5 text-[0.95rem] font-medium transition-colors",
+                    pathname === item.to ? "text-primary" : "hover:text-primary",
+                  )}
                 >
                   {item.label}
                 </Link>
               ))}
             </nav>
+
             <p className="mt-auto pt-8 text-xs leading-relaxed text-muted-foreground">
               {storeConfig.address}
               <br />
@@ -197,12 +196,23 @@ export function Header() {
   );
 }
 
-function Badge({ children }: { children: React.ReactNode }) {
+function Mark() {
   return (
     <span
-      key={String(children)}
-      className="absolute top-1 right-0.5 grid h-4 min-w-4 animate-[zoom-in-soft_0.35s_cubic-bezier(0.34,1.56,0.64,1)_both] place-items-center rounded-full bg-gold px-1 text-[0.6rem] font-semibold text-gold-foreground"
+      aria-hidden
+      className="grid h-9 w-9 place-items-center rounded-[7px] bg-foreground text-background"
     >
+      <svg viewBox="0 0 24 24" className="h-4.5 w-4.5" fill="none" stroke="currentColor">
+        <path d="M4 5.5h6a2 2 0 0 1 2 2V19a2 2 0 0 0-2-2H4z" strokeWidth="1.6" />
+        <path d="M20 5.5h-6a2 2 0 0 0-2 2V19a2 2 0 0 1 2-2h6z" strokeWidth="1.6" />
+      </svg>
+    </span>
+  );
+}
+
+function Badge({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="absolute top-1.5 right-1.5 grid h-4 min-w-4 animate-[zoom-in-soft_0.25s_ease-out_both] place-items-center rounded-full bg-primary px-1 text-[0.58rem] font-semibold text-primary-foreground">
       {children}
     </span>
   );
