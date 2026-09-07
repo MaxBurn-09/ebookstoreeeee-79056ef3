@@ -1,103 +1,105 @@
 import { Link } from "@tanstack/react-router";
-import { BookOpen } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { storeConfig, categories } from "@/data/catalog";
-import { Reveal } from "./Reveal";
 
 export function Footer() {
-  return (
-    <footer className="grain relative mt-20 overflow-hidden bg-forest text-forest-foreground">
-      <div
-        aria-hidden
-        className="float-slow pointer-events-none absolute -top-24 right-1/4 h-72 w-72 rounded-full bg-gold/10 blur-3xl"
-      />
-      <div className="container-page relative grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
-        <Reveal>
-          <div className="group flex items-center gap-2">
-            <BookOpen className="h-6 w-6 transition-transform duration-500 group-hover:-rotate-6" />
-            <span className="font-serif text-xl">{storeConfig.name}</span>
-          </div>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed opacity-80">{storeConfig.tagline}</p>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {storeConfig.socials.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="rounded-full border border-forest-foreground/25 px-3 py-1.5 text-[0.6rem] tracking-[0.16em] uppercase transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:bg-gold hover:text-gold-foreground"
-              >
-                {s.label}
-              </a>
-            ))}
-          </div>
-        </Reveal>
+  const year = 2026;
 
-        <Reveal delay={90}>
-          <h3 className="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Explore</h3>
-          <ul className="mt-4 space-y-2 text-sm">
+  return (
+    <footer className="border-t border-border bg-secondary/60">
+      <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <p className="font-display text-base font-semibold">{storeConfig.name}</p>
+          <p className="mt-3 max-w-xs text-[0.85rem] leading-relaxed text-muted-foreground">
+            {storeConfig.tagline}
+          </p>
+          <p className="mt-5 flex items-start gap-2 text-[0.82rem] text-muted-foreground">
+            <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+            {storeConfig.address}
+          </p>
+          <a
+            href={`mailto:${storeConfig.email}`}
+            className="link-sweep mt-2 inline-flex items-center gap-2 text-[0.82rem] text-muted-foreground hover:text-foreground"
+          >
+            <Mail className="h-4 w-4" aria-hidden />
+            {storeConfig.email}
+          </a>
+        </div>
+
+        <nav aria-label="Shop">
+          <h2 className="eyebrow">Shop</h2>
+          <ul className="mt-4 space-y-2.5">
             {storeConfig.nav.slice(1).map((item) => (
               <li key={item.to}>
                 <Link
                   to={item.to}
-                  preload="intent"
-                  className="link-sweep inline-block opacity-80 transition-all duration-300 hover:translate-x-1 hover:text-gold hover:opacity-100"
+                  className="text-[0.85rem] text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {item.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </Reveal>
+        </nav>
 
-        <Reveal delay={180}>
-          <h3 className="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Categories</h3>
-          <ul className="mt-4 space-y-2 text-sm">
+        <nav aria-label="Categories">
+          <h2 className="eyebrow">Categories</h2>
+          <ul className="mt-4 space-y-2.5">
             {categories.map((c) => (
               <li key={c.slug}>
                 <Link
                   to="/books"
-                  search={{ category: c.name, q: undefined }}
-                  className="link-sweep inline-block opacity-80 transition-all duration-300 hover:translate-x-1 hover:text-gold hover:opacity-100"
+                  search={{ q: undefined, category: c.slug }}
+                  className="text-[0.85rem] text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {c.name}
                 </Link>
               </li>
             ))}
           </ul>
-        </Reveal>
+        </nav>
 
-        <Reveal delay={270}>
-          <h3 className="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Get in touch</h3>
-          <p className="mt-4 text-sm leading-relaxed opacity-80">{storeConfig.address}</p>
-          <a
-            href={`mailto:${storeConfig.email}`}
-            className="link-sweep mt-3 inline-block text-sm opacity-80 hover:text-gold hover:opacity-100"
-          >
-            {storeConfig.email}
-          </a>
-          <ul className="mt-5 space-y-2 text-xs">
+        <div>
+          <h2 className="eyebrow">Follow</h2>
+          <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2.5">
+            {storeConfig.socials.map((s) => (
+              <li key={s.label}>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="link-sweep text-[0.85rem] text-muted-foreground hover:text-foreground"
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <h2 className="eyebrow mt-8">Policies</h2>
+          <ul className="mt-4 space-y-2.5">
             {storeConfig.legal.map((l) => (
               <li key={l.label}>
                 <a
                   href={l.href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="opacity-70 transition-colors hover:text-gold hover:opacity-100"
+                  className="text-[0.85rem] text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {l.label}
                 </a>
               </li>
             ))}
           </ul>
-        </Reveal>
+        </div>
       </div>
 
-      <div className="relative border-t border-forest-foreground/15">
-        <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-xs opacity-70 sm:flex-row">
+      <div className="border-t border-border">
+        <div className="container-page flex flex-col gap-2 py-5 text-[0.75rem] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {storeConfig.name}. All rights reserved.
+            © {year} {storeConfig.name}. All rights reserved.
           </p>
-          <p>Instant PDF download · Secure checkout · Worldwide access</p>
+          <p>Digital products · Instant download · Delivered worldwide</p>
         </div>
       </div>
     </footer>
