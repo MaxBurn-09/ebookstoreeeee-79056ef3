@@ -5,8 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Future Grow Academy design system — warm editorial bookstore.
- * Forest green + cream + muted gold. All colors are oklch tokens.
+ * Future Grow Academy — editorial reading system.
+ * Warm paper backgrounds, deep ink text, a restrained forest accent.
+ * Spacing follows an 8px rhythm; radii and shadows are deliberately soft.
  */
 
 @theme inline {
@@ -17,8 +18,20 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  --font-serif: "Playfair Display", Georgia, serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --font-serif: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+
+  /* 8px spacing scale */
+  --spacing-1: 0.5rem;
+  --spacing-2: 1rem;
+  --spacing-3: 1.5rem;
+  --spacing-4: 2rem;
+  --spacing-6: 3rem;
+  --spacing-8: 4rem;
+  --spacing-12: 6rem;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -61,84 +74,88 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --shadow-card: 0 1px 2px oklch(0.26 0.007 275 / 6%), 0 8px 24px -16px oklch(0.26 0.007 275 / 22%);
+  --shadow-raised: 0 2px 4px oklch(0.26 0.007 275 / 6%), 0 18px 40px -24px oklch(0.26 0.007 275 / 30%);
+  --shadow-overlay: 0 24px 64px -28px oklch(0.26 0.007 275 / 38%);
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.625rem;
 
-  /* brand */
-  --forest: oklch(0.32 0.048 158);
-  --forest-foreground: oklch(0.975 0.011 85);
-  --charcoal: oklch(0.245 0.008 60);
-  --cream: oklch(0.962 0.017 84);
-  --ivory: oklch(0.985 0.007 85);
-  --beige: oklch(0.905 0.033 85);
-  --taupe: oklch(0.845 0.019 80);
-  --gold: oklch(0.708 0.093 72);
-  --gold-foreground: oklch(0.245 0.008 60);
+  /* brand — warm paper & ink */
+  --forest: oklch(0.362 0.043 160); /* #2A4A3C */
+  --forest-foreground: oklch(0.972 0.011 85);
+  --charcoal: oklch(0.276 0.008 275); /* #25262B */
+  --cream: oklch(0.938 0.014 84); /* #EDE5D8 */
+  --ivory: oklch(0.98 0.008 85);
+  --beige: oklch(0.905 0.019 82);
+  --taupe: oklch(0.79 0.014 78);
+  --gold: oklch(0.61 0.079 62);
+  --gold-foreground: oklch(0.98 0.008 85);
 
-  --background: oklch(0.985 0.007 85);
-  --foreground: oklch(0.245 0.008 60);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.245 0.008 60);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.245 0.008 60);
-  --primary: oklch(0.32 0.048 158);
-  --primary-foreground: oklch(0.975 0.011 85);
-  --secondary: oklch(0.962 0.017 84);
-  --secondary-foreground: oklch(0.32 0.048 158);
-  --muted: oklch(0.947 0.014 84);
-  --muted-foreground: oklch(0.505 0.014 65);
-  --accent: oklch(0.905 0.033 85);
-  --accent-foreground: oklch(0.245 0.008 60);
-  --destructive: oklch(0.55 0.19 27);
+  --background: oklch(0.966 0.01 85); /* #F7F3EC */
+  --foreground: oklch(0.276 0.008 275);
+  --card: oklch(0.995 0.004 85);
+  --card-foreground: oklch(0.276 0.008 275);
+  --popover: oklch(0.995 0.004 85);
+  --popover-foreground: oklch(0.276 0.008 275);
+  --primary: oklch(0.362 0.043 160);
+  --primary-foreground: oklch(0.972 0.011 85);
+  --secondary: oklch(0.938 0.014 84);
+  --secondary-foreground: oklch(0.362 0.043 160);
+  --muted: oklch(0.93 0.012 84);
+  --muted-foreground: oklch(0.475 0.011 70);
+  --accent: oklch(0.905 0.019 82);
+  --accent-foreground: oklch(0.276 0.008 275);
+  --destructive: oklch(0.52 0.18 27);
   --destructive-foreground: oklch(0.985 0.007 85);
-  --border: oklch(0.895 0.014 80);
-  --input: oklch(0.895 0.014 80);
-  --ring: oklch(0.708 0.093 72);
-  --chart-1: oklch(0.32 0.048 158);
-  --chart-2: oklch(0.708 0.093 72);
-  --chart-3: oklch(0.845 0.019 80);
-  --chart-4: oklch(0.505 0.014 65);
-  --chart-5: oklch(0.905 0.033 85);
-  --sidebar: oklch(0.962 0.017 84);
-  --sidebar-foreground: oklch(0.245 0.008 60);
-  --sidebar-primary: oklch(0.32 0.048 158);
-  --sidebar-primary-foreground: oklch(0.975 0.011 85);
-  --sidebar-accent: oklch(0.905 0.033 85);
-  --sidebar-accent-foreground: oklch(0.245 0.008 60);
-  --sidebar-border: oklch(0.895 0.014 80);
-  --sidebar-ring: oklch(0.708 0.093 72);
+  --border: oklch(0.885 0.012 82);
+  --input: oklch(0.885 0.012 82);
+  --ring: oklch(0.362 0.043 160);
+  --chart-1: oklch(0.362 0.043 160);
+  --chart-2: oklch(0.61 0.079 62);
+  --chart-3: oklch(0.79 0.014 78);
+  --chart-4: oklch(0.475 0.011 70);
+  --chart-5: oklch(0.905 0.019 82);
+  --sidebar: oklch(0.938 0.014 84);
+  --sidebar-foreground: oklch(0.276 0.008 275);
+  --sidebar-primary: oklch(0.362 0.043 160);
+  --sidebar-primary-foreground: oklch(0.972 0.011 85);
+  --sidebar-accent: oklch(0.905 0.019 82);
+  --sidebar-accent-foreground: oklch(0.276 0.008 275);
+  --sidebar-border: oklch(0.885 0.012 82);
+  --sidebar-ring: oklch(0.362 0.043 160);
 }
 
 .dark {
-  --background: oklch(0.19 0.012 150);
-  --foreground: oklch(0.962 0.017 84);
-  --card: oklch(0.245 0.02 155);
-  --card-foreground: oklch(0.962 0.017 84);
-  --popover: oklch(0.245 0.02 155);
-  --popover-foreground: oklch(0.962 0.017 84);
-  --primary: oklch(0.708 0.093 72);
-  --primary-foreground: oklch(0.19 0.012 150);
-  --secondary: oklch(0.28 0.024 155);
-  --secondary-foreground: oklch(0.962 0.017 84);
-  --muted: oklch(0.28 0.024 155);
-  --muted-foreground: oklch(0.75 0.018 80);
-  --accent: oklch(0.32 0.048 158);
-  --accent-foreground: oklch(0.962 0.017 84);
-  --destructive: oklch(0.65 0.18 25);
+  --background: oklch(0.19 0.008 275);
+  --foreground: oklch(0.945 0.01 85);
+  --card: oklch(0.235 0.008 275);
+  --card-foreground: oklch(0.945 0.01 85);
+  --popover: oklch(0.235 0.008 275);
+  --popover-foreground: oklch(0.945 0.01 85);
+  --primary: oklch(0.72 0.062 160);
+  --primary-foreground: oklch(0.19 0.008 275);
+  --secondary: oklch(0.27 0.008 275);
+  --secondary-foreground: oklch(0.945 0.01 85);
+  --muted: oklch(0.27 0.008 275);
+  --muted-foreground: oklch(0.72 0.01 80);
+  --accent: oklch(0.31 0.02 160);
+  --accent-foreground: oklch(0.945 0.01 85);
+  --destructive: oklch(0.62 0.17 25);
   --destructive-foreground: oklch(0.985 0.007 85);
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.708 0.093 72);
-  --sidebar: oklch(0.245 0.02 155);
-  --sidebar-foreground: oklch(0.962 0.017 84);
-  --sidebar-primary: oklch(0.708 0.093 72);
-  --sidebar-primary-foreground: oklch(0.19 0.012 150);
-  --sidebar-accent: oklch(0.32 0.048 158);
-  --sidebar-accent-foreground: oklch(0.962 0.017 84);
+  --ring: oklch(0.72 0.062 160);
+  --sidebar: oklch(0.235 0.008 275);
+  --sidebar-foreground: oklch(0.945 0.01 85);
+  --sidebar-primary: oklch(0.72 0.062 160);
+  --sidebar-primary-foreground: oklch(0.19 0.008 275);
+  --sidebar-accent: oklch(0.31 0.02 160);
+  --sidebar-accent-foreground: oklch(0.945 0.01 85);
   --sidebar-border: oklch(1 0 0 / 12%);
-  --sidebar-ring: oklch(0.708 0.093 72);
+  --sidebar-ring: oklch(0.72 0.062 160);
 }
 
 @layer base {
@@ -150,40 +167,75 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03";
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   h1,
   h2,
   h3,
   h4 {
-    font-family: var(--font-serif);
-    font-weight: 500;
-    letter-spacing: -0.01em;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 
   html {
     scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--forest) 18%, transparent);
+  }
+}
+
+/* ---------------- layout primitives ---------------- */
+
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1280px;
+  padding-inline: 1rem;
+
+  @media (width >= 640px) {
+    padding-inline: 1.5rem;
+  }
+
+  @media (width >= 1024px) {
+    padding-inline: 2.5rem;
+  }
+}
+
+@utility section-y {
+  padding-block: 4rem;
+
+  @media (width >= 768px) {
+    padding-block: 6rem;
   }
 }
 
 @utility eyebrow {
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-gold);
+  color: var(--color-muted-foreground);
 }
 
-@utility container-page {
-  margin-inline: auto;
-  width: 100%;
-  max-width: 1360px;
-  padding-inline: 1rem;
-
-  @media (width >= 768px) {
-    padding-inline: 2rem;
-  }
+@utility rule-top {
+  border-top: 1px solid var(--color-border);
 }
 
 @utility no-scrollbar {
@@ -194,103 +246,116 @@
   }
 }
 
-@keyframes reveal-up {
+/* ---------------- motion (restrained) ---------------- */
+
+@keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translate3d(0, 12px, 0);
   }
   to {
     opacity: 1;
     transform: none;
   }
 }
-
-@utility reveal {
-  animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-/* ------------------------------------------------------------------
- * Motion system — immersive scroll, hover and entrance animations
- * ------------------------------------------------------------------ */
-
-@keyframes fade-up {
-  from { opacity: 0; transform: translate3d(0, 32px, 0); }
-  to { opacity: 1; transform: none; }
-}
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @keyframes slide-right {
-  from { opacity: 0; transform: translate3d(-40px, 0, 0); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translate3d(-16px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 @keyframes zoom-in-soft {
-  from { opacity: 0; transform: scale(0.94); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 @keyframes float-y {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 @keyframes marquee-x {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
-@keyframes shimmer-x {
-  from { background-position: -200% 0; }
-  to { background-position: 200% 0; }
-}
-@keyframes book-open {
-  0% { transform: rotateY(0deg); }
-  100% { transform: rotateY(-158deg); }
-}
-@keyframes spine-glow {
-  0%, 100% { opacity: 0.35; }
-  50% { opacity: 1; }
+@keyframes skeleton-sweep {
+  from {
+    background-position: -180% 0;
+  }
+  to {
+    background-position: 180% 0;
+  }
 }
 
-/* Scroll reveal: hidden until observed, then animated in */
+@utility reveal {
+  animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @utility reveal-init {
   opacity: 0;
-  transform: translate3d(0, 34px, 0);
+  transform: translate3d(0, 16px, 0);
   transition:
-    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.85s ease;
-  filter: blur(6px);
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 @utility reveal-in {
   opacity: 1;
   transform: none;
-  filter: none;
 }
 
 @utility float-slow {
-  animation: float-y 7s ease-in-out infinite;
+  animation: float-y 8s ease-in-out infinite;
 }
 
 @utility hover-lift {
   transition:
-    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 26px 50px -24px color-mix(in oklab, var(--forest) 55%, transparent);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-raised);
   }
 }
 
 @utility press {
-  transition: transform 0.18s ease;
+  transition:
+    transform 0.15s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 
   &:active {
-    transform: scale(0.97);
+    transform: scale(0.985);
   }
 }
 
-/* Animated underline for links / nav */
 @utility link-sweep {
   position: relative;
 
@@ -298,13 +363,13 @@
     content: "";
     position: absolute;
     left: 0;
-    bottom: -3px;
+    bottom: -2px;
     height: 1px;
     width: 100%;
     background: currentColor;
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   &:hover::after {
@@ -313,36 +378,15 @@
   }
 }
 
-/* Shine sweep across a card / image on hover */
 @utility shine {
   position: relative;
   overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      110deg,
-      transparent 30%,
-      color-mix(in oklab, white 55%, transparent) 50%,
-      transparent 70%
-    );
-    transform: translateX(-120%);
-    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  &:hover::before {
-    transform: translateX(120%);
-  }
 }
 
 @utility marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee-x 32s linear infinite;
+  animation: marquee-x 40s linear infinite;
 
   &:hover {
     animation-play-state: paused;
@@ -350,47 +394,53 @@
 }
 
 @utility text-gold-shimmer {
-  background: linear-gradient(
-    100deg,
-    var(--gold) 20%,
-    color-mix(in oklab, var(--gold) 40%, white) 50%,
-    var(--gold) 80%
-  );
-  background-size: 200% 100%;
-  background-clip: text;
-  color: transparent;
-  animation: shimmer-x 5s linear infinite;
+  color: var(--gold);
 }
 
-/* 3D book perspective card */
 @utility book-3d {
-  perspective: 1200px;
-
-  & > * {
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-    transform-style: preserve-3d;
-  }
-
-  &:hover > * {
-    transform: rotateY(-14deg) rotateX(4deg) translateZ(18px);
-  }
+  perspective: 1400px;
 }
 
 @utility grain {
   position: relative;
+}
+
+/* Book cover presentation: spine shading + grounded shadow */
+@utility cover-plate {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--muted);
+  box-shadow:
+    0 1px 1px oklch(0.26 0.007 275 / 10%),
+    0 12px 28px -18px oklch(0.26 0.007 275 / 45%);
 
   &::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.35;
-    background-image: radial-gradient(
-      color-mix(in oklab, var(--charcoal) 12%, transparent) 1px,
-      transparent 1px
-    );
-    background-size: 4px 4px;
+    background:
+      linear-gradient(
+        90deg,
+        oklch(0.26 0.007 275 / 26%) 0%,
+        oklch(0.26 0.007 275 / 6%) 2.5%,
+        transparent 6%
+      ),
+      linear-gradient(180deg, oklch(1 0 0 / 8%), transparent 40%);
   }
+}
+
+@utility skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--muted) 25%,
+    color-mix(in oklab, var(--muted) 55%, white) 50%,
+    var(--muted) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-sweep 1.4s linear infinite;
+  border-radius: 4px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -400,5 +450,6 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

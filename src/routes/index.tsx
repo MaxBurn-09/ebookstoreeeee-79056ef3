@@ -1,300 +1,216 @@
-import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Download, Smartphone, BadgeCheck, Wallet } from "lucide-react";
-import heroBooks from "@/assets/hero-books.jpg";
-import promo from "@/assets/promo-reading.jpg";
+import { useState } from "react";
+import { ArrowRight, Check, Download, Star, Quote } from "lucide-react";
 import {
   books,
   bestsellers,
   newArrivals,
-  newArrivalFilters,
   categories,
   benefits,
   whyUs,
   testimonials,
-  bookOfTheMonth,
+  featuredBook,
   storeConfig,
   formatPrice,
 } from "@/data/catalog";
 import { BookCard } from "@/components/site/BookCard";
-import { SectionHeader } from "@/components/site/SectionHeader";
 import { Stars } from "@/components/site/Stars";
 import { Reveal } from "@/components/site/Reveal";
-import { Parallax, Tilt, CountUp } from "@/components/site/Motion";
-import { Marquee } from "@/components/site/Marquee";
 import { useStore } from "@/lib/store";
-import { toast } from "sonner";
+import editorial from "@/assets/editorial-book.jpg";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Future Grow Academy — Premium Self-Growth eBooks, Instant Download" },
+      { title: "Future Grow Academy — Premium Self-Growth eBooks from $2.97" },
       {
         name: "description",
         content:
-          "Download premium ebooks on mindset, money, relationships, parenting and health. Instant PDF delivery worldwide, no shipping, just $2.97 each.",
+          "Read practical ebooks on mindset, money, relationships, parenting and health. Instant PDF download worldwide, no shipping, just $2.97 each.",
       },
-      {
-        property: "og:title",
-        content: "Future Grow Academy — Premium Self-Growth eBooks, Instant Download",
-      },
+      { property: "og:title", content: "Future Grow Academy — Premium Self-Growth eBooks" },
       {
         property: "og:description",
         content:
-          "Premium ebooks for real life change. Instant PDF download, readable on any device, worldwide.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Store",
-          name: storeConfig.name,
-          description: storeConfig.tagline,
-          email: storeConfig.email,
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: "134, Sector 105",
-            addressLocality: "Gurgaon",
-            addressCountry: "IN",
-          },
-        }),
+          "15 practical self-growth ebooks. Instant download on any device, worldwide, from $2.97.",
       },
     ],
   }),
-  component: Home,
+  component: HomePage,
 });
 
-function Home() {
+function HomePage() {
   return (
     <>
       <Hero />
-      <Marquee
-        items={[
-          "100% digital — no shipping charges",
-          "Instant PDF download",
-          "Readable on phone, tablet and laptop",
-          "Loved by readers in the USA, UK, Europe and India",
-          "80% off every ebook",
-        ]}
-      />
-      <Benefits />
-      <Categories />
+      <TrustStrip />
       <Bestsellers />
+      <CategoryBand />
       <NewArrivals />
-      <FeaturedRead />
-      <WhyUs />
-      <Testimonials />
-      <Promo />
+      <FeaturedEbook />
+      <Publisher />
+      <Collections />
+      <Reviews />
       <Newsletter />
     </>
   );
 }
 
+/* ------------------------------------------------------------------ hero */
+
 function Hero() {
+  const stack = [books[2], books[0], books[11]].filter(Boolean) as typeof books;
+  const rating = (books.reduce((s, b) => s + b.rating, 0) / books.length).toFixed(1);
+
   return (
-    <section className="grain relative overflow-hidden bg-cream">
-      <div
-        aria-hidden
-        className="float-slow pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-gold/15 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="float-slow pointer-events-none absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-forest/10 blur-3xl"
-        style={{ animationDelay: "1.5s" }}
-      />
-      <div className="container-page relative grid items-center gap-10 py-14 lg:grid-cols-2 lg:py-24">
-        <div>
-          <p className="eyebrow reveal" style={{ animationDelay: "80ms" }}>
-            {storeConfig.offer.label} · {storeConfig.offer.headline}
-          </p>
-          <h1 className="mt-4 text-3xl leading-[1.05] sm:text-4xl md:text-6xl">
-            {["Transform your future", "with powerful"].map((line, i) => (
-              <span key={line} className="block overflow-hidden">
-                <span className="reveal block" style={{ animationDelay: `${160 + i * 120}ms` }}>
-                  {line}
-                </span>
-              </span>
-            ))}
-            <span className="block overflow-hidden">
-              <span
-                className="reveal text-gold-shimmer block italic"
-                style={{ animationDelay: "400ms" }}
-              >
-                eBooks.
-              </span>
-            </span>
+    <section className="border-b border-border bg-background">
+      <div className="container-page grid items-center gap-12 py-14 md:py-20 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-24">
+        <div className="max-w-xl">
+          <p className="eyebrow">Digital reading library · Worldwide</p>
+          <h1 className="mt-4 text-[2.1rem] leading-[1.08] font-semibold sm:text-5xl lg:text-[3.4rem]">
+            {storeConfig.heroTitle}
           </h1>
-          <p
-            className="reveal mt-6 max-w-md text-sm leading-relaxed text-muted-foreground"
-            style={{ animationDelay: "520ms" }}
-          >
+          <p className="mt-5 text-[0.98rem] leading-relaxed text-muted-foreground sm:text-base">
             {storeConfig.heroSubtitle}
           </p>
-          <div className="reveal mt-8 flex flex-wrap gap-3" style={{ animationDelay: "620ms" }}>
+
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               to="/books"
-              className="press group inline-flex items-center gap-2 overflow-hidden rounded-sm bg-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase shadow-lg shadow-forest/20 transition-all hover:bg-charcoal hover:shadow-xl hover:shadow-forest/30"
+              className="press inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-6 text-sm font-semibold text-background hover:bg-foreground/90"
             >
-              Shop all ebooks
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+              Browse the library <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               to="/bestsellers"
-              className="press inline-flex items-center gap-2 rounded-sm border border-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest uppercase transition-colors hover:bg-forest hover:text-forest-foreground"
+              className="press inline-flex h-12 items-center rounded-full border border-border px-6 text-sm font-semibold hover:border-foreground/30 hover:bg-muted"
             >
-              Bestsellers
+              See bestsellers
             </Link>
           </div>
-          <dl
-            className="reveal mt-12 grid max-w-md grid-cols-3 gap-4 border-t border-taupe pt-6"
-            style={{ animationDelay: "720ms" }}
-          >
-            <div>
-              <dt className="font-serif text-2xl">
-                <CountUp value={books.length} suffix="" />
-              </dt>
-              <dd className="text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
-                eBooks
-              </dd>
-            </div>
-            <div>
-              <dt className="font-serif text-2xl">
-                <CountUp value={9} suffix="k+" />
-              </dt>
-              <dd className="text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
-                Readers
-              </dd>
-            </div>
-            <div>
-              <dt className="font-serif text-2xl">
-                <CountUp value={4.8} suffix="★" />
-              </dt>
-              <dd className="text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
-                Rating
-              </dd>
-            </div>
+
+          <dl className="mt-10 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-6">
+            <Stat label="Ebooks" value={`${books.length}`} />
+            <Stat label="Avg. rating" value={rating} />
+            <Stat label="Every title" value="$2.97" />
           </dl>
         </div>
 
-        <Parallax speed={0.06}>
-          <Tilt className="relative" max={7}>
-            <div className="shine relative overflow-hidden rounded-lg">
-              <img
-                src={heroBooks}
-                alt="Premium self-growth ebooks displayed on a warm cream backdrop"
-                className="w-full rounded-lg object-cover shadow-2xl"
-                width={1024}
-                height={1024}
-              />
-            </div>
-            <div className="float-slow absolute bottom-5 left-5 hidden rounded-md bg-background/95 p-4 shadow-md backdrop-blur sm:block">
-              <p className="text-[0.6rem] tracking-[0.18em] text-muted-foreground uppercase">
-                Reader favourite
-              </p>
-              <p className="mt-1 font-serif text-lg">{bookOfTheMonth.title}</p>
-              <div className="mt-1 flex items-center gap-2">
-                <Stars rating={bookOfTheMonth.rating} />
-                <span className="text-xs text-muted-foreground">
-                  {formatPrice(bookOfTheMonth.price)}
-                </span>
-              </div>
-            </div>
-          </Tilt>
-        </Parallax>
+        <Reveal className="relative">
+          <div className="flex items-end justify-center gap-4 sm:gap-6">
+            {stack.map((book, i) => (
+              <Link
+                key={book.id}
+                to="/book/$slug"
+                params={{ slug: book.slug }}
+                preload="intent"
+                className={cn(
+                  "cover-plate block w-[28%] transition-transform duration-500 hover:-translate-y-2 sm:w-[30%]",
+                  i === 1 && "w-[38%] sm:w-[40%]",
+                )}
+                style={{ transform: i === 1 ? undefined : "translateY(6%)" }}
+              >
+                <img
+                  src={book.cover}
+                  alt={`${book.title} ebook cover`}
+                  width={640}
+                  height={960}
+                  className="aspect-[2/3] w-full object-cover"
+                />
+              </Link>
+            ))}
+          </div>
+          <p className="mt-6 text-center text-xs text-muted-foreground">
+            Instant PDF download · Read on phone, tablet or laptop
+          </p>
+        </Reveal>
       </div>
     </section>
   );
 }
 
-const benefitIcons = [Wallet, Download, BadgeCheck, Smartphone];
-
-function Benefits() {
+function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <section className="border-b border-border bg-background">
-      <div className="container-page grid gap-6 py-8 sm:grid-cols-2 lg:grid-cols-4">
-        {benefits.map((b, i) => {
-          const Icon = benefitIcons[i] ?? Download;
-          return (
-            <Reveal key={b.title} delay={i * 90}>
-              <div className="group flex items-center gap-3">
-                <Icon className="h-6 w-6 shrink-0 text-forest transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-110 group-hover:text-gold" />
-                <div>
-                  <p className="text-sm font-medium">{b.title}</p>
-                  <p className="text-xs text-muted-foreground">{b.note}</p>
-                </div>
-              </div>
-            </Reveal>
-          );
-        })}
-      </div>
-    </section>
+    <div>
+      <dt className="eyebrow">{label}</dt>
+      <dd className="mt-1 text-2xl font-semibold tracking-[-0.02em]">{value}</dd>
+    </div>
   );
 }
 
-function Categories() {
+/* ----------------------------------------------------------- trust strip */
+
+function TrustStrip() {
   return (
-    <section className="container-page py-14 sm:py-16">
-      <Reveal>
-        <SectionHeader
-          eyebrow="Find your focus"
-          title="Shop by category"
-          subtitle="Five growth shelves — pick where you want change first."
-          linkLabel="All categories"
-          linkTo="/categories"
-        />
-      </Reveal>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {categories.map((c, i) => (
-          <Reveal key={c.slug} delay={i * 80}>
-            <Link
-              to="/books"
-              search={{ category: c.name, q: undefined }}
-              className="shine hover-lift group relative block overflow-hidden rounded-lg border border-border"
-            >
-              <img
-                src={c.cover}
-                alt={`${c.name} ebooks`}
-                loading="lazy"
-                className="h-56 w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/25 to-transparent transition-opacity duration-500 group-hover:from-forest/90" />
-              <div className="absolute bottom-4 left-5 text-cream transition-transform duration-500 group-hover:-translate-y-1">
-                <p className="text-[0.6rem] tracking-[0.2em] uppercase opacity-80">{c.tagline}</p>
-                <h3 className="mt-1 font-serif text-2xl">{c.name}</h3>
-                <span className="mt-2 flex items-center gap-2 text-[0.6rem] tracking-[0.2em] uppercase opacity-0 transition-all duration-500 group-hover:opacity-90">
-                  Browse shelf <ArrowRight className="h-3 w-3" />
-                </span>
-              </div>
-            </Link>
-          </Reveal>
+    <section aria-label="Why buy here" className="border-b border-border bg-secondary/60">
+      <ul className="container-page grid gap-x-8 gap-y-5 py-6 sm:grid-cols-2 lg:grid-cols-4">
+        {benefits.map((b) => (
+          <li key={b.title} className="flex items-start gap-3">
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+            <span className="min-w-0">
+              <span className="block text-[0.82rem] font-semibold">{b.title}</span>
+              <span className="block text-[0.75rem] text-muted-foreground">{b.note}</span>
+            </span>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
+
+/* ---------------------------------------------------------- section head */
+
+function Head({
+  eyebrow,
+  title,
+  note,
+  to,
+  cta,
+}: {
+  eyebrow: string;
+  title: string;
+  note?: string;
+  to?: "/books" | "/bestsellers" | "/new-arrivals" | "/categories";
+  cta?: string;
+}) {
+  return (
+    <div className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:mb-10">
+      <div className="min-w-0">
+        <p className="eyebrow">{eyebrow}</p>
+        <h2 className="mt-2 text-2xl font-semibold sm:text-[2rem]">{title}</h2>
+        {note ? (
+          <p className="mt-2 max-w-xl text-sm text-muted-foreground">{note}</p>
+        ) : null}
+      </div>
+      {to ? (
+        <Link
+          to={to}
+          className="link-sweep shrink-0 pb-1 text-[0.8rem] font-semibold whitespace-nowrap"
+        >
+          {cta ?? "View all"}
+        </Link>
+      ) : null}
+    </div>
+  );
+}
+
+/* ----------------------------------------------------------- bestsellers */
 
 function Bestsellers() {
   return (
-    <section className="bg-cream py-14 sm:py-16">
+    <section className="section-y">
       <div className="container-page">
-        <Reveal>
-          <SectionHeader
-            eyebrow="Reader favourites"
-            title="Bestselling ebooks"
-            subtitle="The titles downloaded most this month."
-            linkLabel="View all"
-            linkTo="/bestsellers"
-          />
-        </Reveal>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-9 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-6">
-          {bestsellers.map((b, i) => (
-            <Reveal key={b.id} delay={i * 60}>
-              <BookCard book={b} />
+        <Head
+          eyebrow="Most read this month"
+          title="Bestselling ebooks"
+          note="The titles readers finish, apply and come back to recommend."
+          to="/bestsellers"
+        />
+        <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
+          {bestsellers.slice(0, 4).map((book, i) => (
+            <Reveal key={book.id} delay={i * 60}>
+              <BookCard book={book} priority={i < 2} />
             </Reveal>
           ))}
         </div>
@@ -303,164 +219,270 @@ function Bestsellers() {
   );
 }
 
-function NewArrivals() {
-  const [filter, setFilter] = useState<string>("All");
-  const shown = newArrivals.filter((b) => filter === "All" || b.category === filter);
+/* ------------------------------------------------------------ categories */
 
+function CategoryBand() {
   return (
-    <section className="container-page py-14 sm:py-16">
-      <Reveal>
-        <SectionHeader
-          eyebrow="Just published"
-          title="New additions"
-          linkLabel="See everything"
-          linkTo="/new-arrivals"
+    <section className="border-y border-border bg-secondary/50 section-y">
+      <div className="container-page">
+        <Head
+          eyebrow="Browse by need"
+          title="Reading categories"
+          note="Five focused shelves — pick the one that matches what you're working on right now."
+          to="/categories"
         />
-      </Reveal>
-      <Reveal>
-        <div className="mb-8 -mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
-          {newArrivalFilters.map((f) => (
-            <button
-              key={f}
-              type="button"
-              onClick={() => setFilter(f)}
-              className={`press shrink-0 snap-start rounded-full border px-4 py-2 text-[0.66rem] font-semibold tracking-[0.14em] uppercase transition-all duration-300 ${
-                filter === f
-                  ? "border-forest bg-forest text-forest-foreground shadow-md shadow-forest/25"
-                  : "border-border text-muted-foreground hover:-translate-y-0.5 hover:border-forest hover:text-forest"
-              }`}
-            >
-              {f}
-            </button>
-          ))}
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+          {categories.map((c, i) => {
+            const count = books.filter((b) => b.category === c.name).length;
+            return (
+              <Reveal key={c.slug} delay={i * 50}>
+                <Link
+                  to="/books"
+                  search={{ q: undefined, category: c.slug }}
+                  className="group hover-lift block overflow-hidden rounded-lg border border-border bg-card shadow-[var(--shadow-card)]"
+                >
+                  <img
+                    src={c.cover}
+                    alt=""
+                    loading="lazy"
+                    className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                  <div className="p-4">
+                    <h3 className="text-[0.9rem] font-semibold">{c.name}</h3>
+                    <p className="mt-1 text-[0.75rem] text-muted-foreground">{c.tagline}</p>
+                    <p className="mt-3 text-[0.7rem] font-medium text-muted-foreground">
+                      {count} {count === 1 ? "title" : "titles"}
+                    </p>
+                  </div>
+                </Link>
+              </Reveal>
+            );
+          })}
         </div>
-      </Reveal>
-      {shown.length === 0 ? (
-        <p className="py-12 text-center text-sm text-muted-foreground">
-          Nothing new on this shelf yet — check back soon.
-        </p>
-      ) : (
-        <div
-          key={filter}
-          className="grid grid-cols-2 gap-x-4 gap-y-9 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-6"
-        >
-          {shown.map((b, i) => (
-            <div
-              key={b.id}
-              className="reveal"
-              style={{ animationDelay: `${Math.min(i * 60, 400)}ms` }}
-            >
-              <BookCard book={b} />
-            </div>
-          ))}
-        </div>
-      )}
-    </section>
-  );
-}
-
-function FeaturedRead() {
-  const { addToCart } = useStore();
-  const book = bookOfTheMonth;
-  return (
-    <section className="grain relative overflow-hidden bg-forest text-forest-foreground">
-      <div
-        aria-hidden
-        className="float-slow pointer-events-none absolute top-1/3 -left-16 h-72 w-72 rounded-full bg-gold/15 blur-3xl"
-      />
-      <div className="container-page relative grid items-center gap-10 py-14 sm:py-16 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
-        <Reveal>
-          <Tilt max={6}>
-            <div className="shine overflow-hidden rounded-lg">
-              <img
-                src={book.cover}
-                alt={`Cover of ${book.title}`}
-                loading="lazy"
-                className="mx-auto w-full max-w-xs object-cover shadow-2xl transition-transform duration-[900ms] hover:scale-105"
-              />
-            </div>
-          </Tilt>
-        </Reveal>
-        <Reveal delay={120}>
-          <div>
-            <p className="text-[0.62rem] tracking-[0.24em] uppercase opacity-70">
-              Featured this month
-            </p>
-            <h2 className="mt-4 font-serif text-3xl md:text-5xl">{book.title}</h2>
-            <p className="mt-6 max-w-xl text-sm leading-relaxed opacity-85">{book.blurb}</p>
-            <p className="mt-6 font-serif text-2xl">
-              {formatPrice(book.price)}
-              <span className="ml-3 text-sm line-through opacity-60">
-                {formatPrice(book.oldPrice)}
-              </span>
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <button
-                type="button"
-                onClick={() => addToCart(book.id)}
-                className="press rounded-sm bg-cream px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-charcoal uppercase transition-all hover:-translate-y-0.5 hover:bg-gold"
-              >
-                Add to cart
-              </button>
-              <Link
-                to="/book/$slug"
-                params={{ slug: book.slug }}
-                className="press rounded-sm border border-forest-foreground/40 px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] uppercase transition-colors hover:bg-forest-foreground/10"
-              >
-                Read more
-              </Link>
-            </div>
-          </div>
-        </Reveal>
       </div>
     </section>
   );
 }
 
-function WhyUs() {
+/* ---------------------------------------------------------- new arrivals */
+
+function NewArrivals() {
   return (
-    <section className="container-page py-14 sm:py-16">
-      <Reveal>
-        <SectionHeader eyebrow="Why readers choose us" title="Growth you can actually apply" />
-      </Reveal>
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {whyUs.map((w, i) => (
-          <Reveal key={w.title} delay={i * 90}>
-            <div className="hover-lift h-full rounded-lg border border-border bg-cream p-6 transition-colors hover:border-forest">
-              <span className="text-2xl">{w.emoji}</span>
-              <h3 className="mt-4 font-serif text-xl">{w.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{w.note}</p>
-            </div>
-          </Reveal>
+    <section className="section-y">
+      <div className="container-page">
+        <Head
+          eyebrow="Fresh on the shelf"
+          title="New additions"
+          note="Recently published guides, added to the library this season."
+          to="/new-arrivals"
+        />
+      </div>
+      <div className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-2 sm:px-6 lg:px-10">
+        {newArrivals.map((book) => (
+          <div key={book.id} className="w-[46%] shrink-0 snap-start sm:w-[30%] lg:w-[19%]">
+            <BookCard book={book} />
+          </div>
         ))}
       </div>
     </section>
   );
 }
 
-function Testimonials() {
+/* --------------------------------------------------------- featured book */
+
+function FeaturedEbook() {
+  const { addToCart } = useStore();
+  const book = featuredBook;
+
   return (
-    <section className="bg-cream py-14 sm:py-16">
-      <div className="container-page">
-        <Reveal>
-          <SectionHeader
-            eyebrow="Loved worldwide"
-            title="What readers say"
-            subtitle="From New York to Berlin, Singapore to São Paulo."
-          />
+    <section className="border-y border-border bg-foreground text-background section-y">
+      <div className="container-page grid items-center gap-10 lg:grid-cols-[0.8fr_1fr] lg:gap-16">
+        <Reveal className="mx-auto w-2/3 max-w-xs lg:w-full">
+          <div className="cover-plate">
+            <img
+              src={book.cover}
+              alt={`${book.title} ebook cover`}
+              loading="lazy"
+              width={640}
+              height={960}
+              className="aspect-[2/3] w-full object-cover"
+            />
+          </div>
         </Reveal>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
+        <div>
+          <p className="eyebrow text-background/60">Editor's pick</p>
+          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{book.title}</h2>
+          <div className="mt-3 flex items-center gap-2 text-sm text-background/70">
+            <Stars rating={book.rating} />
+            {book.rating.toFixed(1)} · {book.reviews.toLocaleString("en-US")} reviews
+          </div>
+          <p className="mt-5 max-w-xl leading-relaxed text-background/80">{book.blurb}</p>
+          <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+            {book.bullets.slice(0, 4).map((b) => (
+              <li key={b} className="flex gap-2 text-sm text-background/80">
+                <Check className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+                {b}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <button
+              type="button"
+              onClick={() => addToCart(book.id)}
+              className="press inline-flex h-12 items-center gap-2 rounded-full bg-background px-6 text-sm font-semibold text-foreground hover:bg-background/90"
+            >
+              <Download className="h-4 w-4" /> Add for {formatPrice(book.price)}
+            </button>
+            <Link
+              to="/book/$slug"
+              params={{ slug: book.slug }}
+              className="link-sweep text-sm font-semibold"
+            >
+              Read the details
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* --------------------------------------------------------- publisher */
+
+function Publisher() {
+  return (
+    <section className="section-y">
+      <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <Reveal className="order-2 lg:order-1">
+          <div className="overflow-hidden rounded-lg border border-border">
+            <img
+              src={editorial}
+              alt="Reading a Future Grow Academy ebook"
+              loading="lazy"
+              className="aspect-[4/3] w-full object-cover"
+            />
+          </div>
+        </Reveal>
+        <div className="order-1 lg:order-2">
+          <p className="eyebrow">The people behind the books</p>
+          <h2 className="mt-2 text-2xl font-semibold sm:text-[2rem]">{storeConfig.name}</h2>
+          <p className="mt-4 leading-relaxed text-muted-foreground">{storeConfig.tagline}</p>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+            {whyUs.map((w) => (
+              <div key={w.title}>
+                <h3 className="text-[0.92rem] font-semibold">{w.title}</h3>
+                <p className="mt-1.5 text-[0.85rem] leading-relaxed text-muted-foreground">
+                  {w.note}
+                </p>
+              </div>
+            ))}
+          </div>
+          <Link to="/about" className="link-sweep mt-8 inline-block text-sm font-semibold">
+            More about the academy
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------- collections */
+
+function Collections() {
+  const sets = [
+    {
+      title: "Rebuild after a breakup",
+      note: "Detach, heal and rebuild self-worth in a structured 30 days.",
+      slugs: ["Relationship", "Self-Care"],
+      category: "relationship",
+    },
+    {
+      title: "Calmer home, calmer kids",
+      note: "Two parenting guides for households that shout less and listen more.",
+      slugs: ["Parenting"],
+      category: "parenting",
+    },
+    {
+      title: "Earn online this quarter",
+      note: "Digital income playbooks you can start with a laptop and a plan.",
+      slugs: ["Money"],
+      category: "money",
+    },
+  ];
+
+  return (
+    <section className="border-y border-border bg-secondary/50 section-y">
+      <div className="container-page">
+        <Head
+          eyebrow="Curated sets"
+          title="Reading collections"
+          note="Short, purposeful reading paths instead of an endless catalogue."
+        />
+        <div className="grid gap-5 lg:grid-cols-3">
+          {sets.map((set, i) => {
+            const items = books.filter((b) => set.slugs.includes(b.category)).slice(0, 3);
+            return (
+              <Reveal key={set.title} delay={i * 60}>
+                <Link
+                  to="/books"
+                  search={{ q: undefined, category: set.category }}
+                  className="group hover-lift flex h-full flex-col rounded-lg border border-border bg-card p-6 shadow-[var(--shadow-card)]"
+                >
+                  <div className="flex -space-x-4">
+                    {items.map((b) => (
+                      <img
+                        key={b.id}
+                        src={b.cover}
+                        alt=""
+                        loading="lazy"
+                        className="h-24 w-16 rounded-[3px] border border-border object-cover shadow-[var(--shadow-card)] transition-transform duration-500 group-hover:-translate-y-1"
+                      />
+                    ))}
+                  </div>
+                  <h3 className="mt-5 text-[1.05rem] font-semibold">{set.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{set.note}</p>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-[0.8rem] font-semibold">
+                    Open collection
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------- reviews */
+
+function Reviews() {
+  return (
+    <section className="section-y">
+      <div className="container-page">
+        <Head
+          eyebrow="Readers worldwide"
+          title="What readers say"
+          note="From New York to Berlin — feedback from people who finished the books."
+        />
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t, i) => (
-            <Reveal key={t.name} delay={i * 80}>
-              <figure className="hover-lift h-full rounded-lg border border-border bg-background p-6">
-                <Stars rating={t.rating} />
-                <blockquote className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  “{t.quote}”
+            <Reveal key={t.name} delay={(i % 3) * 60}>
+              <figure className="flex h-full flex-col rounded-lg border border-border bg-card p-6 shadow-[var(--shadow-card)]">
+                <Quote className="h-5 w-5 text-taupe" aria-hidden />
+                <blockquote className="mt-4 flex-1 text-[0.9rem] leading-relaxed text-foreground/90">
+                  {t.quote}
                 </blockquote>
-                <figcaption className="mt-5 text-sm font-medium">
-                  {t.name}
-                  <span className="block text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
-                    {t.location}
+                <figcaption className="mt-5 flex items-center justify-between border-t border-border pt-4">
+                  <span>
+                    <span className="block text-[0.85rem] font-semibold">{t.name}</span>
+                    <span className="block text-[0.75rem] text-muted-foreground">{t.location}</span>
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-[0.78rem] font-medium">
+                    <Star className="h-3.5 w-3.5 fill-gold text-gold" aria-hidden />
+                    {t.rating}
                   </span>
                 </figcaption>
               </figure>
@@ -472,76 +494,53 @@ function Testimonials() {
   );
 }
 
-function Promo() {
-  return (
-    <section className="container-page py-14 sm:py-16">
-      <Reveal>
-        <div className="grid items-center gap-0 overflow-hidden rounded-lg border border-border lg:grid-cols-2">
-          <div className="shine h-full overflow-hidden">
-            <img
-              src={promo}
-              alt="A reader studying an ebook on a tablet with a warm cup of coffee"
-              loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-[1200ms] hover:scale-105"
-            />
-          </div>
-          <div className="bg-cream p-8 sm:p-10 lg:p-14">
-            <p className="eyebrow">{storeConfig.offer.label}</p>
-            <h2 className="mt-4 text-3xl md:text-4xl">
-              {storeConfig.offer.headline} {storeConfig.offer.sub}
-            </h2>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
-              {storeConfig.offer.note}
-            </p>
-            <Link
-              to="/books"
-              className="press group mt-8 inline-flex items-center gap-2 rounded-sm bg-forest px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase transition-all hover:-translate-y-0.5 hover:bg-charcoal"
-            >
-              Claim the offer
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1.5" />
-            </Link>
-          </div>
-        </div>
-      </Reveal>
-    </section>
-  );
-}
+/* ---------------------------------------------------------- newsletter */
 
 function Newsletter() {
   const [email, setEmail] = useState("");
+  const [done, setDone] = useState(false);
+
   return (
-    <section className="border-t border-border bg-background py-14 sm:py-16">
-      <Reveal className="container-page max-w-2xl text-center">
+    <section className="border-t border-border bg-secondary/60 section-y">
+      <div className="container-page max-w-2xl text-center">
         <p className="eyebrow">Stay in the loop</p>
-        <h2 className="mt-3 text-3xl md:text-4xl">New ebooks, straight to your inbox</h2>
-        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-          One short email when we publish something new, plus reader-only discounts.
+        <h2 className="mt-2 text-2xl font-semibold sm:text-[2rem]">
+          New ebooks and offers, once a month
+        </h2>
+        <p className="mt-3 text-sm text-muted-foreground">
+          No noise — just new releases and the occasional discount. Unsubscribe anytime.
         </p>
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            setEmail("");
-            toast.success("You're on the list — check your inbox.");
+            setDone(true);
           }}
-          className="mt-7 flex flex-col gap-3 sm:flex-row"
+          className="mx-auto mt-7 flex max-w-md flex-col gap-3 sm:flex-row"
         >
+          <label htmlFor="newsletter-email" className="sr-only">
+            Email address
+          </label>
           <input
+            id="newsletter-email"
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@email.com"
-            aria-label="Email address"
-            className="flex-1 rounded-sm border border-border bg-card px-4 py-3 text-sm outline-none transition-all focus:border-forest"
+            placeholder="you@example.com"
+            className="h-12 flex-1 rounded-full border border-border bg-card px-5 text-sm outline-none transition-colors focus:border-foreground/30"
           />
           <button
             type="submit"
-            className="press rounded-sm bg-forest px-7 py-3 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase transition-colors hover:bg-charcoal"
+            disabled={done}
+            className="press h-12 rounded-full bg-foreground px-6 text-sm font-semibold text-background hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Subscribe
+            {done ? "Subscribed" : "Subscribe"}
           </button>
         </form>
-      </Reveal>
+        {done ? (
+          <p className="mt-3 text-xs text-primary">Thanks — you're on the list.</p>
+        ) : null}
+      </div>
     </section>
   );
 }

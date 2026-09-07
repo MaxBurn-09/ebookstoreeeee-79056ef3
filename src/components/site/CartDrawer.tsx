@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Minus, Plus, Trash2, X, ShoppingBag, ArrowRight } from "lucide-react";
-import { formatPrice, storeConfig } from "@/data/catalog";
+import { Minus, Plus, Trash2, X, ShoppingBag, ArrowRight, Download } from "lucide-react";
+import { formatPrice } from "@/data/catalog";
 import { useStore } from "@/lib/store";
-
-const FREE_SHIPPING = 999;
 
 export function CartDrawer() {
   const { drawerOpen, setDrawerOpen, lineBooks, setQty, removeFromCart, cartSubtotal } = useStore();
@@ -26,36 +24,37 @@ export function CartDrawer() {
 
   if (!drawerOpen) return null;
 
-  const remaining = Math.max(0, FREE_SHIPPING - cartSubtotal);
-  const progress = Math.min(1, cartSubtotal / FREE_SHIPPING);
+  const saved = lineBooks.reduce((sum, l) => sum + (l.book.oldPrice - l.book.price) * l.qty, 0);
 
   return (
     <div className="fixed inset-0 z-[60]">
       <div
-        className={`absolute inset-0 bg-charcoal/50 backdrop-blur-sm transition-opacity duration-500 ${
+        className={`absolute inset-0 bg-charcoal/45 transition-opacity duration-300 ${
           mounted ? "opacity-100" : "opacity-0"
         }`}
         onClick={() => setDrawerOpen(false)}
+        aria-hidden
       />
       <aside
         role="dialog"
-        aria-label="Shopping cart"
-        className={`absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-background shadow-2xl transition-transform duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        aria-modal="true"
+        aria-label="Your bag"
+        className={`absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-background shadow-[var(--shadow-overlay)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           mounted ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <div>
-            <h2 className="font-serif text-xl">Your bag</h2>
-            <p className="text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
-              {lineBooks.length} {lineBooks.length === 1 ? "title" : "titles"}
+            <h2 className="text-base font-semibold">Your bag</h2>
+            <p className="text-xs text-muted-foreground">
+              {lineBooks.length} {lineBooks.length === 1 ? "ebook" : "ebooks"}
             </p>
           </div>
           <button
             type="button"
-            aria-label="Close cart"
+            aria-label="Close bag"
             onClick={() => setDrawerOpen(false)}
-            className="press grid h-9 w-9 place-items-center rounded-full transition-colors hover:bg-muted"
+            className="press grid h-10 w-10 place-items-center rounded-md hover:bg-muted"
           >
             <X className="h-5 w-5" />
           </button>
@@ -63,65 +62,45 @@ export function CartDrawer() {
 
         {lineBooks.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
-            <ShoppingBag className="float-slow h-10 w-10 text-taupe" />
-            <p className="text-sm text-muted-foreground">
-              Your bag is empty — go find a good story.
-            </p>
+            <ShoppingBag className="h-9 w-9 text-taupe" aria-hidden />
+            <p className="text-sm text-muted-foreground">Your bag is empty.</p>
             <Link
               to="/books"
               onClick={() => setDrawerOpen(false)}
-              className="press mt-2 rounded-sm bg-forest px-5 py-2.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase hover:bg-charcoal"
+              className="press mt-2 inline-flex h-11 items-center rounded-full bg-foreground px-6 text-sm font-semibold text-background hover:bg-foreground/90"
             >
-              Browse books
+              Browse ebooks
             </Link>
           </div>
         ) : (
           <>
-            <div className="border-b border-border px-5 py-3">
-              <p className="text-xs text-muted-foreground">
-                {remaining > 0 ? (
-                  <>
-                    Add <span className="font-semibold text-foreground">{formatPrice(remaining)}</span>{" "}
-                    more for free shipping
-                  </>
-                ) : (
-                  <span className="font-medium text-forest">
-                    Free shipping unlocked — nicely done.
-                  </span>
-                )}
-              </p>
-              <div className="mt-2 h-1 overflow-hidden rounded-full bg-muted">
-                <div
-                  className="h-full origin-left rounded-full bg-gold transition-transform duration-700 ease-out"
-                  style={{ transform: `scaleX(${progress})` }}
-                />
-              </div>
-            </div>
-
-            <div className="flex-1 space-y-4 overflow-y-auto px-5 py-4">
-              {lineBooks.map(({ book, qty }, i) => (
-                <div
-                  key={book.id}
-                  style={{ animationDelay: `${100 + i * 70}ms` }}
-                  className="flex animate-[slide-right_0.5s_cubic-bezier(0.22,1,0.36,1)_both] gap-3"
-                >
-                  <Link to="/book/$slug" params={{ slug: book.slug }} onClick={() => setDrawerOpen(false)}>
+            <div className="flex-1 space-y-5 overflow-y-auto px-5 py-5">
+              {lineBooks.map(({ book, qty }) => (
+                <div key={book.id} className="flex gap-3.5">
+                  <Link
+                    to="/book/$slug"
+                    params={{ slug: book.slug }}
+                    onClick={() => setDrawerOpen(false)}
+                    className="cover-plate h-24 w-16 shrink-0"
+                  >
                     <img
                       src={book.cover}
-                      alt={book.title}
-                      className="h-24 w-16 rounded-sm object-cover shadow-sm transition-transform duration-500 hover:scale-105"
+                      alt=""
                       loading="lazy"
+                      className="h-full w-full object-cover"
                     />
                   </Link>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm leading-snug font-medium">{book.title}</p>
-                    <p className="text-xs text-muted-foreground">{book.category}</p>
-                    <div className="mt-2 flex items-center gap-3">
-                      <div className="flex items-center rounded-sm border border-border">
+                    <p className="line-clamp-2 text-[0.85rem] leading-snug font-medium">
+                      {book.title}
+                    </p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">PDF · {book.category}</p>
+                    <div className="mt-2.5 flex items-center gap-3">
+                      <div className="flex items-center rounded-full border border-border">
                         <button
                           type="button"
-                          aria-label="Decrease quantity"
-                          className="grid h-7 w-7 place-items-center transition-colors hover:bg-muted"
+                          aria-label={`Decrease quantity of ${book.title}`}
+                          className="press grid h-8 w-8 place-items-center rounded-full hover:bg-muted"
                           onClick={() => setQty(book.id, qty - 1)}
                         >
                           <Minus className="h-3 w-3" />
@@ -129,8 +108,8 @@ export function CartDrawer() {
                         <span className="w-6 text-center text-xs tabular-nums">{qty}</span>
                         <button
                           type="button"
-                          aria-label="Increase quantity"
-                          className="grid h-7 w-7 place-items-center transition-colors hover:bg-muted"
+                          aria-label={`Increase quantity of ${book.title}`}
+                          className="press grid h-8 w-8 place-items-center rounded-full hover:bg-muted"
                           onClick={() => setQty(book.id, qty + 1)}
                         >
                           <Plus className="h-3 w-3" />
@@ -153,25 +132,31 @@ export function CartDrawer() {
               ))}
             </div>
 
-            <div className="border-t border-border px-5 py-4">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span className="font-semibold tabular-nums">{formatPrice(cartSubtotal)}</span>
+            <div className="border-t border-border px-5 py-5">
+              {saved > 0 ? (
+                <div className="mb-3 flex items-center justify-between text-xs text-primary">
+                  <span>You save</span>
+                  <span className="font-semibold tabular-nums">{formatPrice(saved)}</span>
+                </div>
+              ) : null}
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Subtotal</span>
+                <span className="text-lg font-semibold tabular-nums">
+                  {formatPrice(cartSubtotal)}
+                </span>
               </div>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Shipping and taxes calculated at checkout.
+              <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Download className="h-3.5 w-3.5" aria-hidden />
+                Digital delivery — no shipping charges.
               </p>
               <Link
                 to="/cart"
                 onClick={() => setDrawerOpen(false)}
-                className="press group mt-4 flex w-full items-center justify-center gap-2 rounded-sm bg-forest px-5 py-3 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase transition-colors hover:bg-charcoal"
+                className="press group mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground text-sm font-semibold text-background hover:bg-foreground/90"
               >
                 Review bag
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
-              <p className="mt-3 text-center text-[0.6rem] tracking-[0.16em] text-muted-foreground uppercase">
-                {storeConfig.announcementSecondary}
-              </p>
             </div>
           </>
         )}
