@@ -1,13 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Minus, Plus, Trash2, ArrowRight, ShoppingBag, ShieldCheck, Truck } from "lucide-react";
+import {
+  Minus,
+  Plus,
+  Trash2,
+  ArrowRight,
+  ShoppingBag,
+  ShieldCheck,
+  Download,
+  Lock,
+} from "lucide-react";
 import { formatPrice, books } from "@/data/catalog";
 import { useStore } from "@/lib/store";
-import { BookCard } from "@/components/site/BookCard";
+import { BookGrid } from "@/components/site/BookGrid";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { toast } from "sonner";
-
-
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
@@ -32,13 +39,12 @@ export const Route = createFileRoute("/cart")({
 
 function CartPage() {
   const { lineBooks, setQty, removeFromCart, cartSubtotal } = useStore();
-  const shipping = 0;
-  const tax = 0;
-  const total = cartSubtotal + shipping + tax;
+  const total = cartSubtotal;
+  const saved = lineBooks.reduce((s, l) => s + (l.book.oldPrice - l.book.price) * l.qty, 0);
   const suggestions = books.filter((b) => !lineBooks.some((l) => l.book.id === b.id)).slice(0, 4);
 
   return (
-    <div className="container-page py-14">
+    <div className="container-page py-10 sm:py-14">
       <Reveal>
         <SectionHeader
           eyebrow="Almost yours"
@@ -52,111 +58,126 @@ function CartPage() {
       </Reveal>
 
       {lineBooks.length === 0 ? (
-        <Reveal className="rounded-lg border border-dashed border-taupe py-20 text-center">
-          <ShoppingBag className="float-slow mx-auto h-10 w-10 text-taupe" />
+        <Reveal className="rounded-2xl border border-dashed border-border py-20 text-center">
+          <ShoppingBag className="mx-auto h-9 w-9 text-taupe" aria-hidden />
           <p className="mt-4 text-sm text-muted-foreground">
             Your bag is empty. Every ebook is just $2.97 today.
           </p>
           <Link
             to="/books"
-            className="press mt-6 inline-flex items-center gap-2 rounded-sm bg-forest px-6 py-3 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase hover:bg-charcoal"
+            preload="intent"
+            className="press mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-7 text-sm font-semibold text-background hover:bg-foreground/90"
           >
-            Browse the shelf <ArrowRight className="h-4 w-4" />
+            Browse ebooks <ArrowRight className="h-4 w-4" />
           </Link>
         </Reveal>
       ) : (
-        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
-          <div className="divide-y divide-border border-y border-border">
+        <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-12">
+          <ul className="divide-y divide-border border-y border-border">
             {lineBooks.map(({ book, qty }, i) => (
-              <Reveal key={book.id} delay={i * 70}>
-                <div className="flex gap-4 py-5">
-                  <Link
-                    to="/book/$slug"
-                    params={{ slug: book.slug }}
-                    className="shine shrink-0 overflow-hidden rounded-sm"
-                  >
-                    <img
-                      src={book.cover}
-                      alt={`Cover of ${book.title}`}
-                      loading="lazy"
-                      className="h-36 w-24 object-cover shadow-sm transition-transform duration-700 hover:scale-105"
-                    />
-                  </Link>
-                  <div className="min-w-0 flex-1">
-                    <h2 className="font-serif text-lg leading-snug">
-                      <Link
-                        to="/book/$slug"
-                        params={{ slug: book.slug }}
-                        className="link-sweep hover:text-primary"
-                      >
-                        {book.title}
-                      </Link>
-                    </h2>
-                    <p className="mt-1 text-xs text-muted-foreground">{book.category}</p>
-                    <p className="mt-1 text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
-                      {book.category}
-                    </p>
-                    <div className="mt-4 flex flex-wrap items-center gap-4">
-                      <div className="flex items-center rounded-sm border border-border">
+              <li key={book.id}>
+                <Reveal delay={Math.min(i * 70, 350)}>
+                  <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-4 py-6 sm:flex sm:items-start">
+                    <Link
+                      to="/book/$slug"
+                      params={{ slug: book.slug }}
+                      preload="intent"
+                      className="cover-plate h-32 w-[5.5rem] shrink-0"
+                    >
+                      <img
+                        src={book.cover}
+                        alt={`Cover of ${book.title}`}
+                        loading="lazy"
+                        className="h-full w-full object-cover"
+                      />
+                    </Link>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="min-w-0">
+                          <h2 className="text-base leading-snug font-semibold">
+                            <Link
+                              to="/book/$slug"
+                              params={{ slug: book.slug }}
+                              preload="intent"
+                              className="link-sweep hover:text-primary"
+                            >
+                              {book.title}
+                            </Link>
+                          </h2>
+                          <p className="mt-1 text-xs text-muted-foreground">
+                            PDF · {book.category} · instant download
+                          </p>
+                        </div>
+                        <p className="shrink-0 text-base font-semibold tabular-nums">
+                          {formatPrice(book.price * qty)}
+                        </p>
+                      </div>
+
+                      <div className="mt-4 flex flex-wrap items-center gap-4">
+                        <div className="flex items-center rounded-full border border-border">
+                          <button
+                            type="button"
+                            aria-label={`Decrease quantity of ${book.title}`}
+                            onClick={() => setQty(book.id, qty - 1)}
+                            className="press grid h-9 w-9 place-items-center rounded-full transition-colors hover:bg-muted"
+                          >
+                            <Minus className="h-3.5 w-3.5" />
+                          </button>
+                          <span className="w-8 text-center text-sm tabular-nums">{qty}</span>
+                          <button
+                            type="button"
+                            aria-label={`Increase quantity of ${book.title}`}
+                            onClick={() => setQty(book.id, qty + 1)}
+                            className="press grid h-9 w-9 place-items-center rounded-full transition-colors hover:bg-muted"
+                          >
+                            <Plus className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
                         <button
                           type="button"
-                          aria-label="Decrease quantity"
-                          onClick={() => setQty(book.id, qty - 1)}
-                          className="grid h-9 w-9 place-items-center transition-colors hover:bg-muted"
+                          onClick={() => removeFromCart(book.id)}
+                          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-destructive"
                         >
-                          <Minus className="h-3.5 w-3.5" />
-                        </button>
-                        <span className="w-8 text-center text-sm tabular-nums">{qty}</span>
-                        <button
-                          type="button"
-                          aria-label="Increase quantity"
-                          onClick={() => setQty(book.id, qty + 1)}
-                          className="grid h-9 w-9 place-items-center transition-colors hover:bg-muted"
-                        >
-                          <Plus className="h-3.5 w-3.5" />
+                          <Trash2 className="h-3.5 w-3.5" aria-hidden /> Remove
                         </button>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => removeFromCart(book.id)}
-                        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-destructive"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" /> Remove
-                      </button>
                     </div>
                   </div>
-                  <p className="font-serif text-lg tabular-nums">{formatPrice(book.price * qty)}</p>
-                </div>
-              </Reveal>
+                </Reveal>
+              </li>
             ))}
-          </div>
+          </ul>
 
           <Reveal delay={120}>
-            <aside className="sticky top-28 rounded-lg border border-border bg-cream p-6">
-              <h2 className="font-serif text-xl">Order summary</h2>
+            <aside className="sticky top-28 rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
+              <h2 className="text-lg font-semibold">Order summary</h2>
               <dl className="mt-5 space-y-3 text-sm">
                 <Row label="Subtotal" value={formatPrice(cartSubtotal)} />
                 <Row label="Delivery" value="Instant download" />
-                
-                <div className="flex items-baseline justify-between border-t border-taupe pt-3">
+                {saved > 0 ? <Row label="You save" value={`− ${formatPrice(saved)}`} accent /> : null}
+                <div className="flex items-baseline justify-between border-t border-border pt-3">
                   <dt className="text-sm font-medium">Total</dt>
-                  <dd className="font-serif text-2xl tabular-nums">{formatPrice(total)}</dd>
+                  <dd className="text-2xl font-semibold tabular-nums">{formatPrice(total)}</dd>
                 </div>
               </dl>
               <button
                 type="button"
                 onClick={() => toast.success("Checkout is coming next — your bag is saved.")}
-                className="press group mt-6 flex w-full items-center justify-center gap-2 rounded-sm bg-forest px-5 py-3.5 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase transition-all hover:-translate-y-0.5 hover:bg-charcoal"
+                className="press group mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground text-sm font-semibold text-background transition-colors hover:bg-foreground/90"
               >
-                Checkout
+                <Lock className="h-4 w-4" aria-hidden />
+                Secure checkout
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
-              <ul className="mt-6 space-y-3 border-t border-taupe pt-5 text-xs text-muted-foreground">
+              <ul className="mt-6 space-y-3 border-t border-border pt-5 text-xs text-muted-foreground">
                 <li className="flex items-center gap-2">
-                  <Truck className="h-4 w-4 text-forest" /> No shipping — instant PDF download
+                  <Download className="h-4 w-4 text-forest" aria-hidden /> No shipping — instant PDF
+                  download
                 </li>
                 <li className="flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4 text-forest" /> Secure checkout, cards accepted worldwide
+                  <ShieldCheck className="h-4 w-4 text-forest" aria-hidden /> Cards accepted
+                  worldwide
                 </li>
               </ul>
             </aside>
@@ -169,24 +190,18 @@ function CartPage() {
           <Reveal>
             <SectionHeader eyebrow="One more?" title="Readers also downloaded" />
           </Reveal>
-          <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
-            {suggestions.map((b, i) => (
-              <Reveal key={b.id} delay={i * 70}>
-                <BookCard book={b} />
-              </Reveal>
-            ))}
-          </div>
+          <BookGrid items={suggestions} />
         </section>
       ) : null}
     </div>
   );
 }
 
-function Row({ label, value }: { label: string; value: string }) {
+function Row({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
     <div className="flex items-baseline justify-between">
       <dt className="text-muted-foreground">{label}</dt>
-      <dd className="tabular-nums">{value}</dd>
+      <dd className={accent ? "tabular-nums text-primary" : "tabular-nums"}>{value}</dd>
     </div>
   );
 }

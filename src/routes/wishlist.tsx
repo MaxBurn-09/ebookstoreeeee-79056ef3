@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Heart } from "lucide-react";
 import { books } from "@/data/catalog";
 import { BookGrid } from "@/components/site/BookGrid";
 import { SectionHeader } from "@/components/site/SectionHeader";
@@ -25,12 +26,15 @@ function WishlistPage() {
     <div className="container-page py-10 sm:py-14">
       <SectionHeader eyebrow="Saved for later" title="Your wishlist" />
       {saved.length === 0 ? (
-        <Reveal className="py-16 text-center">
-          <p className="text-sm text-muted-foreground">Nothing saved yet — start with a bestseller.</p>
+        <Reveal className="rounded-2xl border border-dashed border-border py-16 text-center">
+          <Heart className="mx-auto h-9 w-9 text-taupe" aria-hidden />
+          <p className="mt-4 text-sm text-muted-foreground">
+            Nothing saved yet — tap the heart on any ebook to keep it here.
+          </p>
           <Link
             to="/books"
             preload="intent"
-            className="press mt-5 inline-block rounded-sm bg-forest px-6 py-3 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase transition-colors hover:bg-forest/90"
+            className="press mt-6 inline-flex h-12 items-center rounded-full bg-foreground px-7 text-sm font-semibold text-background hover:bg-foreground/90"
           >
             Browse ebooks
           </Link>

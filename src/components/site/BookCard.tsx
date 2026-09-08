@@ -77,8 +77,8 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
           </span>
         </div>
 
-        <div className="mt-auto flex items-end justify-between gap-2 pt-3">
-          <div className="flex items-baseline gap-1.5">
+        <div className="mt-auto flex flex-wrap items-end justify-between gap-x-2 gap-y-2 pt-3">
+          <div className="flex min-w-0 items-baseline gap-1.5">
             <span className="text-[0.95rem] font-semibold">{formatPrice(book.price)}</span>
             <span className="text-[0.72rem] text-muted-foreground line-through">
               {formatPrice(book.oldPrice)}
