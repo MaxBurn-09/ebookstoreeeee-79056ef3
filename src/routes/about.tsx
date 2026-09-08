@@ -37,7 +37,7 @@ function AboutPage() {
           <img
             src={promo}
             alt="A reader working through a Future Grow Academy ebook on a tablet"
-            className="hover-lift rounded-lg object-cover"
+            className="hover-lift w-full rounded-2xl object-cover"
             loading="lazy"
           />
         </Reveal>
@@ -61,7 +61,7 @@ function AboutPage() {
                 ["4.8", "Average reader rating"],
               ].map(([value, label]) => (
                 <div key={label}>
-                  <p className="font-serif text-2xl text-foreground sm:text-3xl">{value}</p>
+                  <p className="text-2xl font-semibold text-foreground sm:text-3xl">{value}</p>
                   <p className="text-[0.62rem] tracking-[0.16em] uppercase">{label}</p>
                 </div>
               ))}
@@ -69,7 +69,7 @@ function AboutPage() {
             <Link
               to="/books"
               preload="intent"
-              className="press group mt-2 inline-flex items-center gap-2 rounded-sm bg-forest px-6 py-3 text-[0.7rem] font-semibold tracking-[0.16em] text-forest-foreground uppercase transition-all hover:-translate-y-0.5 hover:bg-charcoal"
+              className="press group mt-2 inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-7 text-sm font-semibold text-background transition-colors hover:bg-foreground/90"
             >
               Browse the library
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -83,9 +83,9 @@ function AboutPage() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {whyUs.map((w, i) => (
             <Reveal key={w.title} delay={Math.min(i * 90, 400)}>
-              <div className="hover-lift h-full rounded-lg border border-border bg-card p-6">
+              <div className="hover-lift h-full rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
                 <span className="text-2xl">{w.emoji}</span>
-                <h3 className="mt-3 font-serif text-lg">{w.title}</h3>
+                <h3 className="mt-3 text-lg font-semibold">{w.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{w.note}</p>
               </div>
             </Reveal>
@@ -96,7 +96,7 @@ function AboutPage() {
       <section className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {benefits.map((b, i) => (
           <Reveal key={b.title} delay={Math.min(i * 80, 360)}>
-            <div className="flex items-start gap-3 rounded-lg border border-border bg-cream p-5">
+            <div className="flex h-full items-start gap-3 rounded-2xl border border-border bg-secondary/60 p-5">
               <span className="text-xl">{b.emoji}</span>
               <div>
                 <p className="text-sm font-semibold">{b.title}</p>

@@ -41,7 +41,7 @@ function ContactPage() {
           { icon: Clock, title: "Response time", value: "Within 24 hours, every day" },
         ].map(({ icon: Icon, title, value, href }, i) => (
           <Reveal key={title} delay={i * 90}>
-            <div className="hover-lift h-full rounded-lg border border-border bg-cream p-6 transition-colors hover:border-forest">
+            <div className="hover-lift h-full rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition-colors hover:border-forest">
               <Icon className="h-6 w-6 text-forest" />
               <h2 className="mt-4 text-[0.68rem] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
                 {title}
@@ -59,8 +59,8 @@ function ContactPage() {
       </div>
 
       <Reveal delay={140}>
-        <div className="mt-10 rounded-lg border border-border p-6 sm:p-8">
-          <h2 className="font-serif text-2xl">Good to know</h2>
+        <div className="mt-10 rounded-2xl border border-border bg-secondary/50 p-6 sm:p-8">
+          <h2 className="text-2xl font-semibold">Good to know</h2>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             {storeConfig.note}
           </p>
@@ -71,7 +71,7 @@ function ContactPage() {
                 href={s.href}
                 target="_blank"
                 rel="noreferrer"
-                className="press rounded-sm border border-border px-4 py-2 text-[0.66rem] font-semibold tracking-[0.14em] uppercase transition-colors hover:border-forest hover:bg-forest hover:text-forest-foreground"
+                className="press inline-flex h-10 items-center rounded-full border border-border px-5 text-xs font-semibold transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
               >
                 {s.label}
               </a>
