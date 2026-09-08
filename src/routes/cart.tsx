@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { formatPrice, books } from "@/data/catalog";
 import { useStore } from "@/lib/store";
-import { BookCard } from "@/components/site/BookCard";
+import { BookGrid } from "@/components/site/BookGrid";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { toast } from "sonner";
@@ -190,13 +190,7 @@ function CartPage() {
           <Reveal>
             <SectionHeader eyebrow="One more?" title="Readers also downloaded" />
           </Reveal>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-9 sm:gap-x-5 md:grid-cols-4">
-            {suggestions.map((b, i) => (
-              <Reveal key={b.id} delay={Math.min(i * 70, 350)}>
-                <BookCard book={b} />
-              </Reveal>
-            ))}
-          </div>
+          <BookGrid items={suggestions} />
         </section>
       ) : null}
     </div>
