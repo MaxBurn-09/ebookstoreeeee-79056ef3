@@ -20,6 +20,7 @@ import { Toaster } from "../components/ui/sonner";
 import { PageTransition } from "../components/site/PageTransition";
 import { SearchDialog } from "../components/site/SearchDialog";
 import { MobileTabBar } from "../components/site/MobileTabBar";
+import { storeConfig } from "../data/catalog";
 
 function NotFoundComponent() {
   return (
@@ -86,29 +87,36 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Future Grow Academy — Premium Self-Growth eBooks" },
+      { title: "Future Grow Academy — Premium Self-Growth eBooks Worldwide" },
       {
         name: "description",
         content:
-          "Premium ebooks on mindset, money, relationships, parenting and health. Instant PDF download worldwide for $2.97.",
+          "Future Grow Academy publishes practical ebooks on mindset, money, relationships, parenting and health. Instant PDF download worldwide in USD from $2.97.",
       },
       { name: "author", content: "Future Grow Academy" },
+      { name: "robots", content: "index, follow" },
+      { name: "theme-color", content: "#1a1f33" },
       { property: "og:site_name", content: "Future Grow Academy" },
-      { property: "og:title", content: "Future Grow Academy — Premium Self-Growth eBooks" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:title", content: "Future Grow Academy — Premium Self-Growth eBooks Worldwide" },
       {
         property: "og:description",
-        content: "Premium self-growth ebooks. Instant download, no shipping, just $2.97 each.",
+        content:
+          "Practical self-growth ebooks. Instant download, no shipping, USD pricing for readers worldwide.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: `${storeConfig.siteUrl}/logo-fga.png` },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@AcademyFGA" },
+      { name: "twitter:image", content: `${storeConfig.siteUrl}/logo-fga.png` },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/logo-fga.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/logo-fga.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -124,10 +132,43 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        name: storeConfig.name,
+        url: storeConfig.siteUrl,
+        logo: `${storeConfig.siteUrl}/logo-fga.png`,
+        email: storeConfig.email,
+        telephone: storeConfig.phone,
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "134, Sector 105",
+          addressLocality: "Gurgaon",
+          addressCountry: "IN",
+        },
+        sameAs: storeConfig.socials.map((s) => s.href),
+      },
+      {
+        "@type": "WebSite",
+        name: storeConfig.name,
+        url: storeConfig.siteUrl,
+        inLanguage: "en",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: `${storeConfig.siteUrl}/books?q={search_term_string}`,
+          "query-input": "required name=search_term_string",
+        },
+      },
+    ],
+  };
+
   return (
     <html lang="en">
       <head>
         <HeadContent />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>
         {children}

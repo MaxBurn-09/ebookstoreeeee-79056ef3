@@ -600,10 +600,11 @@ export const storeConfig = {
   heroTitle: "Transform Your Future with Powerful eBooks.",
   heroSubtitle:
     "Discover powerful ebooks on personal growth, mindset, finance, relationships and success. Read anytime on your phone, tablet or laptop and start building a better future today.",
-  announcement: "80% OFF everything — instant PDF download",
-  announcementSecondary: "Digital delivery worldwide · No shipping charges",
+  announcement: "80% off worldwide — instant PDF, no shipping",
+  announcementSecondary: "USD pricing · Read on any device · 190+ countries",
   offer: { label: "Limited time offer", headline: "Get 80% OFF", sub: "On Every eBook", note: "Learn new skills with instant PDF downloads. Offer ends soon." },
   email: "help@futuregrowacademy.co",
+  siteUrl: "https://futuregrowacademy.co",
   address: "134, Sector 105, Gurgaon, India",
   note: "This is a digital product and can be downloaded to your device instantly after payment confirmation. You may require any PDF reading application to open the eBook.",
   socials: [

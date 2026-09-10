@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { programs, authors } from "@/data/academy";
+import { PageHero } from "@/components/site/PageHero";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { Reveal } from "@/components/site/Reveal";
 
@@ -26,12 +27,13 @@ function AuthorsLayout() {
 
 function AuthorsPage() {
   return (
+    <>
+    <PageHero
+      eyebrow="Programmes"
+      title="Courses, not a generic authors wall"
+      subtitle="The academy catalogue: sequenced programmes plus the faculty who teach them."
+    />
     <div className="container-page py-10 sm:py-14">
-      <SectionHeader
-        eyebrow="Programmes"
-        title="Courses, not a generic authors wall"
-        subtitle="The old bookstore authors page is now the academy catalogue: sequenced programmes plus the faculty who teach them."
-      />
 
       <div className="grid gap-5 lg:grid-cols-2">
         {programs.map((program, i) => (
@@ -89,5 +91,6 @@ function AuthorsPage() {
         </div>
       </section>
     </div>
+    </>
   );
 }

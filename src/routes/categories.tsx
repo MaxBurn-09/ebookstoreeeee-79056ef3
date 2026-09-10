@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { SectionHeader } from "@/components/site/SectionHeader";
+import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
 import { useCatalog } from "@/lib/catalog-store";
 
@@ -26,13 +26,14 @@ export const Route = createFileRoute("/categories")({
 function CategoriesPage() {
   const { categories } = useCatalog();
   return (
-    <div className="container-page py-10 sm:py-14">
-      <SectionHeader
+    <>
+      <PageHero
         eyebrow="Browse by goal"
         title="Categories"
         subtitle="Five focused collections for real-life change."
       />
-      <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+      <div className="container-page py-10 sm:py-14">
+        <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
         {categories.map((c, i) => (
           <Reveal key={c.slug} delay={Math.min(i * 80, 480)}>
             <Link
@@ -58,7 +59,8 @@ function CategoriesPage() {
             </Link>
           </Reveal>
         ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

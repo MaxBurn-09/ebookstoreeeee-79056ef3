@@ -4,6 +4,7 @@ import promo from "@/assets/promo-reading.jpg";
 import { programs, authors } from "@/data/academy";
 import { storeConfig } from "@/data/catalog";
 import { SectionHeader } from "@/components/site/SectionHeader";
+import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
 
 export const Route = createFileRoute("/about")({
@@ -27,12 +28,13 @@ export const Route = createFileRoute("/about")({
 
 function AboutPage() {
   return (
+    <>
+    <PageHero
+      eyebrow="The academy"
+      title="Courses built as programmes you can finish"
+      subtitle="Future Grow Academy exists for people who want real change, not more theory. Every title is a short, structured programme — guided exercises, clear frameworks and daily action steps."
+    />
     <div className="container-page py-10 sm:py-14">
-      <SectionHeader
-        eyebrow="The academy"
-        title="Courses built as programmes you can finish"
-        subtitle="Future Grow Academy exists for people who want real change, not more theory. Every title is a short, structured programme — guided exercises, clear frameworks and daily action steps."
-      />
 
       <div className="grid items-center gap-10 lg:grid-cols-2">
         <Reveal>
@@ -101,5 +103,6 @@ function AboutPage() {
         </div>
       </section>
     </div>
+    </>
   );
 }

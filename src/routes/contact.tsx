@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Mail, MapPin, Clock, Phone } from "lucide-react";
 import { storeConfig } from "@/data/catalog";
 import { programs } from "@/data/academy";
-import { SectionHeader } from "@/components/site/SectionHeader";
+import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
 import { toast } from "sonner";
 
@@ -25,12 +25,13 @@ function ContactPage() {
   const [sent, setSent] = useState(false);
 
   return (
+    <>
+    <PageHero
+      eyebrow="Connect"
+      title="Talk to the academy about a programme"
+      subtitle="Questions about a cohort, a download, or which path to start — we reply within a day."
+    />
     <div className="container-page py-10 sm:py-14">
-      <SectionHeader
-        eyebrow="Connect"
-        title="Talk to the academy about a programme"
-        subtitle="Questions about a cohort, a download, or which path to start — we reply within a day."
-      />
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {[
@@ -137,5 +138,6 @@ function ContactPage() {
         </Reveal>
       </div>
     </div>
+    </>
   );
 }
