@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Lock, MapPin, CreditCard, ShieldCheck } from "lucide-react";
 import { formatPrice } from "@/data/catalog";
 import { useStore } from "@/lib/store";
-import { createCheckout } from "@/server/checkout";
+import { createCheckout } from "@/lib/checkout.functions";
 import { paymentLabel, saveOrder, type PaymentMethod, type ShippingAddress } from "@/lib/orders";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionHeader } from "@/components/site/SectionHeader";
@@ -37,7 +37,6 @@ const emptyAddress: ShippingAddress = {
 function CheckoutPage() {
   const { canceled } = Route.useSearch();
   const { lineBooks, cartSubtotal, clearCart } = useStore();
-  const navigate = useNavigate();
   const [step, setStep] = useState<"address" | "payment">(canceled ? "payment" : "address");
   const [address, setAddress] = useState<ShippingAddress>(emptyAddress);
   const [method, setMethod] = useState<PaymentMethod>("card");
@@ -119,7 +118,7 @@ function CheckoutPage() {
       });
       clearCart();
       toast.success(result.emailSent ? "Receipt emailed." : "Order paid — receipt is on the next page.");
-      await navigate({ to: "/checkout/success", search: { order: result.orderId } });
+      window.location.assign(`/order/${encodeURIComponent(result.orderId)}`);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Payment did not go through.");
     } finally {

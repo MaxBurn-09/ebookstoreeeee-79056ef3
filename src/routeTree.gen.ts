@@ -23,8 +23,8 @@ import { Route as NewArrivalsRouteImport } from './routes/new-arrivals'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AuthorsSlugRouteImport } from './routes/authors.$slug'
 import { Route as BookSlugRouteImport } from './routes/book.$slug'
+import { Route as OrderOrderIdRouteImport } from './routes/order.$orderId'
 import { Route as ProgramSlugRouteImport } from './routes/program.$slug'
-import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -87,13 +87,18 @@ const WishlistRoute = WishlistRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthorsSlugRoute = AuthorsSlugRouteImport.update({
-  id: '/authors/$slug',
-  path: '/authors/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => AuthorsRoute,
 } as any)
 const BookSlugRoute = BookSlugRouteImport.update({
   id: '/book/$slug',
   path: '/book/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderOrderIdRoute = OrderOrderIdRouteImport.update({
+  id: '/order/$orderId',
+  path: '/order/$orderId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgramSlugRoute = ProgramSlugRouteImport.update({
@@ -101,17 +106,12 @@ const ProgramSlugRoute = ProgramSlugRouteImport.update({
   path: '/program/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
-  id: '/checkout/success',
-  path: '/checkout/success',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
-  '/authors': typeof AuthorsRoute
+  '/authors': typeof AuthorsRouteWithChildren
   '/bestsellers': typeof BestsellersRoute
   '/books': typeof BooksRoute
   '/cart': typeof CartRoute
@@ -122,14 +122,14 @@ export interface FileRoutesByFullPath {
   '/wishlist': typeof WishlistRoute
   '/authors/$slug': typeof AuthorsSlugRoute
   '/book/$slug': typeof BookSlugRoute
+  '/order/$orderId': typeof OrderOrderIdRoute
   '/program/$slug': typeof ProgramSlugRoute
-  '/checkout/success': typeof CheckoutSuccessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
-  '/authors': typeof AuthorsRoute
+  '/authors': typeof AuthorsRouteWithChildren
   '/bestsellers': typeof BestsellersRoute
   '/books': typeof BooksRoute
   '/cart': typeof CartRoute
@@ -140,15 +140,15 @@ export interface FileRoutesByTo {
   '/wishlist': typeof WishlistRoute
   '/authors/$slug': typeof AuthorsSlugRoute
   '/book/$slug': typeof BookSlugRoute
+  '/order/$orderId': typeof OrderOrderIdRoute
   '/program/$slug': typeof ProgramSlugRoute
-  '/checkout/success': typeof CheckoutSuccessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
-  '/authors': typeof AuthorsRoute
+  '/authors': typeof AuthorsRouteWithChildren
   '/bestsellers': typeof BestsellersRoute
   '/books': typeof BooksRoute
   '/cart': typeof CartRoute
@@ -159,8 +159,8 @@ export interface FileRoutesById {
   '/wishlist': typeof WishlistRoute
   '/authors/$slug': typeof AuthorsSlugRoute
   '/book/$slug': typeof BookSlugRoute
+  '/order/$orderId': typeof OrderOrderIdRoute
   '/program/$slug': typeof ProgramSlugRoute
-  '/checkout/success': typeof CheckoutSuccessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -179,8 +179,8 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/authors/$slug'
     | '/book/$slug'
+    | '/order/$orderId'
     | '/program/$slug'
-    | '/checkout/success'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -197,8 +197,8 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/authors/$slug'
     | '/book/$slug'
+    | '/order/$orderId'
     | '/program/$slug'
-    | '/checkout/success'
   id:
     | '__root__'
     | '/'
@@ -215,15 +215,15 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/authors/$slug'
     | '/book/$slug'
+    | '/order/$orderId'
     | '/program/$slug'
-    | '/checkout/success'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRoute
-  AuthorsRoute: typeof AuthorsRoute
+  AuthorsRoute: typeof AuthorsRouteWithChildren
   BestsellersRoute: typeof BestsellersRoute
   BooksRoute: typeof BooksRoute
   CartRoute: typeof CartRoute
@@ -232,10 +232,9 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   NewArrivalsRoute: typeof NewArrivalsRoute
   WishlistRoute: typeof WishlistRoute
-  AuthorsSlugRoute: typeof AuthorsSlugRoute
   BookSlugRoute: typeof BookSlugRoute
+  OrderOrderIdRoute: typeof OrderOrderIdRoute
   ProgramSlugRoute: typeof ProgramSlugRoute
-  CheckoutSuccessRoute: typeof CheckoutSuccessRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -326,16 +325,23 @@ declare module '@tanstack/react-router' {
     }
     '/authors/$slug': {
       id: '/authors/$slug'
-      path: '/authors/$slug'
+      path: '/$slug'
       fullPath: '/authors/$slug'
       preLoaderRoute: typeof AuthorsSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthorsRoute
     }
     '/book/$slug': {
       id: '/book/$slug'
       path: '/book/$slug'
       fullPath: '/book/$slug'
       preLoaderRoute: typeof BookSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order/$orderId': {
+      id: '/order/$orderId'
+      path: '/order/$orderId'
+      fullPath: '/order/$orderId'
+      preLoaderRoute: typeof OrderOrderIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/program/$slug': {
@@ -345,21 +351,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgramSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/checkout/success': {
-      id: '/checkout/success'
-      path: '/checkout/success'
-      fullPath: '/checkout/success'
-      preLoaderRoute: typeof CheckoutSuccessRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
+
+interface AuthorsRouteChildren {
+  AuthorsSlugRoute: typeof AuthorsSlugRoute
+}
+
+const AuthorsRouteChildren: AuthorsRouteChildren = {
+  AuthorsSlugRoute: AuthorsSlugRoute,
+}
+
+const AuthorsRouteWithChildren =
+  AuthorsRoute._addFileChildren(AuthorsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRoute,
-  AuthorsRoute: AuthorsRoute,
+  AuthorsRoute: AuthorsRouteWithChildren,
   BestsellersRoute: BestsellersRoute,
   BooksRoute: BooksRoute,
   CartRoute: CartRoute,
@@ -368,10 +378,9 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   NewArrivalsRoute: NewArrivalsRoute,
   WishlistRoute: WishlistRoute,
-  AuthorsSlugRoute: AuthorsSlugRoute,
   BookSlugRoute: BookSlugRoute,
+  OrderOrderIdRoute: OrderOrderIdRoute,
   ProgramSlugRoute: ProgramSlugRoute,
-  CheckoutSuccessRoute: CheckoutSuccessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

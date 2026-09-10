@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { programs, authors } from "@/data/academy";
 import { SectionHeader } from "@/components/site/SectionHeader";
@@ -15,8 +15,14 @@ export const Route = createFileRoute("/authors")({
       },
     ],
   }),
-  component: AuthorsPage,
+  component: AuthorsLayout,
 });
+
+function AuthorsLayout() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  if (pathname !== "/authors") return <Outlet />;
+  return <AuthorsPage />;
+}
 
 function AuthorsPage() {
   return (

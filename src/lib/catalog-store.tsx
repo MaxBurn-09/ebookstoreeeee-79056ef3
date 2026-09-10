@@ -84,7 +84,13 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
   }, [data, ready]);
 
   const upsertBook = useCallback((book: Book) => {
-    setData((prev) => ({ ...prev, books: replaceById(prev.books, book) }));
+    setData((prev) => {
+      const idx = prev.books.findIndex((row) => row.id === book.id);
+      if (idx === -1) return { ...prev, books: [book, ...prev.books] };
+      const books = [...prev.books];
+      books[idx] = book;
+      return { ...prev, books };
+    });
   }, []);
 
   const deleteBook = useCallback((id: string) => {

@@ -38,19 +38,23 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartLine[]>([]);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     setCart(read<CartLine[]>("pp_cart", []));
     setWishlist(read<string[]>("pp_wishlist", []));
+    setHydrated(true);
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined") window.localStorage.setItem("pp_cart", JSON.stringify(cart));
-  }, [cart]);
+    if (!hydrated || typeof window === "undefined") return;
+    window.localStorage.setItem("pp_cart", JSON.stringify(cart));
+  }, [cart, hydrated]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") window.localStorage.setItem("pp_wishlist", JSON.stringify(wishlist));
-  }, [wishlist]);
+    if (!hydrated || typeof window === "undefined") return;
+    window.localStorage.setItem("pp_wishlist", JSON.stringify(wishlist));
+  }, [wishlist, hydrated]);
 
   const addToCart = useCallback((id: string, qty = 1) => {
     setCart((prev) => {

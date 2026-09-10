@@ -114,7 +114,7 @@ export const createCheckout = createServerFn({ method: "POST" })
     if (stripeKey && data.paymentMethod === "card") {
       const body: Record<string, string> = {
         mode: "payment",
-        success_url: `${data.origin}/checkout/success?order=${encodeURIComponent(orderId)}&session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${data.origin}/order/${encodeURIComponent(orderId)}?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${data.origin}/checkout?canceled=1`,
         customer_email: data.address.email,
         "metadata[orderId]": orderId,

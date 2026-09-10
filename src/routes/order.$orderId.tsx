@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, Download, Mail } from "lucide-react";
 import { formatPrice } from "@/data/catalog";
-import { finalizeStripeCheckout } from "@/server/checkout";
+import { finalizeStripeCheckout } from "@/lib/checkout.functions";
 import { getOrder, saveOrder, type Order, type PaymentMethod, type ShippingAddress } from "@/lib/orders";
 import { useStore } from "@/lib/store";
 import { SectionHeader } from "@/components/site/SectionHeader";
@@ -14,16 +14,14 @@ type Draft = {
   paymentMethod: PaymentMethod;
 };
 
-export const Route = createFileRoute("/checkout/success")({
-  validateSearch: (search: Record<string, unknown>): { order?: string; session_id?: string } => {
-    const next: { order?: string; session_id?: string } = {};
-    if (typeof search["order"] === "string") next.order = search["order"];
-    if (typeof search["session_id"] === "string") next.session_id = search["session_id"];
-    return next;
+export const Route = createFileRoute("/order/$orderId")({
+  validateSearch: (search: Record<string, unknown>): { session_id?: string } => {
+    if (typeof search["session_id"] === "string") return { session_id: search["session_id"] };
+    return {};
   },
-  head: () => ({
+  head: ({ params }) => ({
     meta: [
-      { title: "Order confirmed — Future Grow Academy" },
+      { title: `Order ${params.orderId} — Future Grow Academy` },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -31,7 +29,8 @@ export const Route = createFileRoute("/checkout/success")({
 });
 
 function SuccessPage() {
-  const { order: orderId, session_id: sessionId } = Route.useSearch();
+  const { orderId } = Route.useParams();
+  const { session_id: sessionId } = Route.useSearch();
   const { clearCart } = useStore();
   const [order, setOrder] = useState<Order | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -40,12 +39,10 @@ function SuccessPage() {
     let cancelled = false;
 
     async function run() {
-      if (orderId) {
-        const existing = getOrder(orderId);
-        if (existing) {
-          if (!cancelled) setOrder(existing);
-          return;
-        }
+      const existing = getOrder(orderId);
+      if (existing) {
+        if (!cancelled) setOrder(existing);
+        return;
       }
 
       if (sessionId) {
@@ -100,7 +97,10 @@ function SuccessPage() {
     return (
       <div className="container-page py-16 text-center">
         <SectionHeader eyebrow="Checkout" title="Payment needs a look" subtitle={error} />
-        <Link to="/cart" className="press mt-4 inline-flex h-12 items-center rounded-full bg-foreground px-7 text-sm font-semibold text-background">
+        <Link
+          to="/cart"
+          className="press mt-4 inline-flex h-12 items-center rounded-full bg-foreground px-7 text-sm font-semibold text-background"
+        >
           Return to bag
         </Link>
       </div>
