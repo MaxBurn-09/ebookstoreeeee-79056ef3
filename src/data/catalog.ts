@@ -20,6 +20,7 @@ export type Book = {
   title: string;
   cover: string;
   category: string;
+  authorId?: string;
   price: number;
   oldPrice: number;
   rating: number;
@@ -469,14 +470,32 @@ export const books: Book[] = [
   },
 ];
 
+const authorByCategory: Record<string, string> = {
+  "Self-Care": "a-ankit",
+  Parenting: "a-meera",
+  Relationship: "a-priya",
+  Health: "a-rahul",
+  Money: "a-ankit",
+};
+
+for (const book of books) {
+  book.authorId = authorByCategory[book.category] ?? "a-ankit";
+}
+
 export const bySlug = (slug: string) => books.find((b) => b.slug === slug);
 
-export const bestsellers = [...books].sort((a, b) => b.bought - a.bought).slice(0, 6);
-export const newArrivals = [...books].slice(-6).reverse();
-export const mostPopular = [...books].sort((a, b) => b.reviews - a.reviews).slice(0, 6);
+export const pickBestsellers = (list: Book[], n = 6) =>
+  [...list].sort((a, b) => b.bought - a.bought).slice(0, n);
+export const pickNewArrivals = (list: Book[], n = 6) => [...list].slice(-n).reverse();
+export const pickPopular = (list: Book[], n = 6) =>
+  [...list].sort((a, b) => b.reviews - a.reviews).slice(0, n);
+
+export const bestsellers = pickBestsellers(books);
+export const newArrivals = pickNewArrivals(books);
+export const mostPopular = pickPopular(books);
 export const featuredBook = books[0] as Book;
 export const bookOfTheMonth = books[0] as Book;
-for (const b of [...books].sort((a, z) => z.bought - a.bought).slice(0, 3)) b.badge = "Bestseller";
+for (const b of pickBestsellers(books, 3)) b.badge = "Bestseller";
 for (const b of books.slice(-3)) if (!b.badge) b.badge = "New";
 
 export const newArrivalFilters = ["All", "Self-Care", "Relationship", "Money", "Health", "Parenting"] as const;
@@ -606,10 +625,12 @@ export const storeConfig = {
     { label: "Shop", to: "/books" },
     { label: "Categories", to: "/categories" },
     { label: "Bestsellers", to: "/bestsellers" },
-    { label: "New Additions", to: "/new-arrivals" },
-    { label: "About Us", to: "/about" },
+    { label: "Programs", to: "/authors" },
+    { label: "Academy", to: "/about" },
     { label: "Connect", to: "/contact" },
   ] as const,
+  phone: "+91 95607 22598",
+  phoneHref: "tel:+919560722598",
 };
 
 export const formatPrice = (value: number) =>

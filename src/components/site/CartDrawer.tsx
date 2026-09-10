@@ -150,12 +150,19 @@ export function CartDrawer() {
                 Digital delivery — no shipping charges.
               </p>
               <Link
-                to="/cart"
+                to="/checkout"
                 onClick={() => setDrawerOpen(false)}
                 className="press group mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground text-sm font-semibold text-background hover:bg-foreground/90"
               >
-                Review bag
+                Checkout
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link
+                to="/cart"
+                onClick={() => setDrawerOpen(false)}
+                className="press mt-2 flex h-11 w-full items-center justify-center rounded-full border border-border text-sm font-semibold hover:bg-muted"
+              >
+                Review bag
               </Link>
             </div>
           </>

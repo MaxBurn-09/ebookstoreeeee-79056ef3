@@ -3,11 +3,14 @@ import { Link } from "@tanstack/react-router";
 import { Heart, Check, Plus } from "lucide-react";
 import { formatPrice, type Book } from "@/data/catalog";
 import { useStore } from "@/lib/store";
+import { useCatalog } from "@/lib/catalog-store";
 import { Stars } from "./Stars";
 import { cn } from "@/lib/utils";
 
 export function BookCard({ book, priority = false }: { book: Book; priority?: boolean }) {
   const { addToCart, toggleWishlist, isWishlisted, cart } = useStore();
+  const { authors } = useCatalog();
+  const author = authors.find((a) => a.id === book.authorId);
   const wished = isWishlisted(book.id);
   const inCart = cart.some((l) => l.id === book.id);
   const [loaded, setLoaded] = useState(false);
@@ -58,7 +61,7 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
       </div>
 
       <div className="mt-3 flex min-w-0 flex-1 flex-col">
-        <p className="eyebrow truncate">{book.category}</p>
+        <p className="eyebrow truncate">{author?.name ?? book.category}</p>
         <h3 className="mt-1.5 text-[0.9rem] leading-snug font-semibold tracking-[-0.015em]">
           <Link
             to="/book/$slug"

@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SlidersHorizontal, X } from "lucide-react";
-import { books, categories } from "@/data/catalog";
 import { BookCard } from "@/components/site/BookCard";
 import { Reveal } from "@/components/site/Reveal";
 import { cn } from "@/lib/utils";
+import { useCatalog } from "@/lib/catalog-store";
 
 type BooksSearch = { q?: string | undefined; category?: string | undefined };
 
@@ -46,6 +46,7 @@ const norm = (value: string) => value.toLowerCase().replace(/\s+/g, "-");
 function BooksPage() {
   const { q, category } = Route.useSearch();
   const navigate = Route.useNavigate();
+  const { books, categories } = useCatalog();
   const [sort, setSort] = useState<(typeof SORTS)[number]["id"]>("popular");
   const [page, setPage] = useState(1);
 
@@ -66,7 +67,7 @@ function BooksPage() {
     else if (sort === "new") sorted.reverse();
     else sorted.sort((a, b) => b.bought - a.bought);
     return sorted;
-  }, [q, category, sort]);
+  }, [q, category, sort, books]);
 
   const pages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const current = Math.min(page, pages);

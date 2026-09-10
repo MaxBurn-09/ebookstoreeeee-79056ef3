@@ -75,7 +75,10 @@ export function Header({ onSearch }: { onSearch: () => void }) {
 
           <nav aria-label="Main" className="mx-auto hidden items-center gap-1 lg:flex">
             {storeConfig.nav.map((item) => {
-              const active = pathname === item.to;
+              const active =
+                pathname === item.to ||
+                (item.to !== "/" && pathname.startsWith(`${item.to}/`)) ||
+                (item.to === "/authors" && pathname.startsWith("/program/"));
               return (
                 <Link
                   key={item.to}
@@ -169,19 +172,25 @@ export function Header({ onSearch }: { onSearch: () => void }) {
             </div>
 
             <nav aria-label="Mobile" className="mt-6 flex flex-col">
-              {storeConfig.nav.map((item) => (
+              {storeConfig.nav.map((item) => {
+                const active =
+                  pathname === item.to ||
+                  (item.to !== "/" && pathname.startsWith(`${item.to}/`)) ||
+                  (item.to === "/authors" && pathname.startsWith("/program/"));
+                return (
                 <Link
                   key={item.to}
                   to={item.to}
                   onClick={() => setOpen(false)}
                   className={cn(
                     "border-b border-border py-3.5 text-[0.95rem] font-medium transition-colors",
-                    pathname === item.to ? "text-primary" : "hover:text-primary",
+                    active ? "text-primary" : "hover:text-primary",
                   )}
                 >
                   {item.label}
                 </Link>
-              ))}
+              );
+              })}
             </nav>
 
             <p className="mt-auto pt-8 text-xs leading-relaxed text-muted-foreground">

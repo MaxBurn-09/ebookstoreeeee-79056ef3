@@ -1,9 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin } from "lucide-react";
-import { storeConfig, categories } from "@/data/catalog";
+import { storeConfig } from "@/data/catalog";
+import { useCatalog } from "@/lib/catalog-store";
 
 export function Footer() {
   const year = 2026;
+  const { categories } = useCatalog();
 
   return (
     <footer className="border-t border-border bg-secondary/60">
@@ -78,6 +80,14 @@ export function Footer() {
 
           <h2 className="eyebrow mt-8">Policies</h2>
           <ul className="mt-4 space-y-2.5">
+            <li>
+                <Link
+                  to="/admin"
+                  className="text-[0.85rem] text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Store admin
+                </Link>
+              </li>
             {storeConfig.legal.map((l) => (
               <li key={l.label}>
                 <a

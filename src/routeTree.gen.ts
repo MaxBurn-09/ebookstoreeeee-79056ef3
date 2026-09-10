@@ -11,14 +11,20 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AuthorsRouteImport } from './routes/authors'
 import { Route as BestsellersRouteImport } from './routes/bestsellers'
 import { Route as BooksRouteImport } from './routes/books'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CategoriesRouteImport } from './routes/categories'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as NewArrivalsRouteImport } from './routes/new-arrivals'
 import { Route as WishlistRouteImport } from './routes/wishlist'
+import { Route as AuthorsSlugRouteImport } from './routes/authors.$slug'
 import { Route as BookSlugRouteImport } from './routes/book.$slug'
+import { Route as ProgramSlugRouteImport } from './routes/program.$slug'
+import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,6 +34,16 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthorsRoute = AuthorsRouteImport.update({
+  id: '/authors',
+  path: '/authors',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BestsellersRoute = BestsellersRouteImport.update({
@@ -50,6 +66,11 @@ const CategoriesRoute = CategoriesRouteImport.update({
   path: '/categories',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -65,99 +86,156 @@ const WishlistRoute = WishlistRouteImport.update({
   path: '/wishlist',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthorsSlugRoute = AuthorsSlugRouteImport.update({
+  id: '/authors/$slug',
+  path: '/authors/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookSlugRoute = BookSlugRouteImport.update({
   id: '/book/$slug',
   path: '/book/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramSlugRoute = ProgramSlugRouteImport.update({
+  id: '/program/$slug',
+  path: '/program/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
+  id: '/checkout/success',
+  path: '/checkout/success',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/authors': typeof AuthorsRoute
   '/bestsellers': typeof BestsellersRoute
   '/books': typeof BooksRoute
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
+  '/authors/$slug': typeof AuthorsSlugRoute
   '/book/$slug': typeof BookSlugRoute
+  '/program/$slug': typeof ProgramSlugRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/authors': typeof AuthorsRoute
   '/bestsellers': typeof BestsellersRoute
   '/books': typeof BooksRoute
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
+  '/authors/$slug': typeof AuthorsSlugRoute
   '/book/$slug': typeof BookSlugRoute
+  '/program/$slug': typeof ProgramSlugRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/authors': typeof AuthorsRoute
   '/bestsellers': typeof BestsellersRoute
   '/books': typeof BooksRoute
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
+  '/authors/$slug': typeof AuthorsSlugRoute
   '/book/$slug': typeof BookSlugRoute
+  '/program/$slug': typeof ProgramSlugRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
+    | '/authors'
     | '/bestsellers'
     | '/books'
     | '/cart'
     | '/categories'
+    | '/checkout'
     | '/contact'
     | '/new-arrivals'
     | '/wishlist'
+    | '/authors/$slug'
     | '/book/$slug'
+    | '/program/$slug'
+    | '/checkout/success'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/admin'
+    | '/authors'
     | '/bestsellers'
     | '/books'
     | '/cart'
     | '/categories'
+    | '/checkout'
     | '/contact'
     | '/new-arrivals'
     | '/wishlist'
+    | '/authors/$slug'
     | '/book/$slug'
+    | '/program/$slug'
+    | '/checkout/success'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
+    | '/authors'
     | '/bestsellers'
     | '/books'
     | '/cart'
     | '/categories'
+    | '/checkout'
     | '/contact'
     | '/new-arrivals'
     | '/wishlist'
+    | '/authors/$slug'
     | '/book/$slug'
+    | '/program/$slug'
+    | '/checkout/success'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRoute
+  AuthorsRoute: typeof AuthorsRoute
   BestsellersRoute: typeof BestsellersRoute
   BooksRoute: typeof BooksRoute
   CartRoute: typeof CartRoute
   CategoriesRoute: typeof CategoriesRoute
+  CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   NewArrivalsRoute: typeof NewArrivalsRoute
   WishlistRoute: typeof WishlistRoute
+  AuthorsSlugRoute: typeof AuthorsSlugRoute
   BookSlugRoute: typeof BookSlugRoute
+  ProgramSlugRoute: typeof ProgramSlugRoute
+  CheckoutSuccessRoute: typeof CheckoutSuccessRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -174,6 +252,20 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/authors': {
+      id: '/authors'
+      path: '/authors'
+      fullPath: '/authors'
+      preLoaderRoute: typeof AuthorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bestsellers': {
@@ -204,6 +296,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -225,11 +324,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WishlistRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/authors/$slug': {
+      id: '/authors/$slug'
+      path: '/authors/$slug'
+      fullPath: '/authors/$slug'
+      preLoaderRoute: typeof AuthorsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/book/$slug': {
       id: '/book/$slug'
       path: '/book/$slug'
       fullPath: '/book/$slug'
       preLoaderRoute: typeof BookSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/program/$slug': {
+      id: '/program/$slug'
+      path: '/program/$slug'
+      fullPath: '/program/$slug'
+      preLoaderRoute: typeof ProgramSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/success': {
+      id: '/checkout/success'
+      path: '/checkout/success'
+      fullPath: '/checkout/success'
+      preLoaderRoute: typeof CheckoutSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -238,14 +358,20 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRoute,
+  AuthorsRoute: AuthorsRoute,
   BestsellersRoute: BestsellersRoute,
   BooksRoute: BooksRoute,
   CartRoute: CartRoute,
   CategoriesRoute: CategoriesRoute,
+  CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   NewArrivalsRoute: NewArrivalsRoute,
   WishlistRoute: WishlistRoute,
+  AuthorsSlugRoute: AuthorsSlugRoute,
   BookSlugRoute: BookSlugRoute,
+  ProgramSlugRoute: ProgramSlugRoute,
+  CheckoutSuccessRoute: CheckoutSuccessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

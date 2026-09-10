@@ -14,7 +14,6 @@ import { useStore } from "@/lib/store";
 import { BookGrid } from "@/components/site/BookGrid";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionHeader } from "@/components/site/SectionHeader";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
@@ -161,15 +160,14 @@ function CartPage() {
                   <dd className="text-2xl font-semibold tabular-nums">{formatPrice(total)}</dd>
                 </div>
               </dl>
-              <button
-                type="button"
-                onClick={() => toast.success("Checkout is coming next — your bag is saved.")}
+              <Link
+                to="/checkout"
                 className="press group mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground text-sm font-semibold text-background transition-colors hover:bg-foreground/90"
               >
                 <Lock className="h-4 w-4" aria-hidden />
                 Secure checkout
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
+              </Link>
               <ul className="mt-6 space-y-3 border-t border-border pt-5 text-xs text-muted-foreground">
                 <li className="flex items-center gap-2">
                   <Download className="h-4 w-4 text-forest" aria-hidden /> No shipping — instant PDF

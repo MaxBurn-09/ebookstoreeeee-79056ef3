@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { categories } from "@/data/catalog";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { Reveal } from "@/components/site/Reveal";
+import { useCatalog } from "@/lib/catalog-store";
 
 export const Route = createFileRoute("/categories")({
   head: () => ({
@@ -24,6 +24,7 @@ export const Route = createFileRoute("/categories")({
 });
 
 function CategoriesPage() {
+  const { categories } = useCatalog();
   return (
     <div className="container-page py-10 sm:py-14">
       <SectionHeader

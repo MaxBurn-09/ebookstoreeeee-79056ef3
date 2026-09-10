@@ -9,21 +9,22 @@ import {
   ChevronRight,
   Star,
 } from "lucide-react";
-import { books, formatPrice, storeConfig, testimonials } from "@/data/catalog";
+import { books, formatPrice, storeConfig } from "@/data/catalog";
 import { Stars } from "@/components/site/Stars";
 import { BookCard } from "@/components/site/BookCard";
 import { Reveal } from "@/components/site/Reveal";
 import { useStore } from "@/lib/store";
+import { useCatalog } from "@/lib/catalog-store";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/book/$slug")({
   loader: ({ params }) => {
     const book = books.find((b) => b.slug === params.slug);
-    if (!book) throw notFound();
-    return { book };
+    return { slug: params.slug, book: book ?? null };
   },
   head: ({ loaderData }) => {
-    if (!loaderData) {
+    const book = loaderData?.book;
+    if (!book) {
       return {
         meta: [
           { title: "Ebook not found — Future Grow Academy" },
@@ -31,7 +32,6 @@ export const Route = createFileRoute("/book/$slug")({
         ],
       };
     }
-    const { book } = loaderData;
     const title = `${book.title} — Future Grow Academy eBook`;
     return {
       meta: [
@@ -47,16 +47,22 @@ export const Route = createFileRoute("/book/$slug")({
 });
 
 function BookDetail() {
-  const { book } = Route.useLoaderData();
+  const { slug, book: seed } = Route.useLoaderData();
+  const { books: liveBooks, reviews: liveReviews, authors } = useCatalog();
+  const book = liveBooks.find((b) => b.slug === slug) ?? seed;
   const { addToCart, toggleWishlist, isWishlisted, cart } = useStore();
   const [view, setView] = useState<"cover" | "contents" | "sample">("cover");
+
+  if (!book) throw notFound();
+
   const saved = isWishlisted(book.id);
   const inCart = cart.some((l) => l.id === book.id);
   const off = Math.round((1 - book.price / book.oldPrice) * 100);
+  const author = authors.find((a) => a.id === book.authorId);
 
-  const related = books.filter((b) => b.id !== book.id && b.category === book.category);
-  const more = (related.length ? related : books.filter((b) => b.id !== book.id)).slice(0, 4);
-  const reviews = testimonials.slice(0, 3);
+  const related = liveBooks.filter((b) => b.id !== book.id && b.category === book.category);
+  const more = (related.length ? related : liveBooks.filter((b) => b.id !== book.id)).slice(0, 4);
+  const reviews = liveReviews.filter((r) => r.bookId === book.id && r.status === "published").slice(0, 6);
 
   return (
     <div className="pb-20">
@@ -144,6 +150,15 @@ function BookDetail() {
                 {book.title}
               </h1>
               <p className="mt-2 text-sm text-muted-foreground">
+                {author ? (
+                  <>
+                    By{" "}
+                    <Link to="/authors/$slug" params={{ slug: author.slug }} className="hover:text-foreground">
+                      {author.name}
+                    </Link>
+                    {" · "}
+                  </>
+                ) : null}
                 Published by {storeConfig.name}
               </p>
 
@@ -188,22 +203,26 @@ function BookDetail() {
           <section id="reviews" className="mt-14 scroll-mt-24">
             <h2 className="text-xl font-semibold sm:text-2xl">Reader reviews</h2>
             <div className="mt-6 grid gap-5 md:grid-cols-3">
-              {reviews.map((r) => (
-                <Reveal key={r.name}>
-                  <figure className="flex h-full flex-col rounded-lg border border-border bg-card p-5 shadow-[var(--shadow-card)]">
-                    <span className="inline-flex items-center gap-1 text-[0.78rem] font-medium">
-                      <Star className="h-3.5 w-3.5 fill-gold text-gold" aria-hidden />
-                      {r.rating}
-                    </span>
-                    <blockquote className="mt-3 flex-1 text-[0.86rem] leading-relaxed text-foreground/90">
-                      {r.quote}
-                    </blockquote>
-                    <figcaption className="mt-4 text-[0.75rem] text-muted-foreground">
-                      {r.name} · {r.location}
-                    </figcaption>
-                  </figure>
-                </Reveal>
-              ))}
+              {reviews.length ? (
+                reviews.map((r) => (
+                  <Reveal key={r.id}>
+                    <figure className="flex h-full flex-col rounded-lg border border-border bg-card p-5 shadow-[var(--shadow-card)]">
+                      <span className="inline-flex items-center gap-1 text-[0.78rem] font-medium">
+                        <Star className="h-3.5 w-3.5 fill-gold text-gold" aria-hidden />
+                        {r.rating}
+                      </span>
+                      <blockquote className="mt-3 flex-1 text-[0.86rem] leading-relaxed text-foreground/90">
+                        {r.quote}
+                      </blockquote>
+                      <figcaption className="mt-4 text-[0.75rem] text-muted-foreground">
+                        {r.name} · {r.location}
+                      </figcaption>
+                    </figure>
+                  </Reveal>
+                ))
+              ) : (
+                <p className="text-sm text-muted-foreground">No published reviews yet for this title.</p>
+              )}
             </div>
           </section>
 
@@ -260,6 +279,15 @@ function BookDetail() {
               <Download className="h-4 w-4" />
               {inCart ? "Add another copy" : "Add to bag"}
             </button>
+            <Link
+              to="/checkout"
+              onClick={() => {
+                if (!inCart) addToCart(book.id);
+              }}
+              className="press mt-2.5 inline-flex h-12 w-full items-center justify-center rounded-full border border-border text-sm font-semibold hover:border-foreground/30 hover:bg-muted"
+            >
+              Buy now
+            </Link>
             <button
               type="button"
               onClick={() => toggleWishlist(book.id)}

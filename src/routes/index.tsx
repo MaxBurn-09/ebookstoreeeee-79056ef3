@@ -378,8 +378,8 @@ function Publisher() {
               </div>
             ))}
           </div>
-          <Link to="/about" className="link-sweep mt-8 inline-block text-sm font-semibold">
-            More about the academy
+          <Link to="/authors" className="link-sweep mt-8 inline-block text-sm font-semibold">
+            Explore programmes
           </Link>
         </div>
       </div>

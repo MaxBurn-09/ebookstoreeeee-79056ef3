@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Search, X, Clock, TrendingUp, CornerDownLeft } from "lucide-react";
-import { books, categories, formatPrice } from "@/data/catalog";
+import { formatPrice } from "@/data/catalog";
+import { useCatalog } from "@/lib/catalog-store";
 import { cn } from "@/lib/utils";
 
 const RECENT_KEY = "fga_recent_searches";
@@ -18,6 +19,7 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const { books, categories, authors } = useCatalog();
 
   useEffect(() => {
     if (!open) return;
@@ -46,12 +48,15 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
       ];
     }
     const matchedBooks = books
-      .filter(
-        (b) =>
+      .filter((b) => {
+        const author = authors.find((a) => a.id === b.authorId);
+        return (
           b.title.toLowerCase().includes(term) ||
           b.category.toLowerCase().includes(term) ||
-          b.blurb.toLowerCase().includes(term),
-      )
+          b.blurb.toLowerCase().includes(term) ||
+          (author?.name.toLowerCase().includes(term) ?? false)
+        );
+      })
       .slice(0, 6)
       .map((b) => ({
         kind: "book" as const,
@@ -66,7 +71,7 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
       .slice(0, 3)
       .map((c) => ({ kind: "category" as const, id: c.slug, label: c.name, slug: c.slug }));
     return [...matchedBooks, ...matchedCats];
-  }, [term, recent]);
+  }, [term, recent, books, categories, authors]);
 
   useEffect(() => setActive(0), [term]);
 
