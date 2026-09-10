@@ -197,7 +197,7 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--forest) 18%, transparent);
+    background: color-mix(in oklab, oklch(0.62 0.2 35) 22%, transparent);
   }
 }
 

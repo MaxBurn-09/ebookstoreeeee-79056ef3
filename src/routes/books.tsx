@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SlidersHorizontal, X } from "lucide-react";
-import { books, categories } from "@/data/catalog";
 import { BookCard } from "@/components/site/BookCard";
+import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
 import { cn } from "@/lib/utils";
+import { useCatalog } from "@/lib/catalog-store";
 
 type BooksSearch = { q?: string | undefined; category?: string | undefined };
 
@@ -46,6 +47,7 @@ const norm = (value: string) => value.toLowerCase().replace(/\s+/g, "-");
 function BooksPage() {
   const { q, category } = Route.useSearch();
   const navigate = Route.useNavigate();
+  const { books, categories } = useCatalog();
   const [sort, setSort] = useState<(typeof SORTS)[number]["id"]>("popular");
   const [page, setPage] = useState(1);
 
@@ -66,7 +68,7 @@ function BooksPage() {
     else if (sort === "new") sorted.reverse();
     else sorted.sort((a, b) => b.bought - a.bought);
     return sorted;
-  }, [q, category, sort]);
+  }, [q, category, sort, books]);
 
   const pages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const current = Math.min(page, pages);
@@ -75,20 +77,16 @@ function BooksPage() {
 
   return (
     <div className="pb-16">
-      <header className="border-b border-border bg-secondary/50">
-        <div className="container-page py-10 sm:py-14">
-          <p className="eyebrow">The library</p>
-          <h1 className="mt-2 text-3xl font-semibold sm:text-[2.4rem]">
-            {q ? `Results for “${q}”` : (activeCategory?.name ?? "All ebooks")}
-          </h1>
-          <p className="mt-3 max-w-xl text-sm text-muted-foreground">
-            {activeCategory?.tagline ??
-              "Every title is a practical, illustrated PDF you can download the moment you buy."}
-          </p>
-        </div>
-      </header>
+      <PageHero
+        eyebrow="The library"
+        title={q ? `Results for “${q}”` : (activeCategory?.name ?? "All ebooks")}
+        subtitle={
+          activeCategory?.tagline ??
+          "Every title is a practical, illustrated PDF you can download the moment you buy — USD pricing, worldwide."
+        }
+      />
 
-      <div className="container-page sticky top-24 z-30 -mx-0 bg-background/92 py-4 backdrop-blur-md">
+      <div className="container-page sticky top-[6.5rem] z-30 -mx-0 bg-background/92 py-4 backdrop-blur-md lg:top-[7.25rem]">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
           <div className="no-scrollbar -mx-1 flex snap-x gap-2 overflow-x-auto px-1">
             <Chip

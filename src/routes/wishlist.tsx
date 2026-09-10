@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
-import { books } from "@/data/catalog";
 import { BookGrid } from "@/components/site/BookGrid";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { Reveal } from "@/components/site/Reveal";
 import { useStore } from "@/lib/store";
+import { useCatalog } from "@/lib/catalog-store";
 
 export const Route = createFileRoute("/wishlist")({
   head: () => ({
@@ -20,6 +20,7 @@ export const Route = createFileRoute("/wishlist")({
 
 function WishlistPage() {
   const { wishlist } = useStore();
+  const { books } = useCatalog();
   const saved = books.filter((b) => wishlist.includes(b.id));
 
   return (

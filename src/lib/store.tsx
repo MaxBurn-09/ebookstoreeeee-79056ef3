@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
-import { books, type Book } from "@/data/catalog";
+import type { Book } from "@/data/catalog";
+import { useCatalog } from "@/lib/catalog-store";
 
 export type CartLine = { id: string; qty: number };
 
@@ -14,6 +15,7 @@ type StoreValue = {
   addToCart: (id: string, qty?: number) => void;
   setQty: (id: string, qty: number) => void;
   removeFromCart: (id: string) => void;
+  clearCart: () => void;
   toggleWishlist: (id: string) => void;
   isWishlisted: (id: string) => boolean;
   lineBooks: { book: Book; qty: number }[];
@@ -32,23 +34,27 @@ const read = <T,>(key: string, fallback: T): T => {
 };
 
 export function StoreProvider({ children }: { children: ReactNode }) {
+  const { books } = useCatalog();
   const [cart, setCart] = useState<CartLine[]>([]);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     setCart(read<CartLine[]>("pp_cart", []));
     setWishlist(read<string[]>("pp_wishlist", []));
+    setHydrated(true);
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined") window.localStorage.setItem("pp_cart", JSON.stringify(cart));
-  }, [cart]);
+    if (!hydrated || typeof window === "undefined") return;
+    window.localStorage.setItem("pp_cart", JSON.stringify(cart));
+  }, [cart, hydrated]);
 
   useEffect(() => {
-    if (typeof window !== "undefined")
-      window.localStorage.setItem("pp_wishlist", JSON.stringify(wishlist));
-  }, [wishlist]);
+    if (!hydrated || typeof window === "undefined") return;
+    window.localStorage.setItem("pp_wishlist", JSON.stringify(wishlist));
+  }, [wishlist, hydrated]);
 
   const addToCart = useCallback((id: string, qty = 1) => {
     setCart((prev) => {
@@ -69,6 +75,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const removeFromCart = useCallback((id: string) => {
     setCart((prev) => prev.filter((l) => l.id !== id));
   }, []);
+
+  const clearCart = useCallback(() => setCart([]), []);
 
   const toggleWishlist = useCallback((id: string) => {
     setWishlist((prev) => {
@@ -94,13 +102,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       addToCart,
       setQty,
       removeFromCart,
+      clearCart,
       toggleWishlist,
       isWishlisted: (id: string) => wishlist.includes(id),
       cartCount: cart.reduce((sum, l) => sum + l.qty, 0),
       cartSubtotal: lineBooks.reduce((sum, l) => sum + l.book.price * l.qty, 0),
       lineBooks,
     };
-  }, [cart, wishlist, drawerOpen, addToCart, setQty, removeFromCart, toggleWishlist]);
+  }, [cart, wishlist, drawerOpen, addToCart, setQty, removeFromCart, clearCart, toggleWishlist, books]);
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }

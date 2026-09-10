@@ -23,17 +23,17 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Future Grow Academy — Premium Self-Growth eBooks from $2.97" },
+      { title: "Future Grow Academy | Self-Growth eBooks for Readers Worldwide" },
       {
         name: "description",
         content:
-          "Read practical ebooks on mindset, money, relationships, parenting and health. Instant PDF download worldwide, no shipping, just $2.97 each.",
+          "Shop practical Future Grow Academy ebooks on mindset, money, relationships, parenting and health. Instant PDF download in USD, no shipping, worldwide from $2.97.",
       },
-      { property: "og:title", content: "Future Grow Academy — Premium Self-Growth eBooks" },
+      { property: "og:title", content: "Future Grow Academy | Self-Growth eBooks Worldwide" },
       {
         property: "og:description",
         content:
-          "15 practical self-growth ebooks. Instant download on any device, worldwide, from $2.97.",
+          "Premium digital programmes and ebooks. Instant download on any device, priced in USD for an international audience.",
       },
     ],
   }),
@@ -64,33 +64,39 @@ function Hero() {
   const rating = (books.reduce((s, b) => s + b.rating, 0) / books.length).toFixed(1);
 
   return (
-    <section className="border-b border-border bg-background">
-      <div className="container-page grid items-center gap-12 py-14 md:py-20 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-24">
+    <section className="relative overflow-hidden bg-[oklch(0.16_0.02_250)] text-white">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_420px_at_80%_10%,oklch(0.55_0.2_35/28%),transparent_55%),radial-gradient(700px_380px_at_10%_90%,oklch(0.45_0.12_250/35%),transparent_50%)]"
+      />
+      <div className="container-page relative grid items-center gap-12 py-16 md:py-22 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-28">
         <div className="max-w-xl">
-          <p className="eyebrow">Digital reading library · Worldwide</p>
-          <h1 className="mt-4 text-[2.1rem] leading-[1.08] font-semibold sm:text-5xl lg:text-[3.4rem]">
+          <p className="text-[0.68rem] font-semibold tracking-[0.18em] text-white/55 uppercase">
+            Digital reading library · Worldwide
+          </p>
+          <h1 className="mt-4 text-[2.15rem] leading-[1.06] font-semibold sm:text-5xl lg:text-[3.45rem]">
             {storeConfig.heroTitle}
           </h1>
-          <p className="mt-5 text-[0.98rem] leading-relaxed text-muted-foreground sm:text-base">
+          <p className="mt-5 text-[0.98rem] leading-relaxed text-white/68 sm:text-base">
             {storeConfig.heroSubtitle}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               to="/books"
-              className="press inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-6 text-sm font-semibold text-background hover:bg-foreground/90"
+              className="press inline-flex h-12 items-center gap-2 rounded-full bg-[linear-gradient(135deg,#ff3b1f,#ff8a00)] px-6 text-sm font-semibold text-white shadow-[0_12px_32px_-12px_oklch(0.55_0.2_35/70%)] hover:brightness-110"
             >
               Browse the library <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               to="/bestsellers"
-              className="press inline-flex h-12 items-center rounded-full border border-border px-6 text-sm font-semibold hover:border-foreground/30 hover:bg-muted"
+              className="press inline-flex h-12 items-center rounded-full border border-white/18 px-6 text-sm font-semibold text-white/90 hover:bg-white/8"
             >
               See bestsellers
             </Link>
           </div>
 
-          <dl className="mt-10 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-6">
+          <dl className="mt-10 grid max-w-md grid-cols-3 gap-6 border-t border-white/12 pt-6">
             <Stat label="Ebooks" value={`${books.length}`} />
             <Stat label="Avg. rating" value={rating} />
             <Stat label="Every title" value="$2.97" />
@@ -121,7 +127,7 @@ function Hero() {
               </Link>
             ))}
           </div>
-          <p className="mt-6 text-center text-xs text-muted-foreground">
+          <p className="mt-6 text-center text-xs text-white/50">
             Instant PDF download · Read on phone, tablet or laptop
           </p>
         </Reveal>
@@ -133,7 +139,7 @@ function Hero() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="eyebrow">{label}</dt>
+      <dt className="text-[0.62rem] font-semibold tracking-[0.16em] text-white/45 uppercase">{label}</dt>
       <dd className="mt-1 text-2xl font-semibold tracking-[-0.02em]">{value}</dd>
     </div>
   );
@@ -143,7 +149,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 
 function TrustStrip() {
   return (
-    <section aria-label="Why buy here" className="border-b border-border bg-secondary/60">
+    <section aria-label="Why buy here" className="border-b border-border bg-card">
       <ul className="container-page grid gap-x-8 gap-y-5 py-6 sm:grid-cols-2 lg:grid-cols-4">
         {benefits.map((b) => (
           <li key={b.title} className="flex items-start gap-3">
@@ -378,8 +384,8 @@ function Publisher() {
               </div>
             ))}
           </div>
-          <Link to="/about" className="link-sweep mt-8 inline-block text-sm font-semibold">
-            More about the academy
+          <Link to="/authors" className="link-sweep mt-8 inline-block text-sm font-semibold">
+            Explore programmes
           </Link>
         </div>
       </div>
@@ -501,13 +507,17 @@ function Newsletter() {
   const [done, setDone] = useState(false);
 
   return (
-    <section className="border-t border-border bg-secondary/60 section-y">
-      <div className="container-page max-w-2xl text-center">
-        <p className="eyebrow">Stay in the loop</p>
+    <section className="relative overflow-hidden bg-[oklch(0.16_0.02_250)] text-white section-y">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(700px_280px_at_50%_-20%,oklch(0.55_0.2_35/22%),transparent_55%)]"
+      />
+      <div className="container-page relative max-w-2xl text-center">
+        <p className="text-[0.68rem] font-semibold tracking-[0.18em] text-white/50 uppercase">Stay in the loop</p>
         <h2 className="mt-2 text-2xl font-semibold sm:text-[2rem]">
           New ebooks and offers, once a month
         </h2>
-        <p className="mt-3 text-sm text-muted-foreground">
+        <p className="mt-3 text-sm text-white/60">
           No noise — just new releases and the occasional discount. Unsubscribe anytime.
         </p>
         <form
@@ -527,18 +537,18 @@ function Newsletter() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
-            className="h-12 flex-1 rounded-full border border-border bg-card px-5 text-sm outline-none transition-colors focus:border-foreground/30"
+            className="h-12 flex-1 rounded-full border border-white/15 bg-white/8 px-5 text-sm text-white outline-none placeholder:text-white/40 transition-colors focus:border-white/35"
           />
           <button
             type="submit"
             disabled={done}
-            className="press h-12 rounded-full bg-foreground px-6 text-sm font-semibold text-background hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-60"
+            className="press h-12 rounded-full bg-[linear-gradient(135deg,#ff3b1f,#ff8a00)] px-6 text-sm font-semibold text-white hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {done ? "Subscribed" : "Subscribe"}
           </button>
         </form>
         {done ? (
-          <p className="mt-3 text-xs text-primary">Thanks — you're on the list.</p>
+          <p className="mt-3 text-xs text-[#ffb020]">Thanks — you're on the list.</p>
         ) : null}
       </div>
     </section>

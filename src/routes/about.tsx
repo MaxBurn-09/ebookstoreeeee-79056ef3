@@ -1,27 +1,26 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import promo from "@/assets/promo-reading.jpg";
+import { programs, authors } from "@/data/academy";
+import { storeConfig } from "@/data/catalog";
 import { SectionHeader } from "@/components/site/SectionHeader";
+import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
-import { whyUs, benefits, storeConfig } from "@/data/catalog";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Future Grow Academy — Practical Self-Growth eBooks" },
+      { title: "The Academy — Future Grow Academy courses & programmes" },
       {
         name: "description",
         content:
-          "Future Grow Academy creates practical, premium ebooks on mindset, money, relationships, parenting and health for readers in the USA and around the world.",
+          "Future Grow Academy programmes: mindset, relationships, digital wealth, health and calm parenting. Structured ebooks you finish and apply.",
       },
-      { property: "og:title", content: "About Future Grow Academy" },
+      { property: "og:title", content: "The Academy — Future Grow Academy" },
       {
         property: "og:description",
-        content:
-          "Clarity-driven growth for real life, real change and lasting confidence — instant PDF ebooks read worldwide.",
+        content: "Six focused programmes built from the academy’s practical ebooks.",
       },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: AboutPage,
@@ -29,14 +28,19 @@ export const Route = createFileRoute("/about")({
 
 function AboutPage() {
   return (
+    <>
+    <PageHero
+      eyebrow="The academy"
+      title="Courses built as programmes you can finish"
+      subtitle="Future Grow Academy exists for people who want real change, not more theory. Every title is a short, structured programme — guided exercises, clear frameworks and daily action steps."
+    />
     <div className="container-page py-10 sm:py-14">
-      <SectionHeader eyebrow="Our story" title="Growth made practical" subtitle={storeConfig.tagline} />
 
       <div className="grid items-center gap-10 lg:grid-cols-2">
         <Reveal>
           <img
             src={promo}
-            alt="A reader working through a Future Grow Academy ebook on a tablet"
+            alt="Working through a Future Grow Academy programme"
             className="hover-lift w-full rounded-2xl object-cover"
             loading="lazy"
           />
@@ -44,21 +48,21 @@ function AboutPage() {
         <Reveal delay={120}>
           <div className="space-y-4 text-sm leading-relaxed text-muted-foreground">
             <p>
-              Future Grow Academy exists for people who want real change, not more theory. Every
-              title is written as a short, structured programme you can finish and actually apply —
-              guided exercises, clear frameworks and daily action steps.
+              Founded in 2021 in Gurgaon, the academy publishes digital programmes on mindset, career, money,
+              relationships, parenting and health. Readers in the United States, Europe, the Middle East and Asia
+              download a PDF and start the same day — no shipping, no waiting.
             </p>
             <p>
-              Our readers are in the United States, Europe, the Middle East, Asia and beyond. Because
-              every book is a digital PDF, there is no shipping and no waiting: you pay, you
-              download, you start the same day on your phone, tablet or laptop.
+              The work is led by Dr. Ankit Sharma with faculty for relationships, parenting and health. You can
+              buy a single ebook, or follow a sequenced programme that stacks two or three titles into a 21- to
+              60-day sprint.
             </p>
             <p>{storeConfig.note}</p>
             <div className="grid grid-cols-3 gap-4 pt-4">
               {[
-                ["15", "Premium ebooks"],
-                ["$2.97", "Every title today"],
-                ["4.8", "Average reader rating"],
+                [String(programs.length), "Programmes"],
+                [String(authors.length), "Faculty"],
+                ["$2.97", "Per ebook today"],
               ].map(([value, label]) => (
                 <div key={label}>
                   <p className="text-2xl font-semibold text-foreground sm:text-3xl">{value}</p>
@@ -66,46 +70,39 @@ function AboutPage() {
                 </div>
               ))}
             </div>
-            <Link
-              to="/books"
-              preload="intent"
-              className="press group mt-2 inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-7 text-sm font-semibold text-background transition-colors hover:bg-foreground/90"
-            >
-              Browse the library
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
           </div>
         </Reveal>
       </div>
 
       <section className="mt-20">
-        <SectionHeader eyebrow="Why readers choose us" title="What you get every time" />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {whyUs.map((w, i) => (
-            <Reveal key={w.title} delay={Math.min(i * 90, 400)}>
-              <div className="hover-lift h-full rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
-                <span className="text-2xl">{w.emoji}</span>
-                <h3 className="mt-3 text-lg font-semibold">{w.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{w.note}</p>
-              </div>
+        <SectionHeader
+          eyebrow="How it works"
+          title="Pick a programme, then buy the ebooks"
+          subtitle="Each programme is a recommended reading path. Checkout is the same as the shop — instant PDF after payment."
+        />
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {programs.map((program, i) => (
+            <Reveal key={program.slug} delay={Math.min(i * 70, 400)}>
+              <Link
+                to="/program/$slug"
+                params={{ slug: program.slug }}
+                className="hover-lift flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]"
+              >
+                <p className="eyebrow">{program.category}</p>
+                <h3 className="mt-2 text-lg font-semibold">{program.title}</h3>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  {program.duration} · {program.format}
+                </p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{program.summary}</p>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold">
+                  View programme <ArrowRight className="h-4 w-4" />
+                </span>
+              </Link>
             </Reveal>
           ))}
         </div>
       </section>
-
-      <section className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {benefits.map((b, i) => (
-          <Reveal key={b.title} delay={Math.min(i * 80, 360)}>
-            <div className="flex h-full items-start gap-3 rounded-2xl border border-border bg-secondary/60 p-5">
-              <span className="text-xl">{b.emoji}</span>
-              <div>
-                <p className="text-sm font-semibold">{b.title}</p>
-                <p className="text-xs text-muted-foreground">{b.note}</p>
-              </div>
-            </div>
-          </Reveal>
-        ))}
-      </section>
     </div>
+    </>
   );
 }
