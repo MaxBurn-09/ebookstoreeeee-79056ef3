@@ -2,9 +2,9 @@ import logo from "@/assets/logo-fga.png";
 import { cn } from "@/lib/utils";
 
 const sizes = {
-  sm: "h-9 max-h-9 max-w-[168px]",
-  md: "h-10 max-h-10 max-w-[min(200px,52vw)] sm:h-12 sm:max-h-12 sm:max-w-[240px]",
-  lg: "h-[4.5rem] max-h-[4.5rem] max-w-[min(380px,92vw)] sm:h-[5.25rem] sm:max-h-[5.25rem]",
+  sm: "h-9 max-h-9 w-auto max-w-[160px]",
+  md: "h-11 max-h-11 w-auto max-w-[min(196px,50vw)] lg:h-16 lg:max-h-16 lg:max-w-[268px]",
+  lg: "h-[4.25rem] max-h-[4.25rem] w-auto max-w-[min(360px,90vw)] sm:h-20 sm:max-h-20 sm:max-w-[400px]",
 } as const;
 
 export function BrandLogo({

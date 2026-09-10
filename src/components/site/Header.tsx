@@ -54,7 +54,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
           scrolled ? "bg-[oklch(0.16_0.02_250)/92] shadow-[0_12px_40px_-24px_oklch(0.12_0.03_250/80%)] backdrop-blur-xl" : "",
         )}
       >
-        <div className="container-page flex h-16 items-center gap-3 overflow-hidden lg:h-[4.75rem] lg:gap-5">
+        <div className="container-page flex h-[4.25rem] items-center gap-3 overflow-hidden lg:h-[5.5rem] lg:gap-5">
           <button
             type="button"
             className="press -ml-2 grid h-11 w-11 shrink-0 place-items-center rounded-md text-white/90 hover:bg-white/8 lg:hidden"

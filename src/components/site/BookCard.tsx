@@ -36,6 +36,9 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
             width={640}
             height={960}
             onLoad={() => setLoaded(true)}
+            ref={(el) => {
+              if (el?.complete && el.naturalWidth > 0) setLoaded(true);
+            }}
             className={cn(
               "aspect-[2/3] w-full object-cover transition-[transform,opacity] duration-500 ease-out group-hover:scale-[1.02]",
               loaded ? "opacity-100" : "opacity-0",

@@ -43,6 +43,34 @@ const seed: CatalogSnapshot = {
   reviews: seedReviews,
 };
 
+function hydrateBooks(stored?: Book[]) {
+  const list = stored && stored.length ? stored : seedBooks;
+  return list.map((book) => {
+    const seeded = seedBooks.find((row) => row.id === book.id || row.slug === book.slug);
+    if (!seeded) return book;
+    const customCover =
+      typeof book.cover === "string" &&
+      (book.cover.startsWith("http://") ||
+        book.cover.startsWith("https://") ||
+        book.cover.startsWith("data:"));
+    return { ...seeded, ...book, cover: customCover ? book.cover : seeded.cover };
+  });
+}
+
+function hydrateCategories(stored?: Category[]) {
+  const list = stored && stored.length ? stored : seedCategories;
+  return list.map((category) => {
+    const seeded = seedCategories.find((row) => row.slug === category.slug);
+    if (!seeded) return category;
+    const customCover =
+      typeof category.cover === "string" &&
+      (category.cover.startsWith("http://") ||
+        category.cover.startsWith("https://") ||
+        category.cover.startsWith("data:"));
+    return { ...seeded, ...category, cover: customCover ? category.cover : seeded.cover };
+  });
+}
+
 function load(): CatalogSnapshot {
   if (typeof window === "undefined") return seed;
   try {
@@ -50,9 +78,8 @@ function load(): CatalogSnapshot {
     if (!raw) return seed;
     const parsed = JSON.parse(raw) as Partial<CatalogSnapshot>;
     return {
-      books: Array.isArray(parsed.books) && parsed.books.length ? parsed.books : seed.books,
-      categories:
-        Array.isArray(parsed.categories) && parsed.categories.length ? parsed.categories : seed.categories,
+      books: hydrateBooks(parsed.books),
+      categories: hydrateCategories(parsed.categories),
       authors: Array.isArray(parsed.authors) && parsed.authors.length ? parsed.authors : seed.authors,
       reviews: Array.isArray(parsed.reviews) ? parsed.reviews : seed.reviews,
     };
