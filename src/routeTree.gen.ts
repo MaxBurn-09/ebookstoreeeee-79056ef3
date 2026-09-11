@@ -20,6 +20,7 @@ import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as NewArrivalsRouteImport } from './routes/new-arrivals'
 import { Route as WishlistRouteImport } from './routes/wishlist'
+import { Route as AuthenticatedCheckoutRouteImport } from './routes/_authenticated/checkout'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as BookSlugRouteImport } from './routes/book.$slug'
 
@@ -77,6 +78,11 @@ const WishlistRoute = WishlistRouteImport.update({
   path: '/wishlist',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedCheckoutRoute = AuthenticatedCheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
+  '/checkout': typeof AuthenticatedCheckoutRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/book/$slug': typeof BookSlugRoute
 }
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
+  '/checkout': typeof AuthenticatedCheckoutRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/book/$slug': typeof BookSlugRoute
 }
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
+  '/_authenticated/checkout': typeof AuthenticatedCheckoutRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/book/$slug': typeof BookSlugRoute
 }
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/new-arrivals'
     | '/wishlist'
+    | '/checkout'
     | '/dashboard'
     | '/book/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/new-arrivals'
     | '/wishlist'
+    | '/checkout'
     | '/dashboard'
     | '/book/$slug'
   id:
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/new-arrivals'
     | '/wishlist'
+    | '/_authenticated/checkout'
     | '/_authenticated/dashboard'
     | '/book/$slug'
   fileRoutesById: FileRoutesById
@@ -272,6 +284,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WishlistRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/checkout': {
+      id: '/_authenticated/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof AuthenticatedCheckoutRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -290,10 +309,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCheckoutRoute: typeof AuthenticatedCheckoutRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCheckoutRoute: AuthenticatedCheckoutRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
 }
 
