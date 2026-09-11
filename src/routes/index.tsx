@@ -83,7 +83,7 @@ function Hero() {
               Browse the library <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              to="/books"
+              to="/categories"
               className="press inline-flex h-12 items-center rounded-full border border-border px-6 text-sm font-semibold hover:border-foreground/30 hover:bg-muted"
             >
               Browse categories
