@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import promo from "@/assets/promo-reading.jpg";
+import promo from "@/assets/promo-reading.webp";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { Reveal } from "@/components/site/Reveal";
 import { whyUs, benefits, storeConfig } from "@/data/catalog";

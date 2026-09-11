@@ -17,7 +17,7 @@ import { BookCard } from "@/components/site/BookCard";
 import { Stars } from "@/components/site/Stars";
 import { Reveal } from "@/components/site/Reveal";
 import { useStore } from "@/lib/store";
-import editorial from "@/assets/editorial-book.jpg";
+import editorial from "@/assets/editorial-book.webp";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
