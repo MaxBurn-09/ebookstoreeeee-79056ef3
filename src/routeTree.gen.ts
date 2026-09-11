@@ -10,20 +10,27 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as BestsellersRouteImport } from './routes/bestsellers'
 import { Route as BooksRouteImport } from './routes/books'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as NewArrivalsRouteImport } from './routes/new-arrivals'
 import { Route as WishlistRouteImport } from './routes/wishlist'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedCheckoutRouteImport } from './routes/_authenticated/checkout'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as BookSlugRouteImport } from './routes/book.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -34,11 +41,6 @@ const AboutRoute = AboutRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BestsellersRoute = BestsellersRouteImport.update({
-  id: '/bestsellers',
-  path: '/bestsellers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BooksRoute = BooksRouteImport.update({
@@ -71,6 +73,21 @@ const WishlistRoute = WishlistRouteImport.update({
   path: '/wishlist',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCheckoutRoute = AuthenticatedCheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const BookSlugRoute = BookSlugRouteImport.update({
   id: '/book/$slug',
   path: '/book/$slug',
@@ -81,40 +98,47 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
-  '/bestsellers': typeof BestsellersRoute
   '/books': typeof BooksRoute
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/contact': typeof ContactRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/checkout': typeof AuthenticatedCheckoutRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
   '/book/$slug': typeof BookSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
-  '/bestsellers': typeof BestsellersRoute
   '/books': typeof BooksRoute
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/contact': typeof ContactRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/checkout': typeof AuthenticatedCheckoutRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
   '/book/$slug': typeof BookSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
-  '/bestsellers': typeof BestsellersRoute
   '/books': typeof BooksRoute
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/contact': typeof ContactRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/checkout': typeof AuthenticatedCheckoutRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/book/$slug': typeof BookSlugRoute
 }
 export interface FileRouteTypes {
@@ -123,47 +147,54 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auth'
-    | '/bestsellers'
     | '/books'
     | '/cart'
     | '/categories'
     | '/contact'
     | '/new-arrivals'
     | '/wishlist'
+    | '/admin'
+    | '/checkout'
+    | '/dashboard'
     | '/book/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/auth'
-    | '/bestsellers'
     | '/books'
     | '/cart'
     | '/categories'
     | '/contact'
     | '/new-arrivals'
     | '/wishlist'
+    | '/admin'
+    | '/checkout'
+    | '/dashboard'
     | '/book/$slug'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/about'
     | '/auth'
-    | '/bestsellers'
     | '/books'
     | '/cart'
     | '/categories'
     | '/contact'
     | '/new-arrivals'
     | '/wishlist'
+    | '/_authenticated/admin'
+    | '/_authenticated/checkout'
+    | '/_authenticated/dashboard'
     | '/book/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
-  BestsellersRoute: typeof BestsellersRoute
   BooksRoute: typeof BooksRoute
   CartRoute: typeof CartRoute
   CategoriesRoute: typeof CategoriesRoute
@@ -182,6 +213,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -194,13 +232,6 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/bestsellers': {
-      id: '/bestsellers'
-      path: '/bestsellers'
-      fullPath: '/bestsellers'
-      preLoaderRoute: typeof BestsellersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/books': {
@@ -245,6 +276,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WishlistRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/checkout': {
+      id: '/_authenticated/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof AuthenticatedCheckoutRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/book/$slug': {
       id: '/book/$slug'
       path: '/book/$slug'
@@ -255,11 +307,26 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedCheckoutRoute: typeof AuthenticatedCheckoutRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedCheckoutRoute: AuthenticatedCheckoutRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
-  BestsellersRoute: BestsellersRoute,
   BooksRoute: BooksRoute,
   CartRoute: CartRoute,
   CategoriesRoute: CategoriesRoute,

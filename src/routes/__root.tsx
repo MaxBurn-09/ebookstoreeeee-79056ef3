@@ -12,6 +12,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { StoreProvider } from "../lib/store";
+import { AuthProvider } from "../lib/auth";
 import { Header } from "../components/site/Header";
 import { Footer } from "../components/site/Footer";
 import { CartDrawer } from "../components/site/CartDrawer";
@@ -158,22 +159,24 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <StoreProvider>
-        <div className="flex min-h-screen flex-col">
-          <Header onSearch={() => setSearchOpen(true)} />
-          <main id="main" className="flex-1 pb-14 md:pb-0">
-            <PageTransition>
-              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-              <Outlet />
-            </PageTransition>
-          </main>
-          <Footer />
-        </div>
-        <MobileTabBar onSearch={() => setSearchOpen(true)} />
-        <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
-        <CartDrawer />
-        <Toaster />
-      </StoreProvider>
+      <AuthProvider>
+        <StoreProvider>
+          <div className="flex min-h-screen flex-col">
+            <Header onSearch={() => setSearchOpen(true)} />
+            <main id="main" className="flex-1 pb-14 md:pb-0">
+              <PageTransition>
+                {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+                <Outlet />
+              </PageTransition>
+            </main>
+            <Footer />
+          </div>
+          <MobileTabBar onSearch={() => setSearchOpen(true)} />
+          <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
+          <CartDrawer />
+          <Toaster />
+        </StoreProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

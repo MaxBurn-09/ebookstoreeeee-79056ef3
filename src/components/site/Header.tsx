@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, Search, ShoppingBag, Heart, X } from "lucide-react";
+import { Menu, Search, ShoppingBag, Heart, X, User } from "lucide-react";
 import { storeConfig } from "@/data/catalog";
 import logo from "@/assets/fga-logo.png.asset.json";
 import { useStore } from "@/lib/store";
@@ -125,6 +125,14 @@ export function Header({ onSearch }: { onSearch: () => void }) {
               <Search className="h-5 w-5" />
             </button>
 
+            <Link
+              to="/dashboard"
+              preload="intent"
+              aria-label="My library"
+              className="press hidden h-11 w-11 place-items-center rounded-md hover:bg-muted md:grid"
+            >
+              <User className="h-5 w-5" />
+            </Link>
             <Link
               to="/wishlist"
               preload="intent"
