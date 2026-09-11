@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, Search, ShoppingBag, Heart, X } from "lucide-react";
 import { storeConfig } from "@/data/catalog";
+import logo from "@/assets/fga-logo.png.asset.json";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -63,14 +64,18 @@ export function Header({ onSearch }: { onSearch: () => void }) {
             <Menu className="h-5 w-5" />
           </button>
 
-          <Link to="/" className="group flex shrink-0 items-center gap-2.5" aria-label="Home">
-            <Mark />
-            <span className="font-display text-[0.98rem] leading-tight font-semibold tracking-[-0.02em]">
-              Future Grow
-              <span className="block text-[0.58rem] font-medium tracking-[0.2em] text-muted-foreground uppercase">
-                Academy
-              </span>
-            </span>
+          <Link
+            to="/"
+            className="group flex shrink-0 items-center"
+            aria-label="Future Grow Academy — home"
+          >
+            <img
+              src={logo.url}
+              alt="Future Grow Academy"
+              width={480}
+              height={160}
+              className="h-9 w-auto transition-opacity duration-200 group-hover:opacity-85 sm:h-10"
+            />
           </Link>
 
           <nav aria-label="Main" className="mx-auto hidden items-center gap-1 lg:flex">
@@ -156,7 +161,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
             className="absolute inset-y-0 left-0 flex w-[86%] max-w-sm animate-[slide-right_0.28s_cubic-bezier(0.22,1,0.36,1)_both] flex-col bg-background p-5 shadow-[var(--shadow-overlay)]"
           >
             <div className="flex items-center justify-between">
-              <span className="font-display text-base font-semibold">{storeConfig.name}</span>
+              <img src={logo.url} alt="Future Grow Academy" className="h-8 w-auto" />
               <button
                 ref={closeRef}
                 type="button"
@@ -196,19 +201,6 @@ export function Header({ onSearch }: { onSearch: () => void }) {
   );
 }
 
-function Mark() {
-  return (
-    <span
-      aria-hidden
-      className="grid h-9 w-9 place-items-center rounded-[7px] bg-foreground text-background"
-    >
-      <svg viewBox="0 0 24 24" className="h-4.5 w-4.5" fill="none" stroke="currentColor">
-        <path d="M4 5.5h6a2 2 0 0 1 2 2V19a2 2 0 0 0-2-2H4z" strokeWidth="1.6" />
-        <path d="M20 5.5h-6a2 2 0 0 0-2 2V19a2 2 0 0 1 2-2h6z" strokeWidth="1.6" />
-      </svg>
-    </span>
-  );
-}
 
 function Badge({ children }: { children: React.ReactNode }) {
   return (
