@@ -14,6 +14,7 @@ type StoreValue = {
   addToCart: (id: string, qty?: number) => void;
   setQty: (id: string, qty: number) => void;
   removeFromCart: (id: string) => void;
+  clearCart: () => void;
   toggleWishlist: (id: string) => void;
   isWishlisted: (id: string) => boolean;
   lineBooks: { book: Book; qty: number }[];
@@ -70,6 +71,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setCart((prev) => prev.filter((l) => l.id !== id));
   }, []);
 
+  const clearCart = useCallback(() => setCart([]), []);
+
   const toggleWishlist = useCallback((id: string) => {
     setWishlist((prev) => {
       const has = prev.includes(id);
@@ -94,13 +97,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       addToCart,
       setQty,
       removeFromCart,
+      clearCart,
       toggleWishlist,
       isWishlisted: (id: string) => wishlist.includes(id),
       cartCount: cart.reduce((sum, l) => sum + l.qty, 0),
       cartSubtotal: lineBooks.reduce((sum, l) => sum + l.book.price * l.qty, 0),
       lineBooks,
     };
-  }, [cart, wishlist, drawerOpen, addToCart, setQty, removeFromCart, toggleWishlist]);
+  }, [cart, wishlist, drawerOpen, addToCart, setQty, removeFromCart, clearCart, toggleWishlist]);
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }
