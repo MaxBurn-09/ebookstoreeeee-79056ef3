@@ -1,18 +1,18 @@
-import cover1 from "@/assets/covers/Your-WHY-Changes-Everything.jpg";
-import cover2 from "@/assets/covers/Parenting-Without-Yelling.jpg";
-import cover3 from "@/assets/covers/Invisible-Needs-That-Break-Marriages.jpg";
-import cover4 from "@/assets/covers/Emotionally-Intelligent-Parenting-for-Todays-Children.jpg";
-import cover5 from "@/assets/covers/20-Minutes-to-Lean.jpg";
-import cover6 from "@/assets/covers/The-30-Day-Marriage-Fix.jpg";
-import cover7 from "@/assets/covers/Transform-Your-Life-in-60-Days.jpg";
-import cover8 from "@/assets/covers/Find-Your-Purpose-in-30-Days.jpg";
-import cover9 from "@/assets/covers/Detach-From-Your-Ex-in-21-Days.jpg";
-import cover10 from "@/assets/covers/21-Day-Brown-Fat-Activation-Blueprint.jpg";
-import cover11 from "@/assets/covers/REWIRE-IN-A-WEEK.jpg";
-import cover12 from "@/assets/covers/30-Days-To-Digital-Wealth.jpg";
-import cover13 from "@/assets/covers/Passive-Profits-with-AI.jpg";
-import cover14 from "@/assets/covers/Build-Unbreakable-Habits-in-21-days.jpg";
-import cover15 from "@/assets/covers/30-Day-Self-Love-Healing-Challenge-After-Breakup.jpg";
+import cover1 from "@/assets/covers/Your-WHY-Changes-Everything.webp";
+import cover2 from "@/assets/covers/Parenting-Without-Yelling.webp";
+import cover3 from "@/assets/covers/Invisible-Needs-That-Break-Marriages.webp";
+import cover4 from "@/assets/covers/Emotionally-Intelligent-Parenting-for-Todays-Children.webp";
+import cover5 from "@/assets/covers/20-Minutes-to-Lean.webp";
+import cover6 from "@/assets/covers/The-30-Day-Marriage-Fix.webp";
+import cover7 from "@/assets/covers/Transform-Your-Life-in-60-Days.webp";
+import cover8 from "@/assets/covers/Find-Your-Purpose-in-30-Days.webp";
+import cover9 from "@/assets/covers/Detach-From-Your-Ex-in-21-Days.webp";
+import cover10 from "@/assets/covers/21-Day-Brown-Fat-Activation-Blueprint.webp";
+import cover11 from "@/assets/covers/REWIRE-IN-A-WEEK.webp";
+import cover12 from "@/assets/covers/30-Days-To-Digital-Wealth.webp";
+import cover13 from "@/assets/covers/Passive-Profits-with-AI.webp";
+import cover14 from "@/assets/covers/Build-Unbreakable-Habits-in-21-days.webp";
+import cover15 from "@/assets/covers/30-Day-Self-Love-Healing-Challenge-After-Breakup.webp";
 
 export type Book = {
   id: string;
