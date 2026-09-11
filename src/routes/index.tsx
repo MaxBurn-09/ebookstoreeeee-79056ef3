@@ -83,10 +83,10 @@ function Hero() {
               Browse the library <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              to="/bestsellers"
+              to="/books"
               className="press inline-flex h-12 items-center rounded-full border border-border px-6 text-sm font-semibold hover:border-foreground/30 hover:bg-muted"
             >
-              See bestsellers
+              Browse categories
             </Link>
           </div>
 
@@ -171,7 +171,7 @@ function Head({
   eyebrow: string;
   title: string;
   note?: string;
-  to?: "/books" | "/bestsellers" | "/new-arrivals" | "/categories";
+  to?: "/books" | "/new-arrivals" | "/categories";
   cta?: string;
 }) {
   return (
@@ -205,7 +205,7 @@ function Bestsellers() {
           eyebrow="Most read this month"
           title="Bestselling ebooks"
           note="The titles readers finish, apply and come back to recommend."
-          to="/bestsellers"
+          to="/books"
         />
         <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
           {bestsellers.slice(0, 4).map((book, i) => (

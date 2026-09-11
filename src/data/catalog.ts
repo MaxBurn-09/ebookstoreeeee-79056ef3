@@ -605,7 +605,6 @@ export const storeConfig = {
     { label: "Home", to: "/" },
     { label: "Shop", to: "/books" },
     { label: "Categories", to: "/categories" },
-    { label: "Bestsellers", to: "/bestsellers" },
     { label: "New Additions", to: "/new-arrivals" },
     { label: "About Us", to: "/about" },
     { label: "Connect", to: "/contact" },
