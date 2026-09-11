@@ -147,14 +147,11 @@ function BooksPanel() {
   }, []);
 
   async function create() {
-    if (!draft.slug || !draft.title) {
-      toast.error("Title and slug are required.");
-      return;
-    }
+    if (!draft.slug || !draft.title) { toast.error("Title and slug are required."); return; }
     setBusy(true);
     const { error } = await supabase.from("books").insert(draft);
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Ebook added.");
     setDraft(emptyBook);
     void load();
@@ -163,13 +160,13 @@ function BooksPanel() {
   async function save(row: BookRow) {
     const { id, ...rest } = row;
     const { error } = await supabase.from("books").update(rest).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Saved.");
   }
 
   async function remove(id: string) {
     const { error } = await supabase.from("books").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Ebook deleted.");
     setRows((prev) => prev.filter((r) => r.id !== id));
   }
@@ -322,7 +319,7 @@ function CategoriesPanel() {
           type="button"
           onClick={async () => {
             const { error } = await supabase.from("categories").insert(draft);
-            if (error) return toast.error(error.message);
+            if (error) { toast.error(error.message); return; }
             toast.success("Category added.");
             setDraft({ slug: "", name: "", tagline: "", sort_order: 0 });
             void load();
@@ -355,12 +352,12 @@ function CategoriesPanel() {
                 .from("categories")
                 .update({ name: row.name, tagline: row.tagline })
                 .eq("id", row.id);
-              if (error) return toast.error(error.message);
+              if (error) { toast.error(error.message); return; }
               toast.success("Saved.");
             }}
             onDelete={async () => {
               const { error } = await supabase.from("categories").delete().eq("id", row.id);
-              if (error) return toast.error(error.message);
+              if (error) { toast.error(error.message); return; }
               setRows((p) => p.filter((r) => r.id !== row.id));
               toast.success("Category deleted.");
             }}
@@ -411,7 +408,7 @@ function ReviewsPanel() {
           type="button"
           onClick={async () => {
             const { error } = await supabase.from("reviews").insert(draft);
-            if (error) return toast.error(error.message);
+            if (error) { toast.error(error.message); return; }
             toast.success("Review added.");
             setDraft({ name: "", location: "", rating: 5, quote: "", approved: true });
             void load();
@@ -435,12 +432,12 @@ function ReviewsPanel() {
                 .from("reviews")
                 .update({ quote: row.quote })
                 .eq("id", row.id);
-              if (error) return toast.error(error.message);
+              if (error) { toast.error(error.message); return; }
               toast.success("Saved.");
             }}
             onDelete={async () => {
               const { error } = await supabase.from("reviews").delete().eq("id", row.id);
-              if (error) return toast.error(error.message);
+              if (error) { toast.error(error.message); return; }
               setRows((p) => p.filter((r) => r.id !== row.id));
               toast.success("Review deleted.");
             }}

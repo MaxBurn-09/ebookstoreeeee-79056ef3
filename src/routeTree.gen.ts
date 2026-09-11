@@ -20,6 +20,7 @@ import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as NewArrivalsRouteImport } from './routes/new-arrivals'
 import { Route as WishlistRouteImport } from './routes/wishlist'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedCheckoutRouteImport } from './routes/_authenticated/checkout'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as BookSlugRouteImport } from './routes/book.$slug'
@@ -78,6 +79,11 @@ const WishlistRoute = WishlistRouteImport.update({
   path: '/wishlist',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedCheckoutRoute = AuthenticatedCheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
@@ -105,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/checkout': typeof AuthenticatedCheckoutRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/book/$slug': typeof BookSlugRoute
@@ -120,6 +127,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/checkout': typeof AuthenticatedCheckoutRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/book/$slug': typeof BookSlugRoute
@@ -137,6 +145,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/checkout': typeof AuthenticatedCheckoutRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/book/$slug': typeof BookSlugRoute
@@ -154,6 +163,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/new-arrivals'
     | '/wishlist'
+    | '/admin'
     | '/checkout'
     | '/dashboard'
     | '/book/$slug'
@@ -169,6 +179,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/new-arrivals'
     | '/wishlist'
+    | '/admin'
     | '/checkout'
     | '/dashboard'
     | '/book/$slug'
@@ -185,6 +196,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/new-arrivals'
     | '/wishlist'
+    | '/_authenticated/admin'
     | '/_authenticated/checkout'
     | '/_authenticated/dashboard'
     | '/book/$slug'
@@ -284,6 +296,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WishlistRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/checkout': {
       id: '/_authenticated/checkout'
       path: '/checkout'
@@ -309,11 +328,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedCheckoutRoute: typeof AuthenticatedCheckoutRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedCheckoutRoute: AuthenticatedCheckoutRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
 }
