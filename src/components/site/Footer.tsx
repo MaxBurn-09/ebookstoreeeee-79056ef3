@@ -9,8 +9,15 @@ export function Footer() {
     <footer className="border-t border-border bg-secondary/60">
       <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="font-display text-base font-semibold">{storeConfig.name}</p>
-          <p className="mt-3 max-w-xs text-[0.85rem] leading-relaxed text-muted-foreground">
+          <Link to="/" aria-label="Future Grow Academy — home" className="inline-block">
+            <img
+              src={logo.url}
+              alt="Future Grow Academy"
+              loading="lazy"
+              className="h-11 w-auto"
+            />
+          </Link>
+          <p className="mt-4 max-w-xs text-[0.85rem] leading-relaxed text-muted-foreground">
             {storeConfig.tagline}
           </p>
           <p className="mt-5 flex items-start gap-2 text-[0.82rem] text-muted-foreground">
