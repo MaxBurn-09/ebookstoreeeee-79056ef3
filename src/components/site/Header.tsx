@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, Search, ShoppingBag, Heart, X } from "lucide-react";
 import { storeConfig } from "@/data/catalog";
+import logo from "@/assets/fga-logo.png.asset.json";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
