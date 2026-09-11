@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin } from "lucide-react";
 import { storeConfig, categories } from "@/data/catalog";
+import logo from "@/assets/fga-logo.png.asset.json";
 
 export function Footer() {
   const year = 2026;
