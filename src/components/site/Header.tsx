@@ -63,14 +63,18 @@ export function Header({ onSearch }: { onSearch: () => void }) {
             <Menu className="h-5 w-5" />
           </button>
 
-          <Link to="/" className="group flex shrink-0 items-center gap-2.5" aria-label="Home">
-            <Mark />
-            <span className="font-display text-[0.98rem] leading-tight font-semibold tracking-[-0.02em]">
-              Future Grow
-              <span className="block text-[0.58rem] font-medium tracking-[0.2em] text-muted-foreground uppercase">
-                Academy
-              </span>
-            </span>
+          <Link
+            to="/"
+            className="group flex shrink-0 items-center"
+            aria-label="Future Grow Academy — home"
+          >
+            <img
+              src={logo.url}
+              alt="Future Grow Academy"
+              width={480}
+              height={160}
+              className="h-9 w-auto transition-opacity duration-200 group-hover:opacity-85 sm:h-10"
+            />
           </Link>
 
           <nav aria-label="Main" className="mx-auto hidden items-center gap-1 lg:flex">
