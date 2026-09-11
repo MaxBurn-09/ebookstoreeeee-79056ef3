@@ -159,22 +159,24 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <StoreProvider>
-        <div className="flex min-h-screen flex-col">
-          <Header onSearch={() => setSearchOpen(true)} />
-          <main id="main" className="flex-1 pb-14 md:pb-0">
-            <PageTransition>
-              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-              <Outlet />
-            </PageTransition>
-          </main>
-          <Footer />
-        </div>
-        <MobileTabBar onSearch={() => setSearchOpen(true)} />
-        <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
-        <CartDrawer />
-        <Toaster />
-      </StoreProvider>
+      <AuthProvider>
+        <StoreProvider>
+          <div className="flex min-h-screen flex-col">
+            <Header onSearch={() => setSearchOpen(true)} />
+            <main id="main" className="flex-1 pb-14 md:pb-0">
+              <PageTransition>
+                {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+                <Outlet />
+              </PageTransition>
+            </main>
+            <Footer />
+          </div>
+          <MobileTabBar onSearch={() => setSearchOpen(true)} />
+          <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
+          <CartDrawer />
+          <Toaster />
+        </StoreProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
