@@ -14,7 +14,6 @@ import { useStore } from "@/lib/store";
 import { BookGrid } from "@/components/site/BookGrid";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionHeader } from "@/components/site/SectionHeader";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
