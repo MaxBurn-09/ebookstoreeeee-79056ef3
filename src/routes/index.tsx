@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ArrowRight, Check, Download, Star, Quote } from "lucide-react";
 import {
   books,
-  bestsellers,
+  mostPopular,
   newArrivals,
   categories,
   benefits,
