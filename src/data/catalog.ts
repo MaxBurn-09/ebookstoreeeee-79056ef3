@@ -604,6 +604,8 @@ export const storeConfig = {
     { label: "Shop", to: "/books" },
     { label: "Categories", to: "/categories" },
     { label: "New Additions", to: "/new-arrivals" },
+    { label: "Blog", to: "/blog" },
+    { label: "Locations", to: "/locations" },
     { label: "About Us", to: "/about" },
     { label: "Connect", to: "/contact" },
   ] as const,
