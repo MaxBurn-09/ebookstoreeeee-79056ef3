@@ -4,6 +4,7 @@ import { Menu, Search, ShoppingBag, Heart, X, User } from "lucide-react";
 import { storeConfig } from "@/data/catalog";
 import logo from "@/assets/fga-logo.png.asset.json";
 import { useStore } from "@/lib/store";
+import { ScrollProgress } from "@/components/site/StickyCta";
 import { cn } from "@/lib/utils";
 
 export function Header({ onSearch }: { onSearch: () => void }) {
@@ -153,6 +154,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
             </button>
           </div>
         </div>
+        <ScrollProgress />
       </div>
 
       {open ? (
