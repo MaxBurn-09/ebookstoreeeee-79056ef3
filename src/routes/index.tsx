@@ -45,7 +45,7 @@ function HomePage() {
     <>
       <Hero />
       <TrustStrip />
-      <Bestsellers />
+      <ReaderPicks />
       <CategoryBand />
       <NewArrivals />
       <FeaturedEbook />
