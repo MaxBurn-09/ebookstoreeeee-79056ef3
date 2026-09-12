@@ -195,20 +195,20 @@ function Head({
   );
 }
 
-/* ----------------------------------------------------------- bestsellers */
+/* ------------------------------------------------------- reader picks */
 
-function Bestsellers() {
+function ReaderPicks() {
   return (
     <section className="section-y">
       <div className="container-page">
         <Head
-          eyebrow="Most read this month"
-          title="Bestselling ebooks"
+          eyebrow="Loved by readers"
+          title="Reader favourites"
           note="The titles readers finish, apply and come back to recommend."
           to="/books"
         />
         <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
-          {bestsellers.slice(0, 4).map((book, i) => (
+          {mostPopular.slice(0, 4).map((book, i) => (
             <Reveal key={book.id} delay={i * 60}>
               <BookCard book={book} priority={i < 2} />
             </Reveal>
@@ -218,6 +218,8 @@ function Bestsellers() {
     </section>
   );
 }
+
+
 
 /* ------------------------------------------------------------ categories */
 
