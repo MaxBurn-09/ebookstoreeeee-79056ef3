@@ -20,6 +20,7 @@ import { Toaster } from "../components/ui/sonner";
 import { PageTransition } from "../components/site/PageTransition";
 import { SearchDialog } from "../components/site/SearchDialog";
 import { MobileTabBar } from "../components/site/MobileTabBar";
+import { StickyCta } from "../components/site/StickyCta";
 
 function NotFoundComponent() {
   return (
