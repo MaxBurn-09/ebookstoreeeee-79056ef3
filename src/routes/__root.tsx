@@ -171,6 +171,7 @@ function RootComponent() {
             </main>
             <Footer />
           </div>
+          <StickyCta />
           <MobileTabBar onSearch={() => setSearchOpen(true)} />
           <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
           <CartDrawer />
