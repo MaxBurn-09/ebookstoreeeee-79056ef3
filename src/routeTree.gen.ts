@@ -20,6 +20,7 @@ import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as NewArrivalsRouteImport } from './routes/new-arrivals'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedCheckoutRouteImport } from './routes/_authenticated/checkout'
@@ -82,6 +83,11 @@ const NewArrivalsRoute = NewArrivalsRouteImport.update({
   path: '/new-arrivals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WishlistRoute = WishlistRouteImport.update({
   id: '/wishlist',
   path: '/wishlist',
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/locations': typeof LocationsRouteWithChildren
   '/new-arrivals': typeof NewArrivalsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wishlist': typeof WishlistRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/checkout': typeof AuthenticatedCheckoutRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/locations': typeof LocationsRouteWithChildren
   '/new-arrivals': typeof NewArrivalsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wishlist': typeof WishlistRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/checkout': typeof AuthenticatedCheckoutRoute
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/locations': typeof LocationsRouteWithChildren
   '/new-arrivals': typeof NewArrivalsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wishlist': typeof WishlistRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/checkout': typeof AuthenticatedCheckoutRoute
@@ -190,6 +199,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/locations'
     | '/new-arrivals'
+    | '/sitemap.xml'
     | '/wishlist'
     | '/admin'
     | '/checkout'
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/locations'
     | '/new-arrivals'
+    | '/sitemap.xml'
     | '/wishlist'
     | '/admin'
     | '/checkout'
@@ -229,6 +240,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/locations'
     | '/new-arrivals'
+    | '/sitemap.xml'
     | '/wishlist'
     | '/_authenticated/admin'
     | '/_authenticated/checkout'
@@ -250,6 +262,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   LocationsRoute: typeof LocationsRouteWithChildren
   NewArrivalsRoute: typeof NewArrivalsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WishlistRoute: typeof WishlistRoute
   BookSlugRoute: typeof BookSlugRoute
 }
@@ -331,6 +344,13 @@ declare module '@tanstack/react-router' {
       path: '/new-arrivals'
       fullPath: '/new-arrivals'
       preLoaderRoute: typeof NewArrivalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/wishlist': {
@@ -434,6 +454,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   LocationsRoute: LocationsRouteWithChildren,
   NewArrivalsRoute: NewArrivalsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   WishlistRoute: WishlistRoute,
   BookSlugRoute: BookSlugRoute,
 }
