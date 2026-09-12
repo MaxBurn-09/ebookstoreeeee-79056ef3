@@ -471,12 +471,10 @@ export const books: Book[] = [
 
 export const bySlug = (slug: string) => books.find((b) => b.slug === slug);
 
-export const bestsellers = [...books].sort((a, b) => b.bought - a.bought).slice(0, 6);
 export const newArrivals = [...books].slice(-6).reverse();
 export const mostPopular = [...books].sort((a, b) => b.reviews - a.reviews).slice(0, 6);
 export const featuredBook = books[0] as Book;
 export const bookOfTheMonth = books[0] as Book;
-for (const b of [...books].sort((a, z) => z.bought - a.bought).slice(0, 3)) b.badge = "Bestseller";
 for (const b of books.slice(-3)) if (!b.badge) b.badge = "New";
 
 export const newArrivalFilters = ["All", "Self-Care", "Relationship", "Money", "Health", "Parenting"] as const;
@@ -606,6 +604,8 @@ export const storeConfig = {
     { label: "Shop", to: "/books" },
     { label: "Categories", to: "/categories" },
     { label: "New Additions", to: "/new-arrivals" },
+    { label: "Blog", to: "/blog" },
+    { label: "Locations", to: "/locations" },
     { label: "About Us", to: "/about" },
     { label: "Connect", to: "/contact" },
   ] as const,

@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin } from "lucide-react";
 import { storeConfig, categories } from "@/data/catalog";
+import { locations } from "@/data/locations";
 import logo from "@/assets/fga-logo.png.asset.json";
 
 export function Footer() {
@@ -100,6 +101,25 @@ export function Footer() {
             ))}
           </ul>
         </div>
+      </div>
+
+      <div className="border-t border-border">
+        <nav aria-label="Popular locations" className="container-page py-5">
+          <h2 className="eyebrow">Popular reader locations</h2>
+          <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+            {locations.slice(0, 12).map((l) => (
+              <li key={l.slug}>
+                <Link
+                  to="/locations/$slug"
+                  params={{ slug: l.slug }}
+                  className="text-[0.78rem] text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {l.city}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
       <div className="border-t border-border">
