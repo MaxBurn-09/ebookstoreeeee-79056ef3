@@ -153,6 +153,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
             </button>
           </div>
         </div>
+        <ScrollProgress />
       </div>
 
       {open ? (
