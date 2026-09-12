@@ -17,6 +17,7 @@ import { Route as BooksRouteImport } from './routes/books'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as NewArrivalsRouteImport } from './routes/new-arrivals'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -63,6 +64,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocationsRoute = LocationsRouteImport.update({
+  id: '/locations',
+  path: '/locations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewArrivalsRoute = NewArrivalsRouteImport.update({
   id: '/new-arrivals',
   path: '/new-arrivals',
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/contact': typeof ContactRoute
+  '/locations': typeof LocationsRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/contact': typeof ContactRoute
+  '/locations': typeof LocationsRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/contact': typeof ContactRoute
+  '/locations': typeof LocationsRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/wishlist': typeof WishlistRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/categories'
     | '/contact'
+    | '/locations'
     | '/new-arrivals'
     | '/wishlist'
     | '/admin'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/categories'
     | '/contact'
+    | '/locations'
     | '/new-arrivals'
     | '/wishlist'
     | '/admin'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/categories'
     | '/contact'
+    | '/locations'
     | '/new-arrivals'
     | '/wishlist'
     | '/_authenticated/admin'
@@ -199,6 +211,7 @@ export interface RootRouteChildren {
   CartRoute: typeof CartRoute
   CategoriesRoute: typeof CategoriesRoute
   ContactRoute: typeof ContactRoute
+  LocationsRoute: typeof LocationsRoute
   NewArrivalsRoute: typeof NewArrivalsRoute
   WishlistRoute: typeof WishlistRoute
   BookSlugRoute: typeof BookSlugRoute
@@ -260,6 +273,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations': {
+      id: '/locations'
+      path: '/locations'
+      fullPath: '/locations'
+      preLoaderRoute: typeof LocationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/new-arrivals': {
@@ -331,6 +351,7 @@ const rootRouteChildren: RootRouteChildren = {
   CartRoute: CartRoute,
   CategoriesRoute: CategoriesRoute,
   ContactRoute: ContactRoute,
+  LocationsRoute: LocationsRoute,
   NewArrivalsRoute: NewArrivalsRoute,
   WishlistRoute: WishlistRoute,
   BookSlugRoute: BookSlugRoute,
