@@ -16,27 +16,21 @@ import {
 import { BookCard } from "@/components/site/BookCard";
 import { Stars } from "@/components/site/Stars";
 import { Reveal } from "@/components/site/Reveal";
+import { CountUp, Parallax } from "@/components/site/Motion";
 import { useStore } from "@/lib/store";
 import editorial from "@/assets/editorial-book.webp";
 import { cn } from "@/lib/utils";
+import { organizationLd, pageHead, websiteLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Future Grow Academy — Premium Self-Growth eBooks from $2.97" },
-      {
-        name: "description",
-        content:
-          "Read practical ebooks on mindset, money, relationships, parenting and health. Instant PDF download worldwide, no shipping, just $2.97 each.",
-      },
-      { property: "og:title", content: "Future Grow Academy — Premium Self-Growth eBooks" },
-      {
-        property: "og:description",
-        content:
-          "15 practical self-growth ebooks. Instant download on any device, worldwide, from $2.97.",
-      },
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "Self-Growth eBooks from $2.97 | Future Grow Academy",
+      description:
+        "Read practical ebooks on mindset, money, relationships, parenting and health. Instant PDF download worldwide, no shipping, just $2.97 each.",
+      path: "/",
+      jsonLd: [organizationLd, websiteLd],
+    }),
   component: HomePage,
 });
 
@@ -66,7 +60,7 @@ function Hero() {
   return (
     <section className="border-b border-border bg-background">
       <div className="container-page grid items-center gap-12 py-14 md:py-20 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-24">
-        <div className="max-w-xl">
+        <Reveal className="max-w-xl">
           <p className="eyebrow">Digital reading library · Worldwide</p>
           <h1 className="mt-4 text-[2.1rem] leading-[1.08] font-semibold sm:text-5xl lg:text-[3.4rem]">
             {storeConfig.heroTitle}
@@ -90,14 +84,21 @@ function Hero() {
             </Link>
           </div>
 
-          <dl className="mt-10 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-6">
-            <Stat label="Ebooks" value={`${books.length}`} />
-            <Stat label="Avg. rating" value={rating} />
-            <Stat label="Every title" value="$2.97" />
+          <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-border pt-6 sm:gap-6">
+            <Stat label="Ebooks">
+              <CountUp value={books.length} />
+            </Stat>
+            <Stat label="Avg. rating">
+              <CountUp value={Number(rating)} />
+            </Stat>
+            <Stat label="Every title">
+              <CountUp value={2.97} prefix="$" />
+            </Stat>
           </dl>
-        </div>
+        </Reveal>
 
-        <Reveal className="relative">
+        <Reveal className="relative" delay={120}>
+          <Parallax speed={0.045}>
           <div className="flex items-end justify-center gap-4 sm:gap-6">
             {stack.map((book, i) => (
               <Link
@@ -124,17 +125,18 @@ function Hero() {
           <p className="mt-6 text-center text-xs text-muted-foreground">
             Instant PDF download · Read on phone, tablet or laptop
           </p>
+          </Parallax>
         </Reveal>
       </div>
     </section>
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
       <dt className="eyebrow">{label}</dt>
-      <dd className="mt-1 text-2xl font-semibold tracking-[-0.02em]">{value}</dd>
+      <dd className="mt-1 text-2xl font-semibold">{children}</dd>
     </div>
   );
 }
@@ -145,14 +147,14 @@ function TrustStrip() {
   return (
     <section aria-label="Why buy here" className="border-b border-border bg-secondary/60">
       <ul className="container-page grid gap-x-8 gap-y-5 py-6 sm:grid-cols-2 lg:grid-cols-4">
-        {benefits.map((b) => (
-          <li key={b.title} className="flex items-start gap-3">
+        {benefits.map((b, i) => (
+          <Reveal key={b.title} as="li" delay={i * 60} className="flex items-start gap-3">
             <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
             <span className="min-w-0">
               <span className="block text-[0.82rem] font-semibold">{b.title}</span>
               <span className="block text-[0.75rem] text-muted-foreground">{b.note}</span>
             </span>
-          </li>
+          </Reveal>
         ))}
       </ul>
     </section>
@@ -176,7 +178,7 @@ function Head({
 }) {
   return (
     <div className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:mb-10">
-      <div className="min-w-0">
+        <Reveal className="min-w-0">
         <p className="eyebrow">{eyebrow}</p>
         <h2 className="mt-2 text-2xl font-semibold sm:text-[2rem]">{title}</h2>
         {note ? (
@@ -213,7 +215,7 @@ function ReaderPicks() {
               <BookCard book={book} priority={i < 2} />
             </Reveal>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -312,7 +314,7 @@ function FeaturedEbook() {
           </div>
         </Reveal>
 
-        <div>
+        <Reveal delay={100}>
           <p className="eyebrow text-background/60">Editor's pick</p>
           <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{book.title}</h2>
           <div className="mt-3 flex items-center gap-2 text-sm text-background/70">
@@ -344,7 +346,7 @@ function FeaturedEbook() {
               Read the details
             </Link>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -366,7 +368,7 @@ function Publisher() {
             />
           </div>
         </Reveal>
-        <div className="order-1 lg:order-2">
+        <Reveal className="order-1 lg:order-2" delay={90}>
           <p className="eyebrow">The people behind the books</p>
           <h2 className="mt-2 text-2xl font-semibold sm:text-[2rem]">{storeConfig.name}</h2>
           <p className="mt-4 leading-relaxed text-muted-foreground">{storeConfig.tagline}</p>
@@ -383,7 +385,7 @@ function Publisher() {
           <Link to="/about" className="link-sweep mt-8 inline-block text-sm font-semibold">
             More about the academy
           </Link>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -504,7 +506,7 @@ function Newsletter() {
 
   return (
     <section className="border-t border-border bg-secondary/60 section-y">
-      <div className="container-page max-w-2xl text-center">
+      <Reveal className="container-page max-w-2xl text-center">
         <p className="eyebrow">Stay in the loop</p>
         <h2 className="mt-2 text-2xl font-semibold sm:text-[2rem]">
           New ebooks and offers, once a month
@@ -542,7 +544,7 @@ function Newsletter() {
         {done ? (
           <p className="mt-3 text-xs text-primary">Thanks — you're on the list.</p>
         ) : null}
-      </div>
+      </Reveal>
     </section>
   );
 }

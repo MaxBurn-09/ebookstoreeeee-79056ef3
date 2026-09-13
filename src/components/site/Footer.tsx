@@ -3,6 +3,7 @@ import { Mail, MapPin } from "lucide-react";
 import { storeConfig, categories } from "@/data/catalog";
 import { locations } from "@/data/locations";
 import logo from "@/assets/fga-logo.png.asset.json";
+import { Reveal } from "@/components/site/Reveal";
 
 export function Footer() {
   const year = 2026;
@@ -10,7 +11,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-secondary/60">
       <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
+        <Reveal>
           <Link to="/" aria-label="Future Grow Academy — home" className="inline-block">
             <img
               src={logo.url}
@@ -33,9 +34,9 @@ export function Footer() {
             <Mail className="h-4 w-4" aria-hidden />
             {storeConfig.email}
           </a>
-        </div>
+        </Reveal>
 
-        <nav aria-label="Shop">
+        <Reveal as="nav" aria-label="Shop" delay={60}>
           <h2 className="eyebrow">Shop</h2>
           <ul className="mt-4 space-y-2.5">
             {storeConfig.nav.slice(1).map((item) => (
@@ -49,9 +50,9 @@ export function Footer() {
               </li>
             ))}
           </ul>
-        </nav>
+        </Reveal>
 
-        <nav aria-label="Categories">
+        <Reveal as="nav" aria-label="Categories" delay={120}>
           <h2 className="eyebrow">Categories</h2>
           <ul className="mt-4 space-y-2.5">
             {categories.map((c) => (
@@ -66,9 +67,9 @@ export function Footer() {
               </li>
             ))}
           </ul>
-        </nav>
+        </Reveal>
 
-        <div>
+        <Reveal delay={180}>
           <h2 className="eyebrow">Follow</h2>
           <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2.5">
             {storeConfig.socials.map((s) => (
@@ -100,11 +101,11 @@ export function Footer() {
               </li>
             ))}
           </ul>
-        </div>
+        </Reveal>
       </div>
 
       <div className="border-t border-border">
-        <nav aria-label="Popular locations" className="container-page py-5">
+        <Reveal as="nav" aria-label="Popular locations" className="container-page py-5">
           <h2 className="eyebrow">Popular reader locations</h2>
           <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
             {locations.slice(0, 12).map((l) => (
@@ -119,7 +120,7 @@ export function Footer() {
               </li>
             ))}
           </ul>
-        </nav>
+        </Reveal>
       </div>
 
       <div className="border-t border-border">

@@ -103,7 +103,8 @@ function Group({
               <span className="eyebrow">{l.region}</span>
               <span className="mt-1.5 text-[1.05rem] font-semibold">{l.city}</span>
               <span className="mt-2 line-clamp-3 text-[0.82rem] leading-relaxed text-muted-foreground">
-                {l.angle}
+                Instant access to English-language ebooks on {l.focus.join(", ")}, available online
+                throughout {l.city} and {l.region}.
               </span>
               <span className="mt-4 inline-flex items-center gap-1.5 text-[0.78rem] font-medium text-primary">
                 Read more

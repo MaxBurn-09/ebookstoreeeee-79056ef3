@@ -82,11 +82,13 @@ export function Tilt({
 /** Counts up to a value when it scrolls into view. */
 export function CountUp({
   value,
+  prefix = "",
   suffix = "",
   duration = 1400,
   className,
 }: {
   value: number;
+  prefix?: string;
   suffix?: string;
   duration?: number;
   className?: string;
@@ -119,6 +121,7 @@ export function CountUp({
   const display = Number.isInteger(value) ? Math.round(n).toLocaleString("en-IN") : n.toFixed(1);
   return (
     <span ref={ref} className={cn("tabular-nums", className)}>
+      {prefix}
       {display}
       {suffix}
     </span>
