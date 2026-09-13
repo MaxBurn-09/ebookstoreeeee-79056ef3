@@ -15,8 +15,11 @@ export const Route = createFileRoute("/locations/$slug")({
   head: ({ loaderData, params }) => {
     const l = loaderData?.location;
     if (!l) return {};
-    const title = `Self-Growth eBooks in ${l.city} | Instant PDF Download — $2.97`;
-    const description = `${l.city} readers get practical ebooks on ${l.focus.join(", ")} for $2.97 each. Instant PDF download, no shipping, read on any device.`;
+    const title = `Self-Growth eBooks in ${l.city} | $2.97 PDFs`;
+    const description = `Browse practical self-growth ebooks available online in ${l.city}. Instant PDF delivery worldwide, no shipping, and every title is $2.97.`;
+    const reviewRating = (
+      testimonials.reduce((sum, review) => sum + review.rating, 0) / testimonials.length
+    ).toFixed(1);
     return pageHead({
       title,
       description,
@@ -38,6 +41,27 @@ export const Route = createFileRoute("/locations/$slug")({
             containedInPlace: { "@type": "AdministrativeArea", name: l.region },
           },
           serviceType: "Digital ebook download",
+          areaServed: {
+            "@type": "City",
+            name: l.city,
+            containedInPlace: { "@type": "AdministrativeArea", name: l.region },
+          },
+          availableChannel: {
+            "@type": "ServiceChannel",
+            serviceUrl: `${SITE_URL}/books`,
+            availableLanguage: "English",
+          },
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: reviewRating,
+            reviewCount: testimonials.length,
+          },
+          review: testimonials.map((review) => ({
+            "@type": "Review",
+            author: { "@type": "Person", name: review.name },
+            reviewBody: review.quote,
+            reviewRating: { "@type": "Rating", ratingValue: review.rating, bestRating: 5 },
+          })),
         },
         {
           "@context": "https://schema.org",
@@ -116,7 +140,11 @@ function LocationPage() {
         <div className="container-page grid gap-10 lg:grid-cols-[1.4fr_1fr]">
           <Reveal>
             <h2 className="text-2xl">What {l.city} readers pick up most</h2>
-            <p className="mt-3 text-[0.92rem] leading-relaxed text-muted-foreground">{l.angle}</p>
+             <p className="mt-3 text-[0.92rem] leading-relaxed text-muted-foreground">
+               Browse English-language guides on {l.focus.join(", ")}. Future Grow Academy serves
+               {` ${l.city}`} online from its verified Gurgaon address; there is no physical branch in
+               {` ${l.city}`} and no local collection is required.
+             </p>
             <ul className="mt-6 space-y-2.5">
               {[
                 `Instant PDF delivery — nothing ships to ${l.city}`,
@@ -134,7 +162,7 @@ function LocationPage() {
 
           <Reveal delay={80}>
             <div className="rounded-xl border border-border bg-card p-6">
-              <h2 className="text-[0.95rem] font-semibold">Service areas around {l.city}</h2>
+               <h2 className="text-[0.95rem] font-semibold">Readers in and around {l.city}</h2>
               <ul className="mt-4 flex flex-wrap gap-2">
                 {l.neighbourhoods.map((n) => (
                   <li
@@ -184,7 +212,7 @@ function LocationPage() {
           </div>
 
           <div>
-            <h2 className="text-2xl">What readers say</h2>
+             <h2 className="text-2xl">What verified readers say</h2>
             <div className="mt-6 space-y-4">
               {quotes.map((t) => (
                 <figure key={t.name} className="rounded-xl border border-border bg-card p-6">
@@ -196,7 +224,8 @@ function LocationPage() {
               ))}
             </div>
             <p className="mt-4 text-[0.75rem] text-muted-foreground">
-              Reviews are from verified Future Grow Academy readers worldwide.
+               Reviews are from verified Future Grow Academy readers worldwide and are not presented
+               as reviews of a local {l.city} branch.
             </p>
           </div>
         </div>

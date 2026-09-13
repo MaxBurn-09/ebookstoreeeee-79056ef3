@@ -7,10 +7,11 @@ type RevealProps = {
   delay?: number;
   as?: ElementType;
   once?: boolean;
+  [key: string]: unknown;
 };
 
 /** Fades + lifts its children into view the first time they hit the viewport. */
-export function Reveal({ children, className, delay = 0, as, once = true }: RevealProps) {
+export function Reveal({ children, className, delay = 0, as, once = true, ...props }: RevealProps) {
   const Tag = (as ?? "div") as ElementType;
   const ref = useRef<HTMLElement | null>(null);
   const [shown, setShown] = useState(false);
@@ -42,6 +43,7 @@ export function Reveal({ children, className, delay = 0, as, once = true }: Reve
   return (
     <Tag
       ref={ref as never}
+      {...props}
       style={{ transitionDelay: `${delay}ms` }}
       className={cn("reveal-init", shown && "reveal-in", className)}
     >
