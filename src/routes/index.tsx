@@ -281,7 +281,7 @@ function CategoryBand() {
                 <Link
                   to="/books"
                   search={{ q: undefined, category: c.slug }}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-500 hover:-translate-y-3 hover:shadow-[var(--shadow-lift)]"
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_24px_50px_-24px_rgba(11,22,51,0.35)]"
                 >
                   <span
                     className="grid aspect-[4/3] place-items-center"
