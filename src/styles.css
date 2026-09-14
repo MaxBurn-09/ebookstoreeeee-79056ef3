@@ -19,9 +19,9 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-  --font-serif: "Sora", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
   /* 8px spacing scale */
   --spacing-1: 0.5rem;
@@ -81,51 +81,63 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.75rem;
 
-  /* brand — warm paper & ink */
-  --forest: oklch(0.362 0.043 160); /* #2A4A3C */
-  --forest-foreground: oklch(0.972 0.011 85);
-  --charcoal: oklch(0.276 0.008 275); /* #25262B */
-  --cream: oklch(0.938 0.014 84); /* #EDE5D8 */
-  --ivory: oklch(0.98 0.008 85);
-  --beige: oklch(0.905 0.019 82);
-  --taupe: oklch(0.79 0.014 78);
-  --gold: oklch(0.61 0.079 62);
-  --gold-foreground: oklch(0.98 0.008 85);
+  /* brand — FGA logo: crimson → red → orange → amber, deep navy ink on warm paper */
+  --brand-crimson: oklch(0.53 0.22 22); /* #D1002C */
+  --brand-red: oklch(0.6 0.23 25); /* #F21A2F */
+  --brand-orange: oklch(0.71 0.2 45); /* #FF6A1A */
+  --brand-amber: oklch(0.81 0.17 78); /* #FFB000 */
+  --gradient-brand: linear-gradient(
+    120deg,
+    var(--brand-crimson) 0%,
+    var(--brand-red) 32%,
+    var(--brand-orange) 66%,
+    var(--brand-amber) 100%
+  );
 
-  --background: oklch(0.966 0.01 85); /* #F7F3EC */
-  --foreground: oklch(0.276 0.008 275);
-  --card: oklch(0.995 0.004 85);
-  --card-foreground: oklch(0.276 0.008 275);
-  --popover: oklch(0.995 0.004 85);
-  --popover-foreground: oklch(0.276 0.008 275);
-  --primary: oklch(0.362 0.043 160);
-  --primary-foreground: oklch(0.972 0.011 85);
-  --secondary: oklch(0.938 0.014 84);
-  --secondary-foreground: oklch(0.362 0.043 160);
-  --muted: oklch(0.93 0.012 84);
-  --muted-foreground: oklch(0.475 0.011 70);
-  --accent: oklch(0.905 0.019 82);
-  --accent-foreground: oklch(0.276 0.008 275);
-  --destructive: oklch(0.52 0.18 27);
+  --forest: oklch(0.22 0.05 268); /* deep navy #0B1633 */
+  --forest-foreground: oklch(0.985 0.006 85);
+  --charcoal: oklch(0.22 0.05 268);
+  --cream: oklch(0.955 0.012 84);
+  --ivory: oklch(0.985 0.006 85);
+  --beige: oklch(0.925 0.016 82);
+  --taupe: oklch(0.8 0.014 78);
+  --gold: oklch(0.78 0.14 78);
+  --gold-foreground: oklch(0.22 0.05 268);
+
+  --background: oklch(0.978 0.008 85); /* #FAF8F4 */
+  --foreground: oklch(0.22 0.05 268); /* #0B1633 */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.05 268);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.05 268);
+  --primary: oklch(0.53 0.22 22); /* crimson */
+  --primary-foreground: oklch(0.985 0.006 85);
+  --secondary: oklch(0.955 0.012 84);
+  --secondary-foreground: oklch(0.22 0.05 268);
+  --muted: oklch(0.945 0.01 84);
+  --muted-foreground: oklch(0.5 0.02 268); /* #5E6472 */
+  --accent: oklch(0.925 0.016 82);
+  --accent-foreground: oklch(0.22 0.05 268);
+  --destructive: oklch(0.53 0.22 22);
   --destructive-foreground: oklch(0.985 0.007 85);
-  --border: oklch(0.885 0.012 82);
-  --input: oklch(0.885 0.012 82);
-  --ring: oklch(0.362 0.043 160);
-  --chart-1: oklch(0.362 0.043 160);
-  --chart-2: oklch(0.61 0.079 62);
-  --chart-3: oklch(0.79 0.014 78);
-  --chart-4: oklch(0.475 0.011 70);
-  --chart-5: oklch(0.905 0.019 82);
-  --sidebar: oklch(0.938 0.014 84);
-  --sidebar-foreground: oklch(0.276 0.008 275);
-  --sidebar-primary: oklch(0.362 0.043 160);
-  --sidebar-primary-foreground: oklch(0.972 0.011 85);
-  --sidebar-accent: oklch(0.905 0.019 82);
-  --sidebar-accent-foreground: oklch(0.276 0.008 275);
-  --sidebar-border: oklch(0.885 0.012 82);
-  --sidebar-ring: oklch(0.362 0.043 160);
+  --border: oklch(0.925 0.01 82); /* #E9E5DF */
+  --input: oklch(0.925 0.01 82);
+  --ring: oklch(0.53 0.22 22);
+  --chart-1: oklch(0.53 0.22 22);
+  --chart-2: oklch(0.81 0.17 78);
+  --chart-3: oklch(0.71 0.2 45);
+  --chart-4: oklch(0.5 0.02 268);
+  --chart-5: oklch(0.925 0.016 82);
+  --sidebar: oklch(0.955 0.012 84);
+  --sidebar-foreground: oklch(0.22 0.05 268);
+  --sidebar-primary: oklch(0.53 0.22 22);
+  --sidebar-primary-foreground: oklch(0.985 0.006 85);
+  --sidebar-accent: oklch(0.925 0.016 82);
+  --sidebar-accent-foreground: oklch(0.22 0.05 268);
+  --sidebar-border: oklch(0.925 0.01 82);
+  --sidebar-ring: oklch(0.53 0.22 22);
 }
 
 .dark {
@@ -173,12 +185,18 @@
   }
 
   h1,
-  h2,
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
   h3,
   h4 {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-weight: 600;
-    letter-spacing: -0.022em;
+    letter-spacing: -0.012em;
     text-wrap: balance;
   }
 
@@ -197,7 +215,7 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--forest) 18%, transparent);
+    background: color-mix(in oklab, var(--brand-amber) 35%, transparent);
   }
 }
 
@@ -403,6 +421,112 @@
 
 @utility grain {
   position: relative;
+}
+
+/* ---------------- FGA brand gradient ---------------- */
+
+@utility text-brand {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-brand {
+  background-image: var(--gradient-brand);
+}
+
+@utility border-brand {
+  position: relative;
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    var(--gradient-brand) border-box;
+  border: 1.5px solid transparent;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.12);
+  }
+}
+@utility glow-breathe {
+  animation: breathe 6s ease-in-out infinite;
+}
+
+@keyframes icon-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(-3deg);
+  }
+}
+@utility icon-bob {
+  animation: icon-bob 4s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(6px, -14px, 0);
+  }
+}
+@utility drift {
+  animation: drift 9s ease-in-out infinite;
+}
+
+/* Physical book block for the hero: cover face + page edge + spine */
+@utility book-block {
+  position: relative;
+  transform-style: preserve-3d;
+  border-radius: 3px 8px 8px 3px;
+
+  & > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    backface-visibility: hidden;
+  }
+
+  &::before {
+    /* page edge */
+    content: "";
+    position: absolute;
+    inset: 2% 0 2% auto;
+    width: 22px;
+    background: repeating-linear-gradient(
+      180deg,
+      oklch(0.98 0.006 85) 0 2px,
+      oklch(0.9 0.01 82) 2px 3px
+    );
+    transform: rotateY(90deg) translateZ(calc(100% - 11px)) translateX(11px);
+    transform-origin: right center;
+    border-radius: 2px;
+  }
+
+  &::after {
+    /* cover sheen */
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, oklch(0.1 0.02 268 / 28%) 0%, transparent 5%),
+      linear-gradient(115deg, oklch(1 0 0 / 22%) 0%, transparent 38%, transparent 70%, oklch(1 0 0 / 10%) 100%);
+  }
 }
 
 /* Book cover presentation: spine shading + grounded shadow */
