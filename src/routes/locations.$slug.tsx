@@ -41,11 +41,6 @@ export const Route = createFileRoute("/locations/$slug")({
             containedInPlace: { "@type": "AdministrativeArea", name: l.region },
           },
           serviceType: "Digital ebook download",
-          areaServed: {
-            "@type": "City",
-            name: l.city,
-            containedInPlace: { "@type": "AdministrativeArea", name: l.region },
-          },
           availableChannel: {
             "@type": "ServiceChannel",
             serviceUrl: `${SITE_URL}/books`,
