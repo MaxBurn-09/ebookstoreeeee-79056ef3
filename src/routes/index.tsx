@@ -178,7 +178,7 @@ function Head({
 }) {
   return (
     <div className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:mb-10">
-        <Reveal className="min-w-0">
+        <div className="min-w-0">
         <p className="eyebrow">{eyebrow}</p>
         <h2 className="mt-2 text-2xl font-semibold sm:text-[2rem]">{title}</h2>
         {note ? (
@@ -215,7 +215,7 @@ function ReaderPicks() {
               <BookCard book={book} priority={i < 2} />
             </Reveal>
           ))}
-        </Reveal>
+        </div>
       </div>
     </section>
   );
