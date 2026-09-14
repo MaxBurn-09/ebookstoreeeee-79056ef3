@@ -1,33 +1,40 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, Check, Download, Star, Quote } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Baby,
+  Coins,
+  Download,
+  Dumbbell,
+  HeartHandshake,
+  Infinity as InfinityIcon,
+  Quote,
+  Search,
+  ShieldCheck,
+  Smartphone,
+  Sprout,
+  Star,
+} from "lucide-react";
 import {
   books,
   mostPopular,
-  newArrivals,
   categories,
-  benefits,
-  whyUs,
   testimonials,
-  featuredBook,
   storeConfig,
-  formatPrice,
 } from "@/data/catalog";
 import { BookCard } from "@/components/site/BookCard";
-import { Stars } from "@/components/site/Stars";
 import { Reveal } from "@/components/site/Reveal";
-import { CountUp, Parallax } from "@/components/site/Motion";
-import { useStore } from "@/lib/store";
-import editorial from "@/assets/editorial-book.webp";
+import { CountUp, Parallax, Tilt } from "@/components/site/Motion";
 import { cn } from "@/lib/utils";
 import { organizationLd, pageHead, websiteLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () =>
     pageHead({
-      title: "Self-Growth eBooks from $2.97 | Future Grow Academy",
+      title: "Learn Today. Grow Tomorrow. | Future Grow Academy eBooks",
       description:
-        "Read practical ebooks on mindset, money, relationships, parenting and health. Instant PDF download worldwide, no shipping, just $2.97 each.",
+        "Practical eBooks on self-care, money, relationships, health and parenting. Instant PDF download, lifetime access, every title just $2.97.",
       path: "/",
       jsonLd: [organizationLd, websiteLd],
     }),
@@ -39,12 +46,11 @@ function HomePage() {
     <>
       <Hero />
       <TrustStrip />
-      <ReaderPicks />
       <CategoryBand />
-      <NewArrivals />
-      <FeaturedEbook />
-      <Publisher />
-      <Collections />
+      <StoryBand />
+      <BestSelling />
+      <OfferBanner />
+      <Founder />
       <Reviews />
       <Newsletter />
     </>
@@ -54,78 +60,123 @@ function HomePage() {
 /* ------------------------------------------------------------------ hero */
 
 function Hero() {
-  const stack = [books[2], books[0], books[11]].filter(Boolean) as typeof books;
-  const rating = (books.reduce((s, b) => s + b.rating, 0) / books.length).toFixed(1);
+  const navigate = useNavigate();
+  const [q, setQ] = useState("");
+  const stack = [books[11], books[0], books[4]].filter(Boolean) as typeof books;
 
   return (
-    <section className="border-b border-border bg-background">
-      <div className="container-page grid items-center gap-12 py-14 md:py-20 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-24">
+    <section className="relative overflow-hidden border-b border-border bg-background">
+      <div className="container-page grid items-center gap-12 py-14 lg:grid-cols-[1.02fr_1fr] lg:gap-10 lg:py-20">
         <Reveal className="max-w-xl">
-          <p className="eyebrow">Digital reading library · Worldwide</p>
-          <h1 className="mt-4 text-[2.1rem] leading-[1.08] font-semibold sm:text-5xl lg:text-[3.4rem]">
-            {storeConfig.heroTitle}
+          <p className="eyebrow">Digital books for a brighter you</p>
+
+          <h1 className="mt-5 font-display text-[2.6rem] leading-[1.03] font-medium tracking-[-0.02em] sm:text-6xl lg:text-[4.1rem]">
+            Learn Today
+            <span className="block">
+              <span className="text-brand">Grow</span> Tomorrow
+            </span>
           </h1>
-          <p className="mt-5 text-[0.98rem] leading-relaxed text-muted-foreground sm:text-base">
-            {storeConfig.heroSubtitle}
+
+          <p className="mt-6 max-w-md text-[0.97rem] leading-relaxed text-muted-foreground">
+            Discover practical eBooks on self-care, money, relationships, health and parenting.
+            Read anytime, anywhere, and take a step towards a better tomorrow.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               to="/books"
-              className="press inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-6 text-sm font-semibold text-background hover:bg-foreground/90"
+              className="press inline-flex h-12 items-center gap-2 rounded-full bg-brand px-7 text-sm font-semibold text-white shadow-[0_10px_30px_-12px_var(--brand-red)]"
             >
-              Browse the library <ArrowRight className="h-4 w-4" />
+              Browse Books <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              to="/categories"
-              className="press inline-flex h-12 items-center rounded-full border border-border px-6 text-sm font-semibold hover:border-foreground/30 hover:bg-muted"
+              to="/blog"
+              className="press inline-flex h-12 items-center rounded-full border border-border bg-card px-7 text-sm font-semibold hover:border-foreground/25"
             >
-              Browse categories
+              Read Free Articles
             </Link>
           </div>
 
-          <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-border pt-6 sm:gap-6">
-            <Stat label="Ebooks">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              navigate({ to: "/books", search: { q: q || undefined, category: undefined } });
+            }}
+            className="mt-6 flex h-14 max-w-md items-center gap-2 rounded-full border border-border bg-card pr-2 pl-5 shadow-[var(--shadow-card)] transition-colors focus-within:border-foreground/25"
+          >
+            <Search className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+            <label htmlFor="hero-search" className="sr-only">
+              Search books
+            </label>
+            <input
+              id="hero-search"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search books, topics or authors..."
+              className="h-full min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+            />
+            <button
+              type="submit"
+              aria-label="Search"
+              className="press grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand text-white"
+            >
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </form>
+
+          <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-border pt-7">
+            <Stat label="Happy readers">
+              <CountUp value={6000} suffix="+" />
+            </Stat>
+            <Stat label="eBooks available">
               <CountUp value={books.length} />
             </Stat>
-            <Stat label="Avg. rating">
-              <CountUp value={Number(rating)} />
-            </Stat>
-            <Stat label="Every title">
-              <CountUp value={2.97} prefix="$" />
+            <Stat label="Categories">
+              <CountUp value={categories.length} />
             </Stat>
           </dl>
         </Reveal>
 
-        <Reveal className="relative" delay={120}>
-          <Parallax speed={0.045}>
-          <div className="flex items-end justify-center gap-4 sm:gap-6">
-            {stack.map((book, i) => (
-              <Link
-                key={book.id}
-                to="/book/$slug"
-                params={{ slug: book.slug }}
-                preload="intent"
-                className={cn(
-                  "cover-plate block w-[28%] transition-transform duration-500 hover:-translate-y-2 sm:w-[30%]",
-                  i === 1 && "w-[38%] sm:w-[40%]",
-                )}
-                style={{ transform: i === 1 ? undefined : "translateY(6%)" }}
-              >
-                <img
-                  src={book.cover}
-                  alt={`${book.title} ebook cover`}
-                  width={640}
-                  height={960}
-                  className="aspect-[2/3] w-full object-cover"
-                />
-              </Link>
-            ))}
-          </div>
-          <p className="mt-6 text-center text-xs text-muted-foreground">
-            Instant PDF download · Read on phone, tablet or laptop
-          </p>
+        <Reveal delay={140} className="relative">
+          {/* warm sun glow */}
+          <div
+            aria-hidden
+            className="glow-breathe absolute top-1/2 left-1/2 -z-10 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-[58%] rounded-full blur-[2px] sm:h-[34rem] sm:w-[34rem]"
+            style={{
+              background:
+                "radial-gradient(circle, color-mix(in oklab, var(--brand-amber) 55%, transparent) 0%, color-mix(in oklab, var(--brand-orange) 26%, transparent) 42%, transparent 68%)",
+            }}
+          />
+          <Parallax speed={0.05}>
+            <Tilt max={6} className="flex items-end justify-center gap-3 sm:gap-5">
+              {stack.map((book, i) => (
+                <Link
+                  key={book.id}
+                  to="/book/$slug"
+                  params={{ slug: book.slug }}
+                  preload="intent"
+                  className={cn(
+                    "cover-plate block w-[27%] transition-all duration-500 hover:-translate-y-3",
+                    i === 1 ? "w-[42%] -translate-y-6" : "translate-y-4 opacity-95",
+                    i === 0 && "-rotate-3",
+                    i === 2 && "rotate-3",
+                  )}
+                >
+                  <img
+                    src={book.cover}
+                    alt={`${book.title} ebook cover`}
+                    width={640}
+                    height={960}
+                    className="aspect-[2/3] w-full object-cover"
+                  />
+                </Link>
+              ))}
+            </Tilt>
           </Parallax>
+
+          <p className="mt-8 text-center text-xs tracking-[0.14em] text-muted-foreground uppercase">
+            Instant PDF download · Lifetime access
+          </p>
         </Reveal>
       </div>
     </section>
@@ -135,24 +186,35 @@ function Hero() {
 function Stat({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <dt className="eyebrow">{label}</dt>
-      <dd className="mt-1 text-2xl font-semibold">{children}</dd>
+      <dd className="font-display text-2xl font-medium sm:text-[1.75rem]">{children}</dd>
+      <dt className="mt-1 text-[0.72rem] tracking-[0.08em] text-muted-foreground uppercase">
+        {label}
+      </dt>
     </div>
   );
 }
 
 /* ----------------------------------------------------------- trust strip */
 
+const trust = [
+  { icon: Download, title: "Instant Download", note: "Get your eBooks immediately" },
+  { icon: InfinityIcon, title: "Lifetime Access", note: "Read anytime, anywhere" },
+  { icon: ShieldCheck, title: "Secure Checkout", note: "Your information is safe" },
+  { icon: Smartphone, title: "Mobile Friendly", note: "Read on any device" },
+];
+
 function TrustStrip() {
   return (
-    <section aria-label="Why buy here" className="border-b border-border bg-secondary/60">
-      <ul className="container-page grid gap-x-8 gap-y-5 py-6 sm:grid-cols-2 lg:grid-cols-4">
-        {benefits.map((b, i) => (
-          <Reveal key={b.title} as="li" delay={i * 60} className="flex items-start gap-3">
-            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+    <section aria-label="Why buy here" className="border-b border-border bg-card">
+      <ul className="container-page grid gap-x-6 gap-y-6 py-8 sm:grid-cols-2 lg:grid-cols-4">
+        {trust.map((t, i) => (
+          <Reveal key={t.title} as="li" delay={i * 70} className="group flex items-center gap-3.5">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color-mix(in_oklab,var(--brand-orange)_12%,transparent)] text-[var(--brand-red)] transition-transform duration-300 group-hover:-translate-y-0.5">
+              <t.icon className="h-5 w-5" aria-hidden />
+            </span>
             <span className="min-w-0">
-              <span className="block text-[0.82rem] font-semibold">{b.title}</span>
-              <span className="block text-[0.75rem] text-muted-foreground">{b.note}</span>
+              <span className="block text-[0.88rem] font-semibold">{t.title}</span>
+              <span className="block text-[0.78rem] text-muted-foreground">{t.note}</span>
             </span>
           </Reveal>
         ))}
@@ -164,53 +226,183 @@ function TrustStrip() {
 /* ---------------------------------------------------------- section head */
 
 function Head({
-  eyebrow,
   title,
-  note,
   to,
   cta,
+  note,
 }: {
-  eyebrow: string;
   title: string;
-  note?: string;
-  to?: "/books" | "/new-arrivals" | "/categories";
+  to?: "/books" | "/categories" | "/blog";
   cta?: string;
+  note?: string;
 }) {
   return (
-    <div className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:mb-10">
-        <div className="min-w-0">
-        <p className="eyebrow">{eyebrow}</p>
-        <h2 className="mt-2 text-2xl font-semibold sm:text-[2rem]">{title}</h2>
-        {note ? (
-          <p className="mt-2 max-w-xl text-sm text-muted-foreground">{note}</p>
-        ) : null}
+    <div className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-10">
+      <div className="min-w-0">
+        <h2 className="font-display text-[1.65rem] font-medium tracking-[-0.01em] sm:text-[2.1rem]">
+          {title}
+        </h2>
+        {note ? <p className="mt-2 max-w-xl text-sm text-muted-foreground">{note}</p> : null}
       </div>
       {to ? (
         <Link
           to={to}
-          className="link-sweep shrink-0 pb-1 text-[0.8rem] font-semibold whitespace-nowrap"
+          className="group inline-flex items-center gap-1.5 text-[0.82rem] font-semibold text-[var(--brand-red)]"
         >
-          {cta ?? "View all"}
+          {cta ?? "View All"}
+          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
         </Link>
       ) : null}
     </div>
   );
 }
 
-/* ------------------------------------------------------- reader picks */
+/* ------------------------------------------------------------ categories */
 
-function ReaderPicks() {
+const categoryIcons: Record<string, typeof Sprout> = {
+  "self-care": Sprout,
+  money: Coins,
+  relationship: HeartHandshake,
+  health: Dumbbell,
+  parenting: Baby,
+};
+
+function CategoryBand() {
   return (
     <section className="section-y">
       <div className="container-page">
-        <Head
-          eyebrow="Loved by readers"
-          title="Reader favourites"
-          note="The titles readers finish, apply and come back to recommend."
-          to="/books"
-        />
-        <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
-          {mostPopular.slice(0, 4).map((book, i) => (
+        <Head title="Explore Our Categories" to="/categories" />
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+          {categories.map((c, i) => {
+            const Icon = categoryIcons[c.slug] ?? Sprout;
+            const count = books.filter((b) => b.category === c.name).length;
+            return (
+              <Reveal key={c.slug} delay={i * 60}>
+                <Link
+                  to="/books"
+                  search={{ q: undefined, category: c.slug }}
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-500 hover:-translate-y-3 hover:shadow-[var(--shadow-lift)]"
+                >
+                  <span
+                    className="grid aspect-[4/3] place-items-center"
+                    style={{
+                      background:
+                        "linear-gradient(160deg, color-mix(in oklab, var(--brand-amber) 16%, var(--card)) 0%, color-mix(in oklab, var(--brand-orange) 9%, var(--card)) 100%)",
+                    }}
+                  >
+                    <Icon
+                      className="h-11 w-11 text-[var(--brand-red)] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[6deg]"
+                      strokeWidth={1.25}
+                      aria-hidden
+                    />
+                  </span>
+                  <span className="flex flex-1 items-end justify-between gap-3 p-4">
+                    <span>
+                      <span className="block text-[0.92rem] font-semibold">{c.name}</span>
+                      <span className="mt-1 block text-[0.75rem] text-muted-foreground">
+                        {count} {count === 1 ? "eBook" : "eBooks"}
+                      </span>
+                    </span>
+                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-border text-[var(--brand-red)] transition-colors group-hover:bg-brand group-hover:text-white">
+                      <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                    </span>
+                  </span>
+                </Link>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ----------------------------------------------------------- story band */
+
+function StoryBand() {
+  const steps = ["Learn", "Grow", "Evolve"];
+  return (
+    <section className="relative overflow-hidden border-y border-border bg-foreground text-background">
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-70"
+        style={{
+          background:
+            "radial-gradient(120% 90% at 78% 40%, color-mix(in oklab, var(--brand-orange) 45%, transparent) 0%, transparent 60%), radial-gradient(90% 80% at 15% 90%, color-mix(in oklab, var(--brand-crimson) 40%, transparent) 0%, transparent 65%)",
+        }}
+      />
+      <div className="relative container-page grid items-center gap-12 py-16 lg:grid-cols-[1fr_1.1fr_auto] lg:gap-10 lg:py-24">
+        <Reveal>
+          <p className="text-[0.7rem] tracking-[0.22em] text-background/60 uppercase">
+            Knowledge creates real change
+          </p>
+          <h2 className="mt-5 font-display text-[2.2rem] leading-[1.08] font-medium sm:text-[2.9rem]">
+            More Than
+            <br />
+            Just Books
+          </h2>
+          <p className="mt-5 max-w-sm text-[0.92rem] leading-relaxed text-background/75">
+            {storeConfig.name} is built to help you learn, grow and evolve with practical knowledge
+            you can apply in real life.
+          </p>
+          <Link
+            to="/about"
+            className="press mt-8 inline-flex h-11 items-center gap-2 rounded-full bg-brand px-6 text-sm font-semibold text-white"
+          >
+            Our Story <ArrowRight className="h-4 w-4" />
+          </Link>
+        </Reveal>
+
+        <Reveal delay={120} className="flex justify-center">
+          <Parallax speed={0.06}>
+            <div className="[perspective:1400px]">
+              <div className="float-slow grid w-[min(30rem,82vw)] grid-cols-2 rounded-md bg-[#f6f1e7] text-foreground shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)] [transform:rotateX(14deg)_rotateZ(-2deg)] [transform-style:preserve-3d]">
+                <div className="border-r border-black/10 p-7 [transform:rotateY(6deg)] [transform-origin:right]">
+                  <div className="space-y-2" aria-hidden>
+                    {[92, 100, 84, 96, 70, 100, 88].map((w, i) => (
+                      <span
+                        key={i}
+                        className="block h-1.5 rounded-full bg-foreground/10"
+                        style={{ width: `${w}%` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div className="grid place-items-center p-7 [transform:rotateY(-6deg)] [transform-origin:left]">
+                  <p className="text-center font-display text-xl leading-snug font-medium sm:text-2xl">
+                    A Brighter You
+                    <br />
+                    <span className="text-brand">Starts Here</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Parallax>
+        </Reveal>
+
+        <Reveal delay={200} as="ul" className="flex gap-8 lg:flex-col lg:gap-10">
+          {steps.map((s, i) => (
+            <li key={s} className="flex items-center gap-3">
+              <span className="h-px w-8 bg-background/35 lg:w-10" aria-hidden />
+              <span className="font-display text-lg font-medium sm:text-2xl">{s}</span>
+              <span className="sr-only">step {i + 1}</span>
+            </li>
+          ))}
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* --------------------------------------------------------- best selling */
+
+function BestSelling() {
+  return (
+    <section className="section-y">
+      <div className="container-page">
+        <Head title="Best Selling eBooks" to="/books" />
+        <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-5">
+          {mostPopular.slice(0, 5).map((book, i) => (
             <Reveal key={book.id} delay={i * 60}>
               <BookCard book={book} priority={i < 2} />
             </Reveal>
@@ -221,240 +413,93 @@ function ReaderPicks() {
   );
 }
 
+/* -------------------------------------------------------- offer banner */
 
-
-/* ------------------------------------------------------------ categories */
-
-function CategoryBand() {
+function OfferBanner() {
   return (
-    <section className="border-y border-border bg-secondary/50 section-y">
-      <div className="container-page">
-        <Head
-          eyebrow="Browse by need"
-          title="Reading categories"
-          note="Five focused shelves — pick the one that matches what you're working on right now."
-          to="/categories"
-        />
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-          {categories.map((c, i) => {
-            const count = books.filter((b) => b.category === c.name).length;
-            return (
-              <Reveal key={c.slug} delay={i * 50}>
-                <Link
-                  to="/books"
-                  search={{ q: undefined, category: c.slug }}
-                  className="group hover-lift block overflow-hidden rounded-lg border border-border bg-card shadow-[var(--shadow-card)]"
-                >
+    <section className="container-page pb-4">
+      <Reveal>
+        <div className="glow-breathe relative overflow-hidden rounded-3xl bg-brand px-7 py-10 text-white sm:px-12 sm:py-12">
+          <div
+            aria-hidden
+            className="absolute -top-24 -right-16 h-72 w-72 rounded-full bg-white/10 blur-2xl"
+          />
+          <div className="relative grid items-center gap-8 lg:grid-cols-[1.2fr_auto]">
+            <div>
+              <p className="text-[0.7rem] tracking-[0.22em] text-white/75 uppercase">
+                Limited time offer
+              </p>
+              <h2 className="mt-4 font-display text-[2.1rem] leading-[1.1] font-medium sm:text-[2.8rem]">
+                Get 80% OFF
+                <br />
+                On Every eBook
+              </h2>
+              <p className="mt-4 text-sm text-white/85">
+                Every title $2.97 instead of $7.50 · instant PDF download
+              </p>
+              <Link
+                to="/books"
+                className="press mt-7 inline-flex h-12 items-center gap-2 rounded-full bg-white px-7 text-sm font-semibold text-[var(--brand-crimson)]"
+              >
+                Shop All Deals <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="hidden justify-end lg:flex">
+              <div className="float-slow relative w-40 rotate-3">
+                <div className="cover-plate">
                   <img
-                    src={c.cover}
+                    src={books[0].cover}
                     alt=""
                     loading="lazy"
-                    className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    className="aspect-[2/3] w-full object-cover"
                   />
-                  <div className="p-4">
-                    <h3 className="text-[0.9rem] font-semibold">{c.name}</h3>
-                    <p className="mt-1 text-[0.75rem] text-muted-foreground">{c.tagline}</p>
-                    <p className="mt-3 text-[0.7rem] font-medium text-muted-foreground">
-                      {count} {count === 1 ? "title" : "titles"}
-                    </p>
-                  </div>
-                </Link>
-              </Reveal>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------------------------------------------------------- new arrivals */
-
-function NewArrivals() {
-  return (
-    <section className="section-y">
-      <div className="container-page">
-        <Head
-          eyebrow="Fresh on the shelf"
-          title="New additions"
-          note="Recently published guides, added to the library this season."
-          to="/new-arrivals"
-        />
-      </div>
-      <div className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-2 sm:px-6 lg:px-10">
-        {newArrivals.map((book) => (
-          <div key={book.id} className="w-[46%] shrink-0 snap-start sm:w-[30%] lg:w-[19%]">
-            <BookCard book={book} />
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* --------------------------------------------------------- featured book */
-
-function FeaturedEbook() {
-  const { addToCart } = useStore();
-  const book = featuredBook;
-
-  return (
-    <section className="border-y border-border bg-foreground text-background section-y">
-      <div className="container-page grid items-center gap-10 lg:grid-cols-[0.8fr_1fr] lg:gap-16">
-        <Reveal className="mx-auto w-2/3 max-w-xs lg:w-full">
-          <div className="cover-plate">
-            <img
-              src={book.cover}
-              alt={`${book.title} ebook cover`}
-              loading="lazy"
-              width={640}
-              height={960}
-              className="aspect-[2/3] w-full object-cover"
-            />
-          </div>
-        </Reveal>
-
-        <Reveal delay={100}>
-          <p className="eyebrow text-background/60">Editor's pick</p>
-          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{book.title}</h2>
-          <div className="mt-3 flex items-center gap-2 text-sm text-background/70">
-            <Stars rating={book.rating} />
-            {book.rating.toFixed(1)} · {book.reviews.toLocaleString("en-US")} reviews
-          </div>
-          <p className="mt-5 max-w-xl leading-relaxed text-background/80">{book.blurb}</p>
-          <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-            {book.bullets.slice(0, 4).map((b) => (
-              <li key={b} className="flex gap-2 text-sm text-background/80">
-                <Check className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                {b}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <button
-              type="button"
-              onClick={() => addToCart(book.id)}
-              className="press inline-flex h-12 items-center gap-2 rounded-full bg-background px-6 text-sm font-semibold text-foreground hover:bg-background/90"
-            >
-              <Download className="h-4 w-4" /> Add for {formatPrice(book.price)}
-            </button>
-            <Link
-              to="/book/$slug"
-              params={{ slug: book.slug }}
-              className="link-sweep text-sm font-semibold"
-            >
-              Read the details
-            </Link>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/* --------------------------------------------------------- publisher */
-
-function Publisher() {
-  return (
-    <section className="section-y">
-      <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-        <Reveal className="order-2 lg:order-1">
-          <div className="overflow-hidden rounded-lg border border-border">
-            <img
-              src={editorial}
-              alt="Reading a Future Grow Academy ebook"
-              loading="lazy"
-              className="aspect-[4/3] w-full object-cover"
-            />
-          </div>
-        </Reveal>
-        <Reveal className="order-1 lg:order-2" delay={90}>
-          <p className="eyebrow">The people behind the books</p>
-          <h2 className="mt-2 text-2xl font-semibold sm:text-[2rem]">{storeConfig.name}</h2>
-          <p className="mt-4 leading-relaxed text-muted-foreground">{storeConfig.tagline}</p>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
-            {whyUs.map((w) => (
-              <div key={w.title}>
-                <h3 className="text-[0.92rem] font-semibold">{w.title}</h3>
-                <p className="mt-1.5 text-[0.85rem] leading-relaxed text-muted-foreground">
-                  {w.note}
-                </p>
+                </div>
+                <span className="absolute -top-5 -right-5 grid h-16 w-16 place-items-center rounded-full bg-white text-center text-[0.72rem] leading-tight font-bold text-[var(--brand-crimson)]">
+                  80%
+                  <br />
+                  OFF
+                </span>
               </div>
-            ))}
+            </div>
           </div>
-          <Link to="/about" className="link-sweep mt-8 inline-block text-sm font-semibold">
-            More about the academy
-          </Link>
-        </Reveal>
-      </div>
+        </div>
+      </Reveal>
     </section>
   );
 }
 
-/* -------------------------------------------------------- collections */
+/* -------------------------------------------------------------- founder */
 
-function Collections() {
-  const sets = [
-    {
-      title: "Rebuild after a breakup",
-      note: "Detach, heal and rebuild self-worth in a structured 30 days.",
-      slugs: ["Relationship", "Self-Care"],
-      category: "relationship",
-    },
-    {
-      title: "Calmer home, calmer kids",
-      note: "Two parenting guides for households that shout less and listen more.",
-      slugs: ["Parenting"],
-      category: "parenting",
-    },
-    {
-      title: "Earn online this quarter",
-      note: "Digital income playbooks you can start with a laptop and a plan.",
-      slugs: ["Money"],
-      category: "money",
-    },
-  ];
-
+function Founder() {
   return (
-    <section className="border-y border-border bg-secondary/50 section-y">
-      <div className="container-page">
-        <Head
-          eyebrow="Curated sets"
-          title="Reading collections"
-          note="Short, purposeful reading paths instead of an endless catalogue."
-        />
-        <div className="grid gap-5 lg:grid-cols-3">
-          {sets.map((set, i) => {
-            const items = books.filter((b) => set.slugs.includes(b.category)).slice(0, 3);
-            return (
-              <Reveal key={set.title} delay={i * 60}>
-                <Link
-                  to="/books"
-                  search={{ q: undefined, category: set.category }}
-                  className="group hover-lift flex h-full flex-col rounded-lg border border-border bg-card p-6 shadow-[var(--shadow-card)]"
-                >
-                  <div className="flex -space-x-4">
-                    {items.map((b) => (
-                      <img
-                        key={b.id}
-                        src={b.cover}
-                        alt=""
-                        loading="lazy"
-                        className="h-24 w-16 rounded-[3px] border border-border object-cover shadow-[var(--shadow-card)] transition-transform duration-500 group-hover:-translate-y-1"
-                      />
-                    ))}
-                  </div>
-                  <h3 className="mt-5 text-[1.05rem] font-semibold">{set.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{set.note}</p>
-                  <span className="mt-5 inline-flex items-center gap-1.5 text-[0.8rem] font-semibold">
-                    Open collection
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </Link>
-              </Reveal>
-            );
-          })}
-        </div>
+    <section className="section-y">
+      <div className="container-page grid items-center gap-10 rounded-3xl border border-border bg-card p-8 shadow-[var(--shadow-card)] sm:p-12 lg:grid-cols-[auto_1fr_auto]">
+        <Reveal className="flex justify-center">
+          <span
+            className="grid h-32 w-32 place-items-center rounded-2xl font-display text-4xl font-medium text-white"
+            style={{ background: "var(--gradient-brand)" }}
+            aria-hidden
+          >
+            AS
+          </span>
+        </Reveal>
+        <Reveal delay={90}>
+          <blockquote className="font-display text-[1.3rem] leading-[1.5] font-medium sm:text-[1.55rem]">
+            “Knowledge has the power to transform lives. My mission is to make practical learning
+            accessible to everyone, everywhere.”
+          </blockquote>
+          <p className="mt-6 text-[0.92rem] font-semibold">Dr. Ankit Sharma</p>
+          <p className="text-[0.8rem] text-muted-foreground">Founder, {storeConfig.name}</p>
+        </Reveal>
+        <Reveal delay={160} className="hidden text-right lg:block">
+          <p className="font-display text-[1.4rem] leading-tight text-brand italic">
+            A Brighter
+            <br />
+            Tomorrow
+          </p>
+          <p className="mt-6 font-display text-lg italic">Dr. Ankit Sharma</p>
+          <span className="mt-2 block h-px w-40 bg-foreground/25" aria-hidden />
+        </Reveal>
       </div>
     </section>
   );
@@ -464,29 +509,35 @@ function Collections() {
 
 function Reviews() {
   return (
-    <section className="section-y">
+    <section className="pb-14 sm:pb-20">
       <div className="container-page">
-        <Head
-          eyebrow="Readers worldwide"
-          title="What readers say"
-          note="From New York to Berlin — feedback from people who finished the books."
-        />
+        <Head title="What Our Readers Say" to="/books" cta="View All Reviews" />
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((t, i) => (
-            <Reveal key={t.name} delay={(i % 3) * 60}>
-              <figure className="flex h-full flex-col rounded-lg border border-border bg-card p-6 shadow-[var(--shadow-card)]">
-                <Quote className="h-5 w-5 text-taupe" aria-hidden />
-                <blockquote className="mt-4 flex-1 text-[0.9rem] leading-relaxed text-foreground/90">
+          {testimonials.slice(0, 3).map((t, i) => (
+            <Reveal key={t.name} delay={i * 80}>
+              <figure className="flex h-full flex-col rounded-2xl bg-card p-6 shadow-[var(--shadow-card)] transition-transform duration-500 hover:-translate-y-1.5">
+                <Quote className="h-6 w-6 text-[var(--brand-orange)]" aria-hidden />
+                <blockquote className="mt-4 flex-1 text-[0.9rem] leading-relaxed text-foreground/85">
                   {t.quote}
                 </blockquote>
-                <figcaption className="mt-5 flex items-center justify-between border-t border-border pt-4">
+                <figcaption className="mt-6 flex items-center justify-between gap-3">
                   <span>
                     <span className="block text-[0.85rem] font-semibold">{t.name}</span>
                     <span className="block text-[0.75rem] text-muted-foreground">{t.location}</span>
                   </span>
-                  <span className="inline-flex items-center gap-1 text-[0.78rem] font-medium">
-                    <Star className="h-3.5 w-3.5 fill-gold text-gold" aria-hidden />
-                    {t.rating}
+                  <span className="flex gap-0.5" aria-label={`${t.rating} out of 5`}>
+                    {Array.from({ length: 5 }).map((_, s) => (
+                      <Star
+                        key={s}
+                        className={cn(
+                          "h-3.5 w-3.5",
+                          s < Math.round(t.rating)
+                            ? "fill-[var(--brand-amber)] text-[var(--brand-amber)]"
+                            : "text-border",
+                        )}
+                        aria-hidden
+                      />
+                    ))}
                   </span>
                 </figcaption>
               </figure>
@@ -505,45 +556,49 @@ function Newsletter() {
   const [done, setDone] = useState(false);
 
   return (
-    <section className="border-t border-border bg-secondary/60 section-y">
-      <Reveal className="container-page max-w-2xl text-center">
-        <p className="eyebrow">Stay in the loop</p>
-        <h2 className="mt-2 text-2xl font-semibold sm:text-[2rem]">
-          New ebooks and offers, once a month
-        </h2>
-        <p className="mt-3 text-sm text-muted-foreground">
-          No noise — just new releases and the occasional discount. Unsubscribe anytime.
-        </p>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setDone(true);
-          }}
-          className="mx-auto mt-7 flex max-w-md flex-col gap-3 sm:flex-row"
-        >
-          <label htmlFor="newsletter-email" className="sr-only">
-            Email address
-          </label>
-          <input
-            id="newsletter-email"
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            className="h-12 flex-1 rounded-full border border-border bg-card px-5 text-sm outline-none transition-colors focus:border-foreground/30"
-          />
-          <button
-            type="submit"
-            disabled={done}
-            className="press h-12 rounded-full bg-foreground px-6 text-sm font-semibold text-background hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-60"
+    <section className="container-page pb-16 sm:pb-24">
+      <Reveal>
+        <div className="grid items-center gap-6 rounded-3xl bg-brand px-7 py-10 text-white sm:px-12 lg:grid-cols-2">
+          <div>
+            <h2 className="font-display text-[1.7rem] font-medium sm:text-[2.1rem]">
+              Join Our Newsletter
+            </h2>
+            <p className="mt-3 max-w-md text-sm text-white/85">
+              Get the latest book releases, exclusive offers and life-changing tips.
+            </p>
+          </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setDone(true);
+            }}
+            className="flex h-14 items-center gap-2 rounded-full bg-white pr-2 pl-5 lg:justify-self-end lg:w-full"
           >
-            {done ? "Subscribed" : "Subscribe"}
-          </button>
-        </form>
-        {done ? (
-          <p className="mt-3 text-xs text-primary">Thanks — you're on the list.</p>
-        ) : null}
+            <label htmlFor="newsletter-email" className="sr-only">
+              Email address
+            </label>
+            <input
+              id="newsletter-email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email address..."
+              className="h-full min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
+            />
+            <button
+              type="submit"
+              disabled={done}
+              aria-label="Subscribe"
+              className="press grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand text-white disabled:opacity-60"
+            >
+              <ArrowUpRight className="h-4 w-4" />
+            </button>
+          </form>
+          {done ? (
+            <p className="text-xs text-white/90 lg:col-span-2">Thanks — you're on the list.</p>
+          ) : null}
+        </div>
       </Reveal>
     </section>
   );
