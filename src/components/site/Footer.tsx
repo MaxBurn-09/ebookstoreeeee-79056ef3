@@ -9,19 +9,14 @@ export function Footer() {
   const year = 2026;
 
   return (
-    <footer className="border-t border-border bg-secondary/60">
-      <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="border-t border-border bg-card">
+      <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-12">
         <Reveal>
           <Link to="/" aria-label="Future Grow Academy — home" className="inline-block">
-            <img
-              src={logo.url}
-              alt="Future Grow Academy"
-              loading="lazy"
-              className="h-11 w-auto"
-            />
+            <img src={logo.url} alt="Future Grow Academy" loading="lazy" className="h-11 w-auto" />
           </Link>
           <p className="mt-4 max-w-xs text-[0.85rem] leading-relaxed text-muted-foreground">
-            {storeConfig.tagline}
+            eBooks for a brighter tomorrow. {storeConfig.tagline}
           </p>
           <p className="mt-5 flex items-start gap-2 text-[0.82rem] text-muted-foreground">
             <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
@@ -36,10 +31,10 @@ export function Footer() {
           </a>
         </Reveal>
 
-        <Reveal as="nav" aria-label="Shop" delay={60}>
-          <h2 className="eyebrow">Shop</h2>
+        <Reveal as="nav" aria-label="Quick links" delay={60}>
+          <h2 className="eyebrow">Quick Links</h2>
           <ul className="mt-4 space-y-2.5">
-            {storeConfig.nav.slice(1).map((item) => (
+            {storeConfig.nav.map((item) => (
               <li key={item.to}>
                 <Link
                   to={item.to}
@@ -70,7 +65,7 @@ export function Footer() {
         </Reveal>
 
         <Reveal delay={180}>
-          <h2 className="eyebrow">Follow</h2>
+          <h2 className="eyebrow">Follow Us</h2>
           <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2.5">
             {storeConfig.socials.map((s) => (
               <li key={s.label}>
@@ -86,7 +81,7 @@ export function Footer() {
             ))}
           </ul>
 
-          <h2 className="eyebrow mt-8">Policies</h2>
+          <h2 className="eyebrow mt-8">Legal</h2>
           <ul className="mt-4 space-y-2.5">
             {storeConfig.legal.map((l) => (
               <li key={l.label}>
