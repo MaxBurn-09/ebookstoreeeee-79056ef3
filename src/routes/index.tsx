@@ -448,7 +448,7 @@ function OfferBanner() {
               <div className="float-slow relative w-40 rotate-3">
                 <div className="cover-plate">
                   <img
-                    src={books[0].cover}
+                    src={books[0]!.cover}
                     alt=""
                     loading="lazy"
                     className="aspect-[2/3] w-full object-cover"
