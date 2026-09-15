@@ -41,7 +41,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
       </a>
 
       <div className="bg-foreground text-background">
-        <div className="container-page flex h-8 items-center justify-center gap-3 text-[0.66rem] tracking-[0.1em]">
+        <div className="container-page flex h-8 items-center justify-center gap-3 text-[0.62rem] tracking-[0.08em] sm:text-[0.66rem] sm:tracking-[0.1em]">
           <span>{storeConfig.announcement}</span>
           <span className="hidden opacity-50 sm:inline">·</span>
           <span className="hidden opacity-70 sm:inline">{storeConfig.announcementSecondary}</span>
@@ -54,7 +54,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
           scrolled ? "border-border shadow-[0_1px_0_var(--border)]" : "border-transparent",
         )}
       >
-        <div className="container-page flex h-16 items-center gap-4">
+        <div className="container-page relative flex h-16 items-center gap-4">
           <button
             type="button"
             className="press -ml-2 grid h-11 w-11 place-items-center rounded-md text-foreground hover:bg-muted lg:hidden"
@@ -67,7 +67,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
 
           <Link
             to="/"
-            className="group flex shrink-0 items-center"
+            className="group absolute left-1/2 flex -translate-x-1/2 items-center lg:static lg:translate-x-0"
             aria-label="Future Grow Academy — home"
           >
             <img
@@ -75,7 +75,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
               alt="Future Grow Academy"
               width={480}
               height={160}
-              className="h-9 w-auto transition-opacity duration-200 group-hover:opacity-85 sm:h-10"
+              className="h-8 w-auto transition-opacity duration-200 group-hover:opacity-85 sm:h-9 lg:h-10"
             />
           </Link>
 

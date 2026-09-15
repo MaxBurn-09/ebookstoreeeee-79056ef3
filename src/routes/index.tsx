@@ -66,32 +66,75 @@ function Hero() {
 
   return (
     <section className="relative overflow-hidden border-b border-border bg-background">
-      <div className="container-page grid items-center gap-12 py-14 lg:grid-cols-[1.02fr_1fr] lg:gap-10 lg:py-20">
-        <Reveal className="max-w-xl">
+      <div className="container-page grid items-center gap-x-10 gap-y-7 py-9 sm:py-12 lg:min-h-[calc(100svh-6rem)] lg:grid-cols-[0.92fr_1.08fr] lg:grid-rows-[auto_auto_auto] lg:py-16">
+        <Reveal className="max-w-xl lg:self-end">
           <p className="eyebrow">Digital books for a brighter you</p>
 
-          <h1 className="mt-5 font-display text-[2.6rem] leading-[1.03] font-medium tracking-[-0.02em] sm:text-6xl lg:text-[4.1rem]">
+          <h1 className="mt-4 font-display text-[2.75rem] leading-[0.98] font-medium sm:text-6xl lg:text-[4.45rem]">
             Learn Today
             <span className="block">
               <span className="text-brand">Grow</span> Tomorrow
             </span>
           </h1>
+        </Reveal>
 
-          <p className="mt-6 max-w-md text-[0.97rem] leading-relaxed text-muted-foreground">
+        <Reveal delay={120} className="relative row-start-2 lg:col-start-2 lg:row-span-3 lg:row-start-1">
+          <div
+            aria-hidden
+            className="glow-breathe absolute top-1/2 left-1/2 -z-10 h-[20rem] w-[20rem] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[30rem] sm:w-[30rem] lg:h-[38rem] lg:w-[38rem]"
+            style={{
+              background:
+                "radial-gradient(circle, color-mix(in oklab, var(--brand-amber) 52%, transparent) 0%, color-mix(in oklab, var(--brand-orange) 24%, transparent) 42%, transparent 69%)",
+            }}
+          />
+          <Parallax speed={0.045}>
+            <Tilt max={5} className="mx-auto flex max-w-[32rem] items-end justify-center gap-2.5 sm:gap-5">
+              {stack.map((book, i) => (
+                <Link
+                  key={book.id}
+                  to="/book/$slug"
+                  params={{ slug: book.slug }}
+                  preload="intent"
+                  className={cn(
+                    "cover-plate block w-[25%] transition-all duration-500 hover:-translate-y-3",
+                    i === 1 ? "w-[40%] -translate-y-3 sm:-translate-y-6" : "translate-y-3 opacity-95",
+                    i === 0 && "-rotate-3",
+                    i === 2 && "rotate-3",
+                  )}
+                >
+                  <img
+                    src={book.cover}
+                    alt={`${book.title} ebook cover`}
+                    width={640}
+                    height={960}
+                    className="aspect-[2/3] w-full object-cover"
+                  />
+                </Link>
+              ))}
+            </Tilt>
+          </Parallax>
+
+          <p className="mt-5 text-center text-[0.62rem] tracking-[0.14em] text-muted-foreground uppercase sm:mt-8 sm:text-xs">
+            Instant PDF download · Lifetime access
+          </p>
+        </Reveal>
+
+        <Reveal delay={70} className="max-w-xl lg:self-start">
+          <p className="max-w-md text-[0.94rem] leading-relaxed text-muted-foreground">
             Discover practical eBooks on self-care, money, relationships, health and parenting.
             Read anytime, anywhere, and take a step towards a better tomorrow.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:flex sm:items-center">
             <Link
               to="/books"
-              className="press inline-flex h-12 items-center gap-2 rounded-full bg-brand px-7 text-sm font-semibold text-white shadow-[0_10px_30px_-12px_var(--brand-red)]"
+              className="press inline-flex h-12 items-center justify-center gap-2 rounded-full bg-brand px-6 text-sm font-semibold text-primary-foreground shadow-[0_10px_30px_-12px_var(--brand-red)]"
             >
               Browse Books <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               to="/blog"
-              className="press inline-flex h-12 items-center rounded-full border border-border bg-card px-7 text-sm font-semibold hover:border-foreground/25"
+              className="press inline-flex h-12 items-center justify-center rounded-full border border-border bg-card px-6 text-center text-sm font-semibold hover:border-foreground/25"
             >
               Read Free Articles
             </Link>
@@ -102,7 +145,7 @@ function Hero() {
               e.preventDefault();
               navigate({ to: "/books", search: { q: q || undefined, category: undefined } });
             }}
-            className="mt-6 flex h-14 max-w-md items-center gap-2 rounded-full border border-border bg-card pr-2 pl-5 shadow-[var(--shadow-card)] transition-colors focus-within:border-foreground/25"
+            className="mt-5 flex h-13 max-w-md items-center gap-2 rounded-full border border-border bg-card pr-1.5 pl-4 shadow-[var(--shadow-card)] transition-colors focus-within:border-foreground/25"
           >
             <Search className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
             <label htmlFor="hero-search" className="sr-only">
@@ -124,7 +167,10 @@ function Hero() {
             </button>
           </form>
 
-          <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-border pt-7">
+        </Reveal>
+
+        <Reveal delay={120} className="max-w-md lg:self-start">
+          <dl className="grid grid-cols-3 gap-3 border-t border-border pt-5 sm:gap-4 sm:pt-7">
             <Stat label="Happy readers">
               <CountUp value={6000} suffix="+" />
             </Stat>
@@ -136,48 +182,6 @@ function Hero() {
             </Stat>
           </dl>
         </Reveal>
-
-        <Reveal delay={140} className="relative">
-          {/* warm sun glow */}
-          <div
-            aria-hidden
-            className="glow-breathe absolute top-1/2 left-1/2 -z-10 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-[58%] rounded-full blur-[2px] sm:h-[34rem] sm:w-[34rem]"
-            style={{
-              background:
-                "radial-gradient(circle, color-mix(in oklab, var(--brand-amber) 55%, transparent) 0%, color-mix(in oklab, var(--brand-orange) 26%, transparent) 42%, transparent 68%)",
-            }}
-          />
-          <Parallax speed={0.05}>
-            <Tilt max={6} className="flex items-end justify-center gap-3 sm:gap-5">
-              {stack.map((book, i) => (
-                <Link
-                  key={book.id}
-                  to="/book/$slug"
-                  params={{ slug: book.slug }}
-                  preload="intent"
-                  className={cn(
-                    "cover-plate block w-[27%] transition-all duration-500 hover:-translate-y-3",
-                    i === 1 ? "w-[42%] -translate-y-6" : "translate-y-4 opacity-95",
-                    i === 0 && "-rotate-3",
-                    i === 2 && "rotate-3",
-                  )}
-                >
-                  <img
-                    src={book.cover}
-                    alt={`${book.title} ebook cover`}
-                    width={640}
-                    height={960}
-                    className="aspect-[2/3] w-full object-cover"
-                  />
-                </Link>
-              ))}
-            </Tilt>
-          </Parallax>
-
-          <p className="mt-8 text-center text-xs tracking-[0.14em] text-muted-foreground uppercase">
-            Instant PDF download · Lifetime access
-          </p>
-        </Reveal>
       </div>
     </section>
   );
@@ -186,8 +190,8 @@ function Hero() {
 function Stat({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <dd className="font-display text-2xl font-medium sm:text-[1.75rem]">{children}</dd>
-      <dt className="mt-1 text-[0.72rem] tracking-[0.08em] text-muted-foreground uppercase">
+      <dd className="font-display text-xl font-medium sm:text-[1.75rem]">{children}</dd>
+      <dt className="mt-1 text-[0.62rem] leading-snug tracking-[0.08em] text-muted-foreground uppercase sm:text-[0.72rem]">
         {label}
       </dt>
     </div>
@@ -422,7 +426,7 @@ function OfferBanner() {
         <div className="glow-breathe relative overflow-hidden rounded-3xl bg-brand px-7 py-10 text-white sm:px-12 sm:py-12">
           <div
             aria-hidden
-            className="absolute -top-24 -right-16 h-72 w-72 rounded-full bg-white/10 blur-2xl"
+            className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-background/10 blur-2xl"
           />
           <div className="relative grid items-center gap-8 lg:grid-cols-[1.2fr_auto]">
             <div>
