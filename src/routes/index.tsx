@@ -66,8 +66,8 @@ function Hero() {
 
   return (
     <section className="relative overflow-hidden border-b border-border bg-background">
-      <div className="container-page grid items-center gap-x-10 gap-y-7 py-9 sm:py-12 lg:min-h-[calc(100svh-6rem)] lg:grid-cols-[0.92fr_1.08fr] lg:grid-rows-[auto_auto_auto] lg:py-16">
-        <Reveal className="max-w-xl lg:self-end">
+      <div className="container-page grid items-center gap-x-10 gap-y-6 py-8 sm:py-12 lg:min-h-[calc(100svh-6rem)] lg:grid-cols-[0.92fr_1.08fr] lg:grid-rows-[auto_auto_auto] lg:gap-y-7 lg:py-16">
+        <Reveal className="order-1 max-w-xl lg:self-end">
           <p className="eyebrow">Digital books for a brighter you</p>
 
           <h1 className="mt-4 font-display text-[2.75rem] leading-[0.98] font-medium sm:text-6xl lg:text-[4.45rem]">
@@ -78,7 +78,7 @@ function Hero() {
           </h1>
         </Reveal>
 
-        <Reveal delay={120} className="relative row-start-2 lg:col-start-2 lg:row-span-3 lg:row-start-1">
+        <Reveal delay={120} className="relative order-4 mt-2 lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:mt-0">
           <div
             aria-hidden
             className="glow-breathe absolute top-1/2 left-1/2 -z-10 h-[20rem] w-[20rem] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[30rem] sm:w-[30rem] lg:h-[38rem] lg:w-[38rem]"
@@ -88,29 +88,31 @@ function Hero() {
             }}
           />
           <Parallax speed={0.045}>
-            <Tilt max={5} className="mx-auto flex max-w-[32rem] items-end justify-center gap-2.5 sm:gap-5">
-              {stack.map((book, i) => (
-                <Link
-                  key={book.id}
-                  to="/book/$slug"
-                  params={{ slug: book.slug }}
-                  preload="intent"
-                  className={cn(
-                    "cover-plate block w-[25%] transition-all duration-500 hover:-translate-y-3",
-                    i === 1 ? "w-[40%] -translate-y-3 sm:-translate-y-6" : "translate-y-3 opacity-95",
-                    i === 0 && "-rotate-3",
-                    i === 2 && "rotate-3",
-                  )}
-                >
-                  <img
-                    src={book.cover}
-                    alt={`${book.title} ebook cover`}
-                    width={640}
-                    height={960}
-                    className="aspect-[2/3] w-full object-cover"
-                  />
-                </Link>
-              ))}
+            <Tilt max={5} className="mx-auto max-w-[28rem] sm:max-w-[32rem]">
+              <div className="flex items-end justify-center gap-2.5 sm:gap-5">
+                {stack.map((book, i) => (
+                  <Link
+                    key={book.id}
+                    to="/book/$slug"
+                    params={{ slug: book.slug }}
+                    preload="intent"
+                    className={cn(
+                      "cover-plate block w-[25%] shrink-0 transition-all duration-500 hover:-translate-y-3",
+                      i === 1 ? "w-[40%] -translate-y-3 sm:-translate-y-6" : "translate-y-3 opacity-95",
+                      i === 0 && "-rotate-3",
+                      i === 2 && "rotate-3",
+                    )}
+                  >
+                    <img
+                      src={book.cover}
+                      alt={`${book.title} ebook cover`}
+                      width={640}
+                      height={960}
+                      className="aspect-[2/3] w-full object-cover"
+                    />
+                  </Link>
+                ))}
+              </div>
             </Tilt>
           </Parallax>
 
@@ -119,7 +121,7 @@ function Hero() {
           </p>
         </Reveal>
 
-        <Reveal delay={70} className="max-w-xl lg:self-start">
+        <Reveal delay={70} className="order-2 max-w-xl lg:self-start">
           <p className="max-w-md text-[0.94rem] leading-relaxed text-muted-foreground">
             Discover practical eBooks on self-care, money, relationships, health and parenting.
             Read anytime, anywhere, and take a step towards a better tomorrow.
@@ -169,7 +171,7 @@ function Hero() {
 
         </Reveal>
 
-        <Reveal delay={120} className="max-w-md lg:self-start">
+        <Reveal delay={120} className="order-3 max-w-md lg:self-start">
           <dl className="grid grid-cols-3 gap-3 border-t border-border pt-5 sm:gap-4 sm:pt-7">
             <Stat label="Happy readers">
               <CountUp value={6000} suffix="+" />
