@@ -426,7 +426,7 @@ function OfferBanner() {
         <div className="glow-breathe relative overflow-hidden rounded-3xl bg-brand px-7 py-10 text-white sm:px-12 sm:py-12">
           <div
             aria-hidden
-            className="absolute -top-24 -right-16 h-72 w-72 rounded-full bg-white/10 blur-2xl"
+            className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-background/10 blur-2xl"
           />
           <div className="relative grid items-center gap-8 lg:grid-cols-[1.2fr_auto]">
             <div>
