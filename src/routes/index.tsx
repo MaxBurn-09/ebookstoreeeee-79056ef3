@@ -423,7 +423,7 @@ function BestSelling() {
 
 function OfferBanner() {
   return (
-    <section className="container-page pb-4">
+    <section className="container-page pb-4 [overflow-x:clip]">
       <Reveal>
         <div className="glow-breathe relative overflow-hidden rounded-3xl bg-brand px-7 py-10 text-white sm:px-12 sm:py-12">
           <div
