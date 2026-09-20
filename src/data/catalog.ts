@@ -38,8 +38,8 @@ export const books: Book[] = [
     title: "Your WHY Changes Everything",
     cover: cover1,
     category: "Self-Care",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 3.97,
+    oldPrice: 19.85,
     rating: 4.9,
     reviews: 1181,
     bought: 435,
@@ -67,8 +67,8 @@ export const books: Book[] = [
     title: "Parenting Without Yelling",
     cover: cover2,
     category: "Parenting",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 4.97,
+    oldPrice: 24.85,
     rating: 4.8,
     reviews: 819,
     bought: 612,
@@ -96,8 +96,8 @@ export const books: Book[] = [
     title: "Invisible Needs That Break Marriages",
     cover: cover3,
     category: "Relationship",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 4.97,
+    oldPrice: 24.85,
     rating: 4.9,
     reviews: 436,
     bought: 274,
@@ -125,8 +125,8 @@ export const books: Book[] = [
     title: "Emotionally Intelligent Parenting for Today\u2019s Children",
     cover: cover4,
     category: "Parenting",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 4.97,
+    oldPrice: 24.85,
     rating: 4.7,
     reviews: 1357,
     bought: 619,
@@ -154,8 +154,8 @@ export const books: Book[] = [
     title: "20 Minutes to Lean",
     cover: cover5,
     category: "Health",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 3.97,
+    oldPrice: 19.85,
     rating: 4.8,
     reviews: 857,
     bought: 644,
@@ -183,8 +183,8 @@ export const books: Book[] = [
     title: "The 30-Day Marriage Fix",
     cover: cover6,
     category: "Relationship",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 4.97,
+    oldPrice: 24.85,
     rating: 4.9,
     reviews: 289,
     bought: 224,
@@ -212,8 +212,8 @@ export const books: Book[] = [
     title: "Transform Your Life in 60 Days",
     cover: cover7,
     category: "Self-Care",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 4.97,
+    oldPrice: 24.85,
     rating: 4.7,
     reviews: 418,
     bought: 115,
@@ -241,8 +241,8 @@ export const books: Book[] = [
     title: "Find Your Purpose in 30 Days",
     cover: cover8,
     category: "Self-Care",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 4.97,
+    oldPrice: 24.85,
     rating: 4.7,
     reviews: 381,
     bought: 210,
@@ -270,8 +270,8 @@ export const books: Book[] = [
     title: "Detach From Your Ex in 21 Days",
     cover: cover9,
     category: "Relationship",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 4.97,
+    oldPrice: 24.85,
     rating: 4.9,
     reviews: 2130,
     bought: 765,
@@ -299,8 +299,8 @@ export const books: Book[] = [
     title: "21 Day Brown Fat Activation Blueprint",
     cover: cover10,
     category: "Health",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 4.97,
+    oldPrice: 24.85,
     rating: 4.6,
     reviews: 410,
     bought: 349,
@@ -328,8 +328,8 @@ export const books: Book[] = [
     title: "REWIRE IN A WEEK",
     cover: cover11,
     category: "Self-Care",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 3.97,
+    oldPrice: 19.85,
     rating: 4.7,
     reviews: 830,
     bought: 572,
@@ -357,8 +357,8 @@ export const books: Book[] = [
     title: "30 Days To Digital Wealth",
     cover: cover12,
     category: "Money",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 4.97,
+    oldPrice: 24.85,
     rating: 4.7,
     reviews: 2415,
     bought: 348,
@@ -386,8 +386,8 @@ export const books: Book[] = [
     title: "Passive Profits with AI",
     cover: cover13,
     category: "Money",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 4.97,
+    oldPrice: 24.85,
     rating: 4.9,
     reviews: 716,
     bought: 364,
@@ -415,8 +415,8 @@ export const books: Book[] = [
     title: "Build Unbreakable Habits in 21 Days",
     cover: cover14,
     category: "Self-Care",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 4.97,
+    oldPrice: 24.85,
     rating: 4.6,
     reviews: 473,
     bought: 118,
@@ -444,8 +444,8 @@ export const books: Book[] = [
     title: "30-Day Self-Love & Healing Challenge After Breakup",
     cover: cover15,
     category: "Relationship",
-    price: 2.97,
-    oldPrice: 7.5,
+    price: 4.97,
+    oldPrice: 24.85,
     rating: 4.8,
     reviews: 772,
     bought: 361,
@@ -528,50 +528,76 @@ export const whyUs = [
 
 export type Testimonial = { name: string; location: string; rating: number; quote: string };
 
+/** Homepage reader wall. Shuffled per visit so the page never looks identical. */
 export const testimonials: Testimonial[] = [
-  {
-    name: "Daniel Morgan",
-    location: "New York, USA",
-    rating: 4.7,
-    quote:
-      "I was skeptical at first, but the strategies inside are incredibly actionable. The writing style keeps you engaged while delivering real-life transformation techniques.",
-  },
-  {
-    name: "Sophia Martinez",
-    location: "Madrid, Spain",
-    rating: 4.9,
-    quote:
-      "Clear, powerful, and beautifully structured. Every chapter adds value. It feels like having a personal mentor guiding you step by step.",
-  },
-  {
-    name: "Arjun Patel",
-    location: "London, UK",
-    rating: 4.6,
-    quote:
-      "The insights are deep yet simple to apply. I loved how practical examples were included. It's one of the best investments I've made in self-growth.",
-  },
-  {
-    name: "Emily Chen",
-    location: "Singapore",
-    rating: 4.8,
-    quote:
-      "Every page delivers clarity and motivation. The habit-building techniques are realistic and easy to implement in daily life.",
-  },
-  {
-    name: "Lucas Fernandes",
-    location: "S\u00E3o Paulo, Brazil",
-    rating: 4.7,
-    quote:
-      "I noticed improvements in focus and confidence within weeks. The content feels premium and thoughtfully crafted.",
-  },
-  {
-    name: "Hannah M\u00FCller",
-    location: "Berlin, Germany",
-    rating: 4.9,
-    quote:
-      "These ebooks are practical, inspiring, and straight to the point. I've recommended them to friends and colleagues already.",
-  },
+  { name: "Daniel Morgan", location: "New York, USA", rating: 5, quote: "I was skeptical at first, but the strategies inside are incredibly actionable. The writing keeps you engaged while delivering real transformation." },
+  { name: "Sophia Martinez", location: "Madrid, Spain", rating: 5, quote: "Clear, powerful and beautifully structured. Every chapter adds value \u2014 it feels like a personal mentor guiding you step by step." },
+  { name: "Arjun Patel", location: "London, UK", rating: 5, quote: "Deep insights, simple to apply. The practical examples make it one of the best investments I have made in self-growth." },
+  { name: "Olivia Bennett", location: "Toronto, Canada", rating: 5, quote: "Downloaded in seconds and started the same evening. The layout is beautiful on a tablet and the exercises actually work." },
+  { name: "Liam O\u2019Connor", location: "Dublin, Ireland", rating: 5, quote: "Short, sharp and honest. No filler, no padding \u2014 exactly the kind of guide I keep going back to." },
+  { name: "Isabella Rossi", location: "Milan, Italy", rating: 5, quote: "I finished it in two sittings and immediately reread the habit chapter. Worth many times the price." },
+  { name: "Noah Williams", location: "Sydney, Australia", rating: 5, quote: "Straight-talking and practical. Four weeks in, my mornings look completely different." },
+  { name: "Aisha Rahman", location: "Dubai, UAE", rating: 5, quote: "Beautifully written and easy to follow. I gifted copies to two friends the same week." },
+  { name: "Lucas Fernandes", location: "S\u00E3o Paulo, Brazil", rating: 5, quote: "Noticed better focus and confidence within weeks. The content feels genuinely premium." },
+  { name: "Hannah M\u00FCller", location: "Berlin, Germany", rating: 5, quote: "Practical, inspiring and straight to the point. Already recommended it to colleagues." },
+  { name: "Emily Chen", location: "Singapore", rating: 5, quote: "Every page delivers clarity. The habit techniques are realistic for a busy schedule." },
+  { name: "Grace Thompson", location: "Auckland, New Zealand", rating: 5, quote: "Calm, kind and useful. It helped me rebuild a routine I had given up on." },
+  { name: "Mateo Garc\u00EDa", location: "Mexico City, Mexico", rating: 5, quote: "Excellent value. The worksheets alone were worth it for me." },
+  { name: "Charlotte Dubois", location: "Paris, France", rating: 5, quote: "Elegant writing with real substance. I keep it open on my phone during commutes." },
+  { name: "Ethan Brooks", location: "Chicago, USA", rating: 5, quote: "Bought at midnight, reading by 12:01. Instant delivery is exactly as promised." },
+  { name: "Freya Andersen", location: "Copenhagen, Denmark", rating: 5, quote: "Compact and thoughtful. I appreciated that nothing was repeated just to fill pages." },
+  { name: "Jacob Meyer", location: "Amsterdam, Netherlands", rating: 5, quote: "The frameworks are simple enough to remember, which is why I actually use them." },
+  { name: "Priya Nair", location: "Bengaluru, India", rating: 5, quote: "Affordable and genuinely helpful. The parenting guidance changed our evenings at home." },
+  { name: "Samuel Okoro", location: "Lagos, Nigeria", rating: 5, quote: "Direct, encouraging and realistic. I have reread the mindset chapter three times." },
+  { name: "Mia Johansson", location: "Stockholm, Sweden", rating: 5, quote: "Clean design, clear steps, no fluff. Exactly what I was hoping for." },
+  { name: "Ryan Mitchell", location: "Vancouver, Canada", rating: 5, quote: "I have bought plenty of ebooks that sat unread. This one I finished in a weekend." },
+  { name: "Layla Hassan", location: "Abu Dhabi, UAE", rating: 5, quote: "Thoughtful and respectful writing. It felt like advice from someone who has lived it." },
+  { name: "Thomas Novak", location: "Prague, Czechia", rating: 5, quote: "Good structure and honest tone. The reflection prompts are the strongest part." },
+  { name: "Sarah Whitfield", location: "Manchester, UK", rating: 5, quote: "Perfect length. I read it on my phone during lunch breaks over four days." },
+  { name: "Diego Morales", location: "Madrid, Spain", rating: 5, quote: "Small price, big shift in how I plan my week." },
+  { name: "Chloe Baker", location: "Melbourne, Australia", rating: 5, quote: "Warm and practical. The section on boundaries was the one I needed most." },
+  { name: "Benjamin Scott", location: "Dallas, USA", rating: 5, quote: "No hype, just usable steps. That is rare for this price." },
+  { name: "Elena Petrova", location: "Warsaw, Poland", rating: 5, quote: "Well-edited and easy to read in English as a second language." },
+  { name: "Marcus Reid", location: "Atlanta, USA", rating: 5, quote: "I applied one idea from chapter two and it paid for the book ten times over." },
+  { name: "Nadia Karim", location: "Doha, Qatar", rating: 5, quote: "Beautiful layout and calm writing. I read it again every few weeks." },
+  { name: "Oliver Hughes", location: "Edinburgh, UK", rating: 5, quote: "Practical without being preachy. Genuinely useful for real life." },
+  { name: "Ananya Sharma", location: "Mumbai, India", rating: 5, quote: "Clear guidance I could act on the same day. Highly recommend." },
+  { name: "Julia Kowalski", location: "Zurich, Switzerland", rating: 5, quote: "Concise and considered. I liked that it respected my time." },
+  { name: "Andre Laurent", location: "Montreal, Canada", rating: 5, quote: "Bought three titles in one order. All of them were worth it." },
 ];
+
+/** Separate pool used on ebook detail pages so they never mirror the homepage. */
+export const bookReviewPool: Testimonial[] = [
+  { name: "Rebecca Hale", location: "Seattle, USA", rating: 5, quote: "Exactly what the description promised. Practical from the very first page." },
+  { name: "Tom Ellison", location: "Bristol, UK", rating: 5, quote: "Easy to follow and easy to revisit. I keep it saved on my tablet." },
+  { name: "Farah Aziz", location: "Dubai, UAE", rating: 5, quote: "Well structured and honest. I finished it and started applying it immediately." },
+  { name: "Nina Vogel", location: "Vienna, Austria", rating: 5, quote: "Quiet, confident writing. It does not oversell and that is refreshing." },
+  { name: "Carlos Reyes", location: "Miami, USA", rating: 5, quote: "Download was instant and the reading experience on mobile is excellent." },
+  { name: "Harriet Lowe", location: "Perth, Australia", rating: 5, quote: "Useful, kind and to the point. I have already bought a second title." },
+  { name: "Rahul Verma", location: "Delhi, India", rating: 5, quote: "Great value and genuinely practical advice for daily life." },
+  { name: "Sofie Larsen", location: "Oslo, Norway", rating: 5, quote: "Short chapters made it easy to keep going. I finished it in three evenings." },
+  { name: "Gabriel Santos", location: "Lisbon, Portugal", rating: 5, quote: "Simple frameworks that stick. I still use one of them every morning." },
+  { name: "Amelia Turner", location: "Boston, USA", rating: 5, quote: "Thoughtful and well edited. Clearly written by someone who cares." },
+  { name: "Yuki Tanaka", location: "Tokyo, Japan", rating: 5, quote: "Clear English and a calm tone. Very easy to read and apply." },
+  { name: "Leila Bouchard", location: "Ottawa, Canada", rating: 5, quote: "Small investment, real change in how I handle stressful days." },
+];
+
+/** Names and cities for the live purchase notifications. */
+export const buyerCities = [
+  "Dallas, USA", "Berlin, Germany", "Toronto, Canada", "Dubai, UAE", "Sydney, Australia",
+  "London, UK", "Manchester, UK", "Chicago, USA", "Phoenix, USA", "Madrid, Spain",
+  "Amsterdam, Netherlands", "Auckland, New Zealand", "Dublin, Ireland", "Singapore",
+  "Mumbai, India", "Bengaluru, India", "Stockholm, Sweden", "Oslo, Norway", "Lisbon, Portugal",
+  "Cape Town, South Africa", "Doha, Qatar", "Zurich, Switzerland", "Vancouver, Canada",
+  "Melbourne, Australia", "Atlanta, USA", "Seattle, USA", "Paris, France", "Milan, Italy",
+] as const;
+
+export const buyerNames = [
+  "Charlotte", "Ethan", "Amelia", "Noah", "Priya", "Lucas", "Hannah", "Omar", "Sofia",
+  "Marcus", "Elena", "Jacob", "Aisha", "Daniel", "Freya", "Rohan", "Grace", "Mateo",
+  "Nina", "Samuel", "Layla", "Oliver", "Chloe", "Diego", "Zara", "Benjamin", "Isabella",
+  "Thomas", "Ananya", "Harriet",
+] as const;
 
 export const storeConfig = {
   name: "Future Grow Academy",
@@ -584,6 +610,14 @@ export const storeConfig = {
   offer: { label: "Limited time offer", headline: "Get 80% OFF", sub: "On Every eBook", note: "Learn new skills with instant PDF downloads. Offer ends soon." },
   email: "help@futuregrowacademy.co",
   address: "134, Sector 105, Gurgaon, India",
+  blogUrl: "https://futuregrowacademy.com/",
+  whatsapp: "919560722598",
+  quality: {
+    eyebrow: "Quality over quantity",
+    title: "A small library, made with real care",
+    body:
+      "Every eBook here is written in-house, researched properly and built to solve one specific problem. We would rather publish a handful of titles that genuinely change something than a shelf full of recycled content.",
+  },
   note: "This is a digital product and can be downloaded to your device instantly after payment confirmation. You may require any PDF reading application to open the eBook.",
   socials: [
     { label: "Facebook", href: "http://facebook.com/AcademyFGA" },
@@ -603,13 +637,118 @@ export const storeConfig = {
     { label: "Home", to: "/" },
     { label: "Shop", to: "/books" },
     { label: "Categories", to: "/categories" },
+    { label: "Bundles", to: "/bundles" },
     { label: "New Additions", to: "/new-arrivals" },
-    { label: "Blog", to: "/blog" },
+    { label: "Blog", to: "https://futuregrowacademy.com/", external: true },
+    { label: "Services", to: "/services" },
     { label: "Locations", to: "/locations" },
     { label: "About Us", to: "/about" },
     { label: "Connect", to: "/contact" },
-  ] as const,
+  ] as ReadonlyArray<{ label: string; to: string; external?: boolean }>,
 };
+
+export type Bundle = {
+  slug: string;
+  name: string;
+  description: string;
+  price: number;
+  featured: boolean;
+  /** Book slugs, or "all" for the complete collection. */
+  items: string[] | "all";
+};
+
+export const bundles: Bundle[] = [
+  {
+    slug: "self-transformation-bundle",
+    name: "Self-Transformation Bundle",
+    description: "A collection for personal growth, mindset improvement and life transformation.",
+    price: 14.97,
+    featured: true,
+    items: [
+      "build-unbreakable-habits-in-21-days",
+      "find-your-purpose-in-30-days",
+      "transform-your-life-in-60-days",
+      "your-why-changes-everything",
+    ],
+  },
+  {
+    slug: "emotional-healing-bundle",
+    name: "Emotional Healing Bundle",
+    description: "Focused on emotional healing, confidence and mental peace.",
+    price: 14.97,
+    featured: true,
+    items: [
+      "30-day-self-love-healing-challenge-after-breakup",
+      "detach-from-your-ex-in-21-days",
+    ],
+  },
+  {
+    slug: "complete-ebook-collection",
+    name: "Complete eBook Collection",
+    description: "Access our complete library of carefully created self-improvement eBooks.",
+    price: 49.97,
+    featured: true,
+    items: "all",
+  },
+  {
+    slug: "relationship-parenting-bundle",
+    name: "Relationship & Parenting Bundle",
+    description: "Improve relationships, marriage and parenting skills.",
+    price: 12.97,
+    featured: false,
+    items: [
+      "the-30-day-marriage-fix",
+      "invisible-needs-that-break-marriages",
+      "emotionally-intelligent-parenting-for-todays-children",
+      "parenting-without-yelling",
+    ],
+  },
+  {
+    slug: "money-future-skills-bundle",
+    name: "Money & Future Skills Bundle",
+    description: "Learn modern income skills and build a growth mindset.",
+    price: 9.97,
+    featured: false,
+    items: [
+      "30-days-to-digital-wealth",
+      "passive-profits-with-ai",
+      "build-unbreakable-habits-in-21-days",
+    ],
+  },
+  {
+    slug: "health-fitness-bundle",
+    name: "Health & Fitness Bundle",
+    description: "Improve your health, fitness and daily discipline.",
+    price: 9.97,
+    featured: false,
+    items: [
+      "21-day-brown-fat-activation-blueprint",
+      "20-minutes-to-lean",
+      "build-unbreakable-habits-in-21-days",
+    ],
+  },
+  {
+    slug: "mental-strength-bundle",
+    name: "Mental Strength Bundle",
+    description: "Build emotional control, confidence and a stronger mindset.",
+    price: 11.97,
+    featured: false,
+    items: ["rewire-in-a-week"],
+  },
+];
+
+export const bundleBooks = (bundle: Bundle) =>
+  bundle.items === "all" ? books : books.filter((b) => (bundle.items as string[]).includes(b.slug));
 
 export const formatPrice = (value: number) =>
   `$${value.toFixed(2)}`;
+
+/** Deterministic-per-day shuffle so repeat visitors see a fresh order. */
+export function rotate<T>(list: readonly T[], seed = Math.floor(Date.now() / 3.6e6)) {
+  const out = [...list];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.abs(Math.sin(seed + i) * 10000) % (i + 1) | 0;
+    [out[i], out[j]] = [out[j]!, out[i]!];
+  }
+  return out;
+}
