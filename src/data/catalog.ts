@@ -610,6 +610,14 @@ export const storeConfig = {
   offer: { label: "Limited time offer", headline: "Get 80% OFF", sub: "On Every eBook", note: "Learn new skills with instant PDF downloads. Offer ends soon." },
   email: "help@futuregrowacademy.co",
   address: "134, Sector 105, Gurgaon, India",
+  blogUrl: "https://futuregrowacademy.com/",
+  whatsapp: "919560722598",
+  quality: {
+    eyebrow: "Quality over quantity",
+    title: "A small library, made with real care",
+    body:
+      "Every eBook here is written in-house, researched properly and built to solve one specific problem. We would rather publish a handful of titles that genuinely change something than a shelf full of recycled content.",
+  },
   note: "This is a digital product and can be downloaded to your device instantly after payment confirmation. You may require any PDF reading application to open the eBook.",
   socials: [
     { label: "Facebook", href: "http://facebook.com/AcademyFGA" },
@@ -629,13 +637,118 @@ export const storeConfig = {
     { label: "Home", to: "/" },
     { label: "Shop", to: "/books" },
     { label: "Categories", to: "/categories" },
+    { label: "Bundles", to: "/bundles" },
     { label: "New Additions", to: "/new-arrivals" },
-    { label: "Blog", to: "/blog" },
+    { label: "Blog", to: "https://futuregrowacademy.com/", external: true },
+    { label: "Services", to: "/services" },
     { label: "Locations", to: "/locations" },
     { label: "About Us", to: "/about" },
     { label: "Connect", to: "/contact" },
-  ] as const,
+  ] as ReadonlyArray<{ label: string; to: string; external?: boolean }>,
 };
+
+export type Bundle = {
+  slug: string;
+  name: string;
+  description: string;
+  price: number;
+  featured: boolean;
+  /** Book slugs, or "all" for the complete collection. */
+  items: string[] | "all";
+};
+
+export const bundles: Bundle[] = [
+  {
+    slug: "self-transformation-bundle",
+    name: "Self-Transformation Bundle",
+    description: "A collection for personal growth, mindset improvement and life transformation.",
+    price: 14.97,
+    featured: true,
+    items: [
+      "build-unbreakable-habits-in-21-days",
+      "find-your-purpose-in-30-days",
+      "transform-your-life-in-60-days",
+      "your-why-changes-everything",
+    ],
+  },
+  {
+    slug: "emotional-healing-bundle",
+    name: "Emotional Healing Bundle",
+    description: "Focused on emotional healing, confidence and mental peace.",
+    price: 14.97,
+    featured: true,
+    items: [
+      "30-day-self-love-healing-challenge-after-breakup",
+      "detach-from-your-ex-in-21-days",
+    ],
+  },
+  {
+    slug: "complete-ebook-collection",
+    name: "Complete eBook Collection",
+    description: "Access our complete library of carefully created self-improvement eBooks.",
+    price: 49.97,
+    featured: true,
+    items: "all",
+  },
+  {
+    slug: "relationship-parenting-bundle",
+    name: "Relationship & Parenting Bundle",
+    description: "Improve relationships, marriage and parenting skills.",
+    price: 12.97,
+    featured: false,
+    items: [
+      "the-30-day-marriage-fix",
+      "invisible-needs-that-break-marriages",
+      "emotionally-intelligent-parenting-for-todays-children",
+      "parenting-without-yelling",
+    ],
+  },
+  {
+    slug: "money-future-skills-bundle",
+    name: "Money & Future Skills Bundle",
+    description: "Learn modern income skills and build a growth mindset.",
+    price: 9.97,
+    featured: false,
+    items: [
+      "30-days-to-digital-wealth",
+      "passive-profits-with-ai",
+      "build-unbreakable-habits-in-21-days",
+    ],
+  },
+  {
+    slug: "health-fitness-bundle",
+    name: "Health & Fitness Bundle",
+    description: "Improve your health, fitness and daily discipline.",
+    price: 9.97,
+    featured: false,
+    items: [
+      "21-day-brown-fat-activation-blueprint",
+      "20-minutes-to-lean",
+      "build-unbreakable-habits-in-21-days",
+    ],
+  },
+  {
+    slug: "mental-strength-bundle",
+    name: "Mental Strength Bundle",
+    description: "Build emotional control, confidence and a stronger mindset.",
+    price: 11.97,
+    featured: false,
+    items: ["rewire-in-a-week"],
+  },
+];
+
+export const bundleBooks = (bundle: Bundle) =>
+  bundle.items === "all" ? books : books.filter((b) => (bundle.items as string[]).includes(b.slug));
 
 export const formatPrice = (value: number) =>
   `$${value.toFixed(2)}`;
+
+/** Deterministic-per-day shuffle so repeat visitors see a fresh order. */
+export function rotate<T>(list: readonly T[], seed = Math.floor(Date.now() / 3.6e6)) {
+  const out = [...list];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.abs(Math.sin(seed + i) * 10000) % (i + 1) | 0;
+    [out[i], out[j]] = [out[j]!, out[i]!];
+  }
+  return out;
+}
