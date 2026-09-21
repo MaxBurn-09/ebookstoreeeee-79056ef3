@@ -109,7 +109,10 @@ function BlogAdmin() {
               busy={busy}
               onClick={async () => {
                 const slug = draft.slug || slugify(draft.title);
-                if (!draft.title || !slug) return toast.error("A title is required.");
+                if (!draft.title || !slug) {
+                toast.error("A title is required.");
+                return;
+              }
                 setBusy(true);
                 const tags = tagText.split(",").map((t) => t.trim()).filter(Boolean);
                 const { error } = await supabase.from("blog_posts").insert({ ...draft, slug, tags });

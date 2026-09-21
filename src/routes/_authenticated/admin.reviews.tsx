@@ -68,7 +68,10 @@ function ReviewsAdmin() {
           <PrimaryButton
             busy={busy}
             onClick={async () => {
-              if (!draft.name || !draft.quote) return toast.error("Name and quote are required.");
+              if (!draft.name || !draft.quote) {
+                toast.error("Name and quote are required.");
+                return;
+              }
               setBusy(true);
               const { error } = await supabase.from("reviews").insert(draft);
               setBusy(false);

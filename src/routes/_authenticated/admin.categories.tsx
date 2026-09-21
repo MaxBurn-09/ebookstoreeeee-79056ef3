@@ -59,7 +59,10 @@ function CategoriesAdmin() {
             busy={busy}
             onClick={async () => {
               const slug = draft.slug || slugify(draft.name);
-              if (!draft.name || !slug) return toast.error("A name is required.");
+              if (!draft.name || !slug) {
+                toast.error("A name is required.");
+                return;
+              }
               setBusy(true);
               const { error } = await supabase.from("categories").insert({ ...draft, slug });
               setBusy(false);
