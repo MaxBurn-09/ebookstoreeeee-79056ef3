@@ -114,7 +114,10 @@ function BlogAdmin() {
                 const tags = tagText.split(",").map((t) => t.trim()).filter(Boolean);
                 const { error } = await supabase.from("blog_posts").insert({ ...draft, slug, tags });
                 setBusy(false);
-                if (error) return toast.error(error.message);
+                if (error) {
+      toast.error(error.message);
+      return;
+    }
                 toast.success("Article published.");
                 setDraft(empty);
                 setTagText("");
@@ -170,12 +173,18 @@ function BlogAdmin() {
                         onSave={async () => {
                           const { id, ...rest } = row;
                           const { error } = await supabase.from("blog_posts").update(rest).eq("id", id);
-                          if (error) return toast.error(error.message);
+                          if (error) {
+      toast.error(error.message);
+      return;
+    }
                           toast.success("Saved.");
                         }}
                         onDelete={async () => {
                           const { error } = await supabase.from("blog_posts").delete().eq("id", row.id);
-                          if (error) return toast.error(error.message);
+                          if (error) {
+      toast.error(error.message);
+      return;
+    }
                           setRows((p) => (p ?? []).filter((r) => r.id !== row.id));
                           toast.success("Article deleted.");
                         }}

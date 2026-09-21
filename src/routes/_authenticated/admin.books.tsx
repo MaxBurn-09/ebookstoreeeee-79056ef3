@@ -96,7 +96,10 @@ function BooksAdmin() {
     setBusy(true);
     const { error } = await supabase.from("books").insert({ ...draft, slug });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Ebook added.");
     setDraft(empty);
     setShowNew(false);
@@ -106,13 +109,19 @@ function BooksAdmin() {
   async function save(row: BookRow) {
     const { id, ...rest } = row;
     const { error } = await supabase.from("books").update(rest).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Saved.");
   }
 
   async function remove(id: string) {
     const { error } = await supabase.from("books").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     setRows((p) => (p ?? []).filter((r) => r.id !== id));
     toast.success("Ebook deleted.");
   }

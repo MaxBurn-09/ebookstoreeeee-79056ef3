@@ -72,7 +72,10 @@ function ReviewsAdmin() {
               setBusy(true);
               const { error } = await supabase.from("reviews").insert(draft);
               setBusy(false);
-              if (error) return toast.error(error.message);
+              if (error) {
+      toast.error(error.message);
+      return;
+    }
               toast.success("Review added.");
               setDraft({ name: "", location: "", rating: 5, quote: "", approved: true });
               void load();
@@ -108,12 +111,18 @@ function ReviewsAdmin() {
                   onSave={async () => {
                     const { id, ...rest } = row;
                     const { error } = await supabase.from("reviews").update(rest).eq("id", id);
-                    if (error) return toast.error(error.message);
+                    if (error) {
+      toast.error(error.message);
+      return;
+    }
                     toast.success("Saved.");
                   }}
                   onDelete={async () => {
                     const { error } = await supabase.from("reviews").delete().eq("id", row.id);
-                    if (error) return toast.error(error.message);
+                    if (error) {
+      toast.error(error.message);
+      return;
+    }
                     setRows((p) => (p ?? []).filter((r) => r.id !== row.id));
                     toast.success("Review deleted.");
                   }}
