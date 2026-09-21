@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const tabs = [
   { to: "/", label: "Home", icon: Home },
   { to: "/books", label: "Shop", icon: LibraryBig },
-  { to: "/wishlist", label: "Saved", icon: Heart },
+  { to: "/wishlist", label: "Wishlist", icon: Heart },
 ] as const;
 
 export function MobileTabBar({ onSearch }: { onSearch: () => void }) {
@@ -62,7 +62,7 @@ export function MobileTabBar({ onSearch }: { onSearch: () => void }) {
               <ShoppingBag className="h-5 w-5" strokeWidth={1.7} />
               {cartCount > 0 ? <Dot /> : null}
             </span>
-            Bag
+            Cart
           </button>
         </li>
       </ul>

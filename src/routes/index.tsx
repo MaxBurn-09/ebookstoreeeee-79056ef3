@@ -306,7 +306,7 @@ function CategoryBand() {
                     <span>
                       <span className="block text-[0.92rem] font-semibold">{c.name}</span>
                       <span className="mt-1 block text-[0.75rem] text-muted-foreground">
-                        {count} {count === 1 ? "eBook" : "eBooks"}
+                        {c.tagline}
                       </span>
                     </span>
                     <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-border text-[var(--brand-red)] transition-colors group-hover:bg-brand group-hover:text-white">
