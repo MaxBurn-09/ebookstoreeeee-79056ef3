@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
-import { books, type Book } from "@/data/catalog";
+import { books, bundles, bundleBooks, type Book } from "@/data/catalog";
+import { matchBundles, type BundleMatch } from "@/lib/bundle-pricing";
 
 export type CartLine = { id: string; qty: number };
 
@@ -8,7 +9,13 @@ type StoreValue = {
   cart: CartLine[];
   wishlist: string[];
   cartCount: number;
+  /** Sum of item prices, before any bundle saving. */
+  cartListTotal: number;
+  /** Payable amount once bundle combos are applied. */
   cartSubtotal: number;
+  bundleDiscount: number;
+  appliedBundles: BundleMatch[];
+  addBundleToCart: (slug: string) => void;
   drawerOpen: boolean;
   setDrawerOpen: (open: boolean) => void;
   addToCart: (id: string, qty?: number) => void;
