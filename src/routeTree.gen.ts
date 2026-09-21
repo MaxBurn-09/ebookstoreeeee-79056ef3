@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as BooksRouteImport } from './routes/books'
+import { Route as BundlesRouteImport } from './routes/bundles'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -63,6 +64,11 @@ const BlogRoute = BlogRouteImport.update({
 const BooksRoute = BooksRouteImport.update({
   id: '/books',
   path: '/books',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BundlesRoute = BundlesRouteImport.update({
+  id: '/bundles',
+  path: '/bundles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CartRoute = CartRouteImport.update({
@@ -176,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
   '/books': typeof BooksRoute
+  '/bundles': typeof BundlesRoute
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/contact': typeof ContactRoute
@@ -203,6 +210,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
   '/books': typeof BooksRoute
+  '/bundles': typeof BundlesRoute
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/contact': typeof ContactRoute
@@ -231,6 +239,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
   '/books': typeof BooksRoute
+  '/bundles': typeof BundlesRoute
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/contact': typeof ContactRoute
@@ -260,6 +269,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/books'
+    | '/bundles'
     | '/cart'
     | '/categories'
     | '/contact'
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/books'
+    | '/bundles'
     | '/cart'
     | '/categories'
     | '/contact'
@@ -314,6 +325,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/books'
+    | '/bundles'
     | '/cart'
     | '/categories'
     | '/contact'
@@ -343,6 +355,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BlogRoute: typeof BlogRouteWithChildren
   BooksRoute: typeof BooksRoute
+  BundlesRoute: typeof BundlesRoute
   CartRoute: typeof CartRoute
   CategoriesRoute: typeof CategoriesRoute
   ContactRoute: typeof ContactRoute
@@ -395,6 +408,13 @@ declare module '@tanstack/react-router' {
       path: '/books'
       fullPath: '/books'
       preLoaderRoute: typeof BooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bundles': {
+      id: '/bundles'
+      path: '/bundles'
+      fullPath: '/bundles'
+      preLoaderRoute: typeof BundlesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cart': {
@@ -607,6 +627,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BlogRoute: BlogRouteWithChildren,
   BooksRoute: BooksRoute,
+  BundlesRoute: BundlesRoute,
   CartRoute: CartRoute,
   CategoriesRoute: CategoriesRoute,
   ContactRoute: ContactRoute,
