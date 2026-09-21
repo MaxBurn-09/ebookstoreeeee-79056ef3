@@ -15,11 +15,13 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as BooksRouteImport } from './routes/books'
+import { Route as BundlesRouteImport } from './routes/bundles'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as NewArrivalsRouteImport } from './routes/new-arrivals'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -65,6 +67,11 @@ const BooksRoute = BooksRouteImport.update({
   path: '/books',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BundlesRoute = BundlesRouteImport.update({
+  id: '/bundles',
+  path: '/bundles',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CartRoute = CartRouteImport.update({
   id: '/cart',
   path: '/cart',
@@ -88,6 +95,11 @@ const LocationsRoute = LocationsRouteImport.update({
 const NewArrivalsRoute = NewArrivalsRouteImport.update({
   id: '/new-arrivals',
   path: '/new-arrivals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -176,11 +188,13 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
   '/books': typeof BooksRoute
+  '/bundles': typeof BundlesRoute
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/contact': typeof ContactRoute
   '/locations': typeof LocationsRouteWithChildren
   '/new-arrivals': typeof NewArrivalsRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wishlist': typeof WishlistRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
@@ -203,11 +217,13 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
   '/books': typeof BooksRoute
+  '/bundles': typeof BundlesRoute
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/contact': typeof ContactRoute
   '/locations': typeof LocationsRouteWithChildren
   '/new-arrivals': typeof NewArrivalsRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wishlist': typeof WishlistRoute
   '/checkout': typeof AuthenticatedCheckoutRoute
@@ -231,11 +247,13 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
   '/books': typeof BooksRoute
+  '/bundles': typeof BundlesRoute
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/contact': typeof ContactRoute
   '/locations': typeof LocationsRouteWithChildren
   '/new-arrivals': typeof NewArrivalsRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wishlist': typeof WishlistRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
@@ -260,11 +278,13 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/books'
+    | '/bundles'
     | '/cart'
     | '/categories'
     | '/contact'
     | '/locations'
     | '/new-arrivals'
+    | '/services'
     | '/sitemap.xml'
     | '/wishlist'
     | '/admin'
@@ -287,11 +307,13 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/books'
+    | '/bundles'
     | '/cart'
     | '/categories'
     | '/contact'
     | '/locations'
     | '/new-arrivals'
+    | '/services'
     | '/sitemap.xml'
     | '/wishlist'
     | '/checkout'
@@ -314,11 +336,13 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/books'
+    | '/bundles'
     | '/cart'
     | '/categories'
     | '/contact'
     | '/locations'
     | '/new-arrivals'
+    | '/services'
     | '/sitemap.xml'
     | '/wishlist'
     | '/_authenticated/admin'
@@ -343,11 +367,13 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BlogRoute: typeof BlogRouteWithChildren
   BooksRoute: typeof BooksRoute
+  BundlesRoute: typeof BundlesRoute
   CartRoute: typeof CartRoute
   CategoriesRoute: typeof CategoriesRoute
   ContactRoute: typeof ContactRoute
   LocationsRoute: typeof LocationsRouteWithChildren
   NewArrivalsRoute: typeof NewArrivalsRoute
+  ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WishlistRoute: typeof WishlistRoute
   BookSlugRoute: typeof BookSlugRoute
@@ -397,6 +423,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BooksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bundles': {
+      id: '/bundles'
+      path: '/bundles'
+      fullPath: '/bundles'
+      preLoaderRoute: typeof BundlesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cart': {
       id: '/cart'
       path: '/cart'
@@ -430,6 +463,13 @@ declare module '@tanstack/react-router' {
       path: '/new-arrivals'
       fullPath: '/new-arrivals'
       preLoaderRoute: typeof NewArrivalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -607,11 +647,13 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BlogRoute: BlogRouteWithChildren,
   BooksRoute: BooksRoute,
+  BundlesRoute: BundlesRoute,
   CartRoute: CartRoute,
   CategoriesRoute: CategoriesRoute,
   ContactRoute: ContactRoute,
   LocationsRoute: LocationsRouteWithChildren,
   NewArrivalsRoute: NewArrivalsRoute,
+  ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   WishlistRoute: WishlistRoute,
   BookSlugRoute: BookSlugRoute,

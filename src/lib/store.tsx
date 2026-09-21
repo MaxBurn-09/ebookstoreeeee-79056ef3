@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
-import { books, type Book } from "@/data/catalog";
+import { books, bundles, bundleBooks, type Book } from "@/data/catalog";
+import { matchBundles, type BundleMatch } from "@/lib/bundle-pricing";
 
 export type CartLine = { id: string; qty: number };
 
@@ -8,7 +9,13 @@ type StoreValue = {
   cart: CartLine[];
   wishlist: string[];
   cartCount: number;
+  /** Sum of item prices, before any bundle saving. */
+  cartListTotal: number;
+  /** Payable amount once bundle combos are applied. */
   cartSubtotal: number;
+  bundleDiscount: number;
+  appliedBundles: BundleMatch[];
+  addBundleToCart: (slug: string) => void;
   drawerOpen: boolean;
   setDrawerOpen: (open: boolean) => void;
   addToCart: (id: string, qty?: number) => void;
@@ -81,6 +88,22 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const addBundleToCart = useCallback((slug: string) => {
+    const bundle = bundles.find((b) => b.slug === slug);
+    if (!bundle) return;
+    const ids = bundleBooks(bundle).map((b) => b.id);
+    setCart((prev) => {
+      const next = [...prev];
+      for (const id of ids) {
+        const found = next.find((l) => l.id === id);
+        if (!found) next.push({ id, qty: 1 });
+      }
+      return next;
+    });
+    toast.success(`${bundle.name} added — bundle price applied`);
+    setDrawerOpen(true);
+  }, []);
+
   const value = useMemo<StoreValue>(() => {
     const lineBooks = cart
       .map((line) => {
@@ -89,22 +112,41 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       })
       .filter(Boolean) as { book: Book; qty: number }[];
 
+    const cartListTotal = lineBooks.reduce((sum, l) => sum + l.book.price * l.qty, 0);
+    const { matches, discount } = matchBundles(
+      lineBooks.map((l) => ({ slug: l.book.slug, qty: l.qty, price: l.book.price })),
+    );
+
     return {
       cart,
       wishlist,
       drawerOpen,
       setDrawerOpen,
       addToCart,
+      addBundleToCart,
       setQty,
       removeFromCart,
       clearCart,
       toggleWishlist,
       isWishlisted: (id: string) => wishlist.includes(id),
       cartCount: cart.reduce((sum, l) => sum + l.qty, 0),
-      cartSubtotal: lineBooks.reduce((sum, l) => sum + l.book.price * l.qty, 0),
+      cartListTotal,
+      bundleDiscount: discount,
+      appliedBundles: matches,
+      cartSubtotal: Math.max(0, Math.round((cartListTotal - discount) * 100) / 100),
       lineBooks,
     };
-  }, [cart, wishlist, drawerOpen, addToCart, setQty, removeFromCart, clearCart, toggleWishlist]);
+  }, [
+    cart,
+    wishlist,
+    drawerOpen,
+    addToCart,
+    addBundleToCart,
+    setQty,
+    removeFromCart,
+    clearCart,
+    toggleWishlist,
+  ]);
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }

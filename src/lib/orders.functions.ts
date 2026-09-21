@@ -41,7 +41,12 @@ export const placeOrder = createServerFn({ method: "POST" })
 
     if (lines.length === 0) throw new Error("These ebooks are no longer available.");
 
-    const total = lines.reduce((sum, l) => sum + Number(l.book.price) * l.quantity, 0);
+    const listTotal = lines.reduce((sum, l) => sum + Number(l.book.price) * l.quantity, 0);
+    const { matchBundles } = await import("@/lib/bundle-pricing");
+    const { discount } = matchBundles(
+      lines.map((l) => ({ slug: l.book.slug, qty: l.quantity, price: Number(l.book.price) })),
+    );
+    const total = Math.max(0, Math.round((listTotal - discount) * 100) / 100);
 
     const { data: order, error: orderError } = await supabase
       .from("orders")

@@ -15,7 +15,7 @@ const SORTS = [
   { id: "price-asc", label: "Price: low to high" },
 ] as const;
 
-const PER_PAGE = 8;
+const PER_PAGE = 999;
 
 export const Route = createFileRoute("/books")({
   validateSearch: (search: Record<string, unknown>): BooksSearch => ({
@@ -176,17 +176,6 @@ function BooksPage() {
               ))}
             </div>
 
-            {current < pages ? (
-              <div className="mt-12 flex justify-center">
-                <button
-                  type="button"
-                  onClick={() => setPage(current + 1)}
-                  className="press h-12 rounded-full border border-border px-8 text-sm font-semibold hover:border-foreground/30 hover:bg-muted"
-                >
-                  Load more ({filtered.length - visible.length} left)
-                </button>
-              </div>
-            ) : null}
           </>
         )}
       </div>

@@ -70,7 +70,10 @@ function SubscribersAdmin() {
                 type="button"
                 onClick={async () => {
                   const { error } = await supabase.from("newsletter_subscribers").delete().eq("id", r.id);
-                  if (error) return toast.error(error.message);
+                  if (error) {
+      toast.error(error.message);
+      return;
+    }
                   setRows((p) => (p ?? []).filter((x) => x.id !== r.id));
                   toast.success("Removed.");
                 }}

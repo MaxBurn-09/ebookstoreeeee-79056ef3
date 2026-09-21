@@ -59,11 +59,17 @@ function CategoriesAdmin() {
             busy={busy}
             onClick={async () => {
               const slug = draft.slug || slugify(draft.name);
-              if (!draft.name || !slug) return toast.error("A name is required.");
+              if (!draft.name || !slug) {
+                toast.error("A name is required.");
+                return;
+              }
               setBusy(true);
               const { error } = await supabase.from("categories").insert({ ...draft, slug });
               setBusy(false);
-              if (error) return toast.error(error.message);
+              if (error) {
+      toast.error(error.message);
+      return;
+    }
               toast.success("Category added.");
               setDraft({ slug: "", name: "", tagline: "", sort_order: 0 });
               void load();
@@ -90,12 +96,18 @@ function CategoriesAdmin() {
                   onSave={async () => {
                     const { id, ...rest } = row;
                     const { error } = await supabase.from("categories").update(rest).eq("id", id);
-                    if (error) return toast.error(error.message);
+                    if (error) {
+      toast.error(error.message);
+      return;
+    }
                     toast.success("Saved.");
                   }}
                   onDelete={async () => {
                     const { error } = await supabase.from("categories").delete().eq("id", row.id);
-                    if (error) return toast.error(error.message);
+                    if (error) {
+      toast.error(error.message);
+      return;
+    }
                     setRows((p) => (p ?? []).filter((r) => r.id !== row.id));
                     toast.success("Category deleted.");
                   }}
