@@ -25,6 +25,7 @@ import {
 } from "@/data/catalog";
 import { BookCard } from "@/components/site/BookCard";
 import { Reveal } from "@/components/site/Reveal";
+import { ReviewWall } from "@/components/site/ReviewWall";
 import { CountUp, Parallax, Tilt } from "@/components/site/Motion";
 import { cn } from "@/lib/utils";
 import { organizationLd, pageHead, websiteLd } from "@/lib/seo";
