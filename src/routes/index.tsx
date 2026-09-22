@@ -517,8 +517,6 @@ function Reviews() {
   return (
     <section className="pb-14 sm:pb-20">
       <div className="container-page">
-    <section className="pb-14 sm:pb-20">
-      <div className="container-page">
         <Head title="What Our Readers Say" to="/books" cta="Browse eBooks" />
       </div>
       <ReviewWall />
