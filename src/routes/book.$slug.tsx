@@ -151,11 +151,11 @@ function BookDetail() {
                 <Stars rating={book.rating} />
                 <span className="font-medium">{book.rating.toFixed(1)}</span>
                 <a href="#reviews" className="text-muted-foreground hover:text-foreground">
-                  {book.reviews.toLocaleString("en-US")} reviews
+                  Reader Rating ({book.reviews.toLocaleString("en-US")})
                 </a>
                 <span className="text-muted-foreground">·</span>
                 <span className="text-muted-foreground">
-                  {book.bought.toLocaleString("en-US")} downloads
+                  {book.bought.toLocaleString("en-US")} Copies Sold
                 </span>
               </div>
 
