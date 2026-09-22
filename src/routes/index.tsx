@@ -25,6 +25,7 @@ import {
 } from "@/data/catalog";
 import { BookCard } from "@/components/site/BookCard";
 import { Reveal } from "@/components/site/Reveal";
+import { ReviewWall } from "@/components/site/ReviewWall";
 import { CountUp, Parallax, Tilt } from "@/components/site/Motion";
 import { cn } from "@/lib/utils";
 import { organizationLd, pageHead, websiteLd } from "@/lib/seo";
@@ -517,40 +518,9 @@ function Reviews() {
   return (
     <section className="pb-14 sm:pb-20">
       <div className="container-page">
-        <Head title="What Our Readers Say" to="/books" cta="View All Reviews" />
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.slice(0, 3).map((t, i) => (
-            <Reveal key={t.name} delay={i * 80}>
-              <figure className="flex h-full flex-col rounded-2xl bg-card p-6 shadow-[var(--shadow-card)] transition-transform duration-500 hover:-translate-y-1.5">
-                <Quote className="h-6 w-6 text-[var(--brand-orange)]" aria-hidden />
-                <blockquote className="mt-4 flex-1 text-[0.9rem] leading-relaxed text-foreground/85">
-                  {t.quote}
-                </blockquote>
-                <figcaption className="mt-6 flex items-center justify-between gap-3">
-                  <span>
-                    <span className="block text-[0.85rem] font-semibold">{t.name}</span>
-                    <span className="block text-[0.75rem] text-muted-foreground">{t.location}</span>
-                  </span>
-                  <span className="flex gap-0.5" aria-label={`${t.rating} out of 5`}>
-                    {Array.from({ length: 5 }).map((_, s) => (
-                      <Star
-                        key={s}
-                        className={cn(
-                          "h-3.5 w-3.5",
-                          s < Math.round(t.rating)
-                            ? "fill-[var(--brand-amber)] text-[var(--brand-amber)]"
-                            : "text-border",
-                        )}
-                        aria-hidden
-                      />
-                    ))}
-                  </span>
-                </figcaption>
-              </figure>
-            </Reveal>
-          ))}
-        </div>
+        <Head title="What Our Readers Say" to="/books" cta="Browse eBooks" />
       </div>
+      <ReviewWall />
     </section>
   );
 }

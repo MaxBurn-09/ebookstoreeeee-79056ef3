@@ -21,6 +21,7 @@ import { PageTransition } from "../components/site/PageTransition";
 import { SearchDialog } from "../components/site/SearchDialog";
 import { MobileTabBar } from "../components/site/MobileTabBar";
 import { StickyCta } from "../components/site/StickyCta";
+import { PurchaseNotice } from "../components/site/PurchaseNotice";
 
 function NotFoundComponent() {
   return (
@@ -173,6 +174,7 @@ function RootComponent() {
             <Footer />
           </div>
           <StickyCta />
+          <PurchaseNotice />
           <MobileTabBar onSearch={() => setSearchOpen(true)} />
           <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
           <CartDrawer />
