@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -63,7 +63,6 @@ function HomePage() {
 function Hero() {
   const navigate = useNavigate();
   const [q, setQ] = useState("");
-  const stack = [books[11], books[0], books[4]].filter(Boolean) as typeof books;
 
   return (
     <section className="relative overflow-hidden border-b border-border bg-background">
@@ -90,30 +89,7 @@ function Hero() {
           />
           <Parallax speed={0.045}>
             <Tilt max={5} className="mx-auto max-w-[28rem] sm:max-w-[32rem]">
-              <div className="flex items-end justify-center gap-2.5 sm:gap-5">
-                {stack.map((book, i) => (
-                  <Link
-                    key={book.id}
-                    to="/book/$slug"
-                    params={{ slug: book.slug }}
-                    preload="intent"
-                    className={cn(
-                      "cover-plate block w-[25%] shrink-0 transition-all duration-500 hover:-translate-y-3",
-                      i === 1 ? "w-[40%] -translate-y-3 sm:-translate-y-6" : "translate-y-3 opacity-95",
-                      i === 0 && "-rotate-3",
-                      i === 2 && "rotate-3",
-                    )}
-                  >
-                    <img
-                      src={book.cover}
-                      alt={`${book.title} ebook cover`}
-                      width={640}
-                      height={960}
-                      className="aspect-[2/3] w-full object-cover"
-                    />
-                  </Link>
-                ))}
-              </div>
+              <AutoBookStack />
             </Tilt>
           </Parallax>
 
@@ -187,6 +163,94 @@ function Hero() {
         </Reveal>
       </div>
     </section>
+  );
+}
+
+function AutoBookStack() {
+  const [activeIndex, setActiveIndex] = useState(11);
+  const [paused, setPaused] = useState(false);
+  const pointerStart = useRef<number | null>(null);
+  const didSwipe = useRef(false);
+
+  const move = (direction: 1 | -1) => {
+    setActiveIndex((current) => (current + direction + books.length) % books.length);
+  };
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (paused || reduceMotion || books.length < 4) return;
+
+    const timer = window.setInterval(() => move(1), 3800);
+    return () => window.clearInterval(timer);
+  }, [paused]);
+
+  const stack = Array.from({ length: Math.min(3, books.length) }, (_, offset) =>
+    books[(activeIndex + offset) % books.length],
+  ).filter((book) => book !== undefined);
+
+  return (
+    <div
+      className="touch-pan-y select-none"
+      aria-label="Featured ebooks carousel"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
+      onPointerDown={(event) => {
+        pointerStart.current = event.clientX;
+        didSwipe.current = false;
+        setPaused(true);
+      }}
+      onPointerUp={(event) => {
+        if (pointerStart.current === null) return;
+        const distance = event.clientX - pointerStart.current;
+        pointerStart.current = null;
+        if (Math.abs(distance) < 42) {
+          setPaused(false);
+          return;
+        }
+        didSwipe.current = true;
+        move(distance < 0 ? 1 : -1);
+        window.setTimeout(() => setPaused(false), 900);
+      }}
+      onPointerCancel={() => {
+        pointerStart.current = null;
+        setPaused(false);
+      }}
+      onClickCapture={(event) => {
+        if (!didSwipe.current) return;
+        event.preventDefault();
+        event.stopPropagation();
+        didSwipe.current = false;
+      }}
+    >
+      <div key={activeIndex} className="flex animate-fade-in items-end justify-center gap-2.5 sm:gap-5">
+        {stack.map((book, i) => (
+          <Link
+            key={book.id}
+            to="/book/$slug"
+            params={{ slug: book.slug }}
+            preload="intent"
+            draggable={false}
+            className={cn(
+              "cover-plate block w-[25%] shrink-0 transition-all duration-500 hover:-translate-y-3",
+              i === 1 ? "w-[40%] -translate-y-3 sm:-translate-y-6" : "translate-y-3 opacity-95",
+              i === 0 && "-rotate-3",
+              i === 2 && "rotate-3",
+            )}
+          >
+            <img
+              src={book.cover}
+              alt={`${book.title} ebook cover`}
+              width={640}
+              height={960}
+              draggable={false}
+              className="aspect-[2/3] w-full object-cover"
+            />
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 }
 
