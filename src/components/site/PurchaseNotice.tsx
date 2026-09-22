@@ -5,7 +5,7 @@ import { books, buyerCities, buyerNames } from "@/data/catalog";
 
 type Notice = { name: string; city: string; title: string; slug: string; cover: string };
 
-const pick = <T,>(list: readonly T[]) => list[Math.floor(Math.random() * list.length)];
+const pick = <T,>(list: readonly T[]): T => list[Math.floor(Math.random() * list.length)] as T;
 
 const HIDDEN = ["/checkout", "/auth", "/admin", "/cart"];
 
