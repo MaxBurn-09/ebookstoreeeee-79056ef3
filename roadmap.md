@@ -11,3 +11,5 @@
 - [ ] Founder section portrait and bio for Dr. Ankit Sharma — blocked: photo/bio not supplied.
 - [ ] Email the PDF as an attachment after purchase — blocked: needs an email sender decision.
 - [ ] Live payments (Razorpay/PayPal) — blocked: merchant credentials not supplied.
+
+- [ ] Complete the 16-item homepage usability and consistency audit pass.
