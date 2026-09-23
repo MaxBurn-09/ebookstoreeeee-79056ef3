@@ -9,11 +9,17 @@ const pick = <T,>(list: readonly T[]): T => list[Math.floor(Math.random() * list
 
 const HIDDEN = ["/checkout", "/auth", "/admin", "/cart"];
 
-/** Subtle social-proof popup: a recent reader purchase, every ~25s. */
+const DISMISSED_KEY = "fga-purchase-notice-dismissed";
+
+/** Optional social proof, shown sparingly and dismissible for the browser session. */
 export function PurchaseNotice() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [notice, setNotice] = useState<Notice | null>(null);
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissed, setDismissed] = useState(true);
+
+  useEffect(() => {
+    setDismissed(window.sessionStorage.getItem(DISMISSED_KEY) === "1");
+  }, []);
 
   useEffect(() => {
     if (dismissed) return;
@@ -31,8 +37,8 @@ export function PurchaseNotice() {
       hideTimer = setTimeout(() => setNotice(null), 7000);
     };
 
-    const first = setTimeout(show, 9000);
-    const loop = setInterval(show, 25000);
+    const first = setTimeout(show, 30000);
+    const loop = setInterval(show, 90000);
     return () => {
       clearTimeout(first);
       clearTimeout(hideTimer);
@@ -46,7 +52,7 @@ export function PurchaseNotice() {
     <div
       role="status"
       aria-live="polite"
-      className="animate-in fade-in slide-in-from-bottom-4 fixed bottom-20 left-3 z-40 flex w-[19rem] items-center gap-3 rounded-2xl border border-border bg-card/95 p-3 shadow-[var(--shadow-card)] backdrop-blur duration-500 sm:bottom-6 sm:left-6"
+      className="animate-in fade-in slide-in-from-bottom-4 fixed bottom-20 left-3 z-40 flex w-[19rem] items-center gap-3 rounded-lg border border-border bg-card/95 p-3 shadow-[var(--shadow-card)] backdrop-blur duration-500 sm:bottom-6 sm:left-6"
     >
       <img
         src={notice.cover}
@@ -55,23 +61,26 @@ export function PurchaseNotice() {
         className="h-14 w-10 shrink-0 rounded-md object-cover"
       />
       <div className="min-w-0 flex-1">
-        <p className="flex items-center gap-1 text-[0.68rem] font-semibold tracking-wide text-[var(--brand-orange)] uppercase">
+        <p className="flex items-center gap-1 text-xs font-semibold tracking-wide text-primary">
           <ShoppingBag className="h-3 w-3" aria-hidden /> Recent purchase
         </p>
-        <p className="mt-0.5 truncate text-[0.78rem] font-medium">
+        <p className="mt-0.5 truncate text-xs font-medium">
           {notice.name} · {notice.city}
         </p>
         <Link
           to="/book/$slug"
           params={{ slug: notice.slug }}
-          className="line-clamp-1 text-[0.74rem] text-muted-foreground hover:text-foreground"
+          className="line-clamp-1 text-xs text-muted-foreground hover:text-foreground"
         >
           bought {notice.title}
         </Link>
       </div>
       <button
         type="button"
-        onClick={() => setDismissed(true)}
+          onClick={() => {
+            window.sessionStorage.setItem(DISMISSED_KEY, "1");
+            setDismissed(true);
+          }}
         aria-label="Dismiss purchase notifications"
         className="press grid h-7 w-7 shrink-0 place-items-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
       >

@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin } from "lucide-react";
 import { storeConfig, categories } from "@/data/catalog";
-import { locations } from "@/data/locations";
 import logo from "@/assets/fga-logo.png.asset.json";
 import { Reveal } from "@/components/site/Reveal";
 
@@ -15,16 +14,16 @@ export function Footer() {
           <Link to="/" aria-label="Future Grow Academy — home" className="inline-block">
             <img src={logo.url} alt="Future Grow Academy" loading="lazy" className="h-11 w-auto" />
           </Link>
-          <p className="mt-4 max-w-xs text-[0.85rem] leading-relaxed text-muted-foreground">
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
             eBooks for a brighter tomorrow. {storeConfig.tagline}
           </p>
-          <p className="mt-5 flex items-start gap-2 text-[0.82rem] text-muted-foreground">
+          <p className="mt-5 flex items-start gap-2 text-sm text-muted-foreground">
             <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
             {storeConfig.address}
           </p>
           <a
             href={`mailto:${storeConfig.email}`}
-            className="link-sweep mt-2 inline-flex items-center gap-2 text-[0.82rem] text-muted-foreground hover:text-foreground"
+            className="link-sweep mt-2 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
           >
             <Mail className="h-4 w-4" aria-hidden />
             {storeConfig.email}
@@ -38,7 +37,7 @@ export function Footer() {
               <li key={item.to}>
                 <Link
                   to={item.to}
-                  className="text-[0.85rem] text-muted-foreground transition-colors hover:text-foreground"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {item.label}
                 </Link>
@@ -55,7 +54,7 @@ export function Footer() {
                 <Link
                   to="/books"
                   search={{ q: undefined, category: c.slug }}
-                  className="text-[0.85rem] text-muted-foreground transition-colors hover:text-foreground"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {c.name}
                 </Link>
@@ -73,7 +72,7 @@ export function Footer() {
                   href={s.href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="link-sweep text-[0.85rem] text-muted-foreground hover:text-foreground"
+                  className="link-sweep text-sm text-muted-foreground hover:text-foreground"
                 >
                   {s.label}
                 </a>
@@ -89,7 +88,7 @@ export function Footer() {
                   href={l.href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="text-[0.85rem] text-muted-foreground transition-colors hover:text-foreground"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {l.label}
                 </a>
@@ -100,26 +99,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-border">
-        <Reveal as="nav" aria-label="Popular locations" className="container-page py-5">
-          <h2 className="eyebrow">Popular reader locations</h2>
-          <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
-            {locations.slice(0, 12).map((l) => (
-              <li key={l.slug}>
-                <Link
-                  to="/locations/$slug"
-                  params={{ slug: l.slug }}
-                  className="text-[0.78rem] text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {l.city}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-      </div>
-
-      <div className="border-t border-border">
-        <div className="container-page flex flex-col gap-2 py-5 text-[0.75rem] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+        <div className="container-page flex flex-col gap-2 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {storeConfig.name}. All rights reserved.
           </p>
