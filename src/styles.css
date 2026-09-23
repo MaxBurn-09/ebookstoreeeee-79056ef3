@@ -236,7 +236,7 @@
 }
 
 @utility eyebrow {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -273,6 +273,16 @@
   }
   to {
     opacity: 1;
+  }
+}
+@keyframes book-stack-enter {
+  from {
+    opacity: 0.35;
+    transform: translate3d(10px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 @keyframes slide-right {
@@ -340,6 +350,11 @@
 
 @utility float-slow {
   animation: float-y 8s ease-in-out infinite;
+}
+
+@utility book-stack-enter {
+  animation: book-stack-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: opacity, transform;
 }
 
 @utility hover-lift {

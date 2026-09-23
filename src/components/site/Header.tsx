@@ -41,7 +41,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
       </a>
 
       <div className="bg-foreground text-background">
-        <div className="container-page flex h-8 items-center justify-center gap-3 text-[0.62rem] tracking-[0.08em] sm:text-[0.66rem] sm:tracking-[0.1em]">
+        <div className="container-page flex min-h-8 items-center justify-center gap-3 py-1 text-xs leading-tight tracking-wide">
           <span>{storeConfig.announcement}</span>
           <span className="hidden opacity-50 sm:inline">·</span>
           <span className="hidden opacity-70 sm:inline">{storeConfig.announcementSecondary}</span>
@@ -89,7 +89,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
                   preload="intent"
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "relative rounded-md px-3 py-2 text-[0.82rem] font-medium transition-colors hover:text-foreground",
+                    "relative rounded-md px-3 py-2 text-sm font-medium transition-colors hover:text-foreground",
                     active ? "text-foreground" : "text-muted-foreground",
                   )}
                 >
@@ -109,11 +109,11 @@ export function Header({ onSearch }: { onSearch: () => void }) {
             <button
               type="button"
               onClick={onSearch}
-              className="press hidden h-10 items-center gap-2 rounded-full border border-border px-3.5 text-[0.8rem] text-muted-foreground hover:border-foreground/25 hover:text-foreground md:flex"
+              className="press hidden h-10 items-center gap-2 rounded-full border border-border px-3.5 text-sm text-muted-foreground hover:border-foreground/25 hover:text-foreground md:flex"
             >
               <Search className="h-4 w-4" />
               <span className="pr-6">Search ebooks</span>
-              <kbd className="grid h-5 place-items-center rounded border border-border bg-muted px-1.5 font-sans text-[0.62rem]">
+              <kbd className="grid h-5 place-items-center rounded border border-border bg-muted px-1.5 font-sans text-xs">
                 /
               </kbd>
             </button>
@@ -190,7 +190,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
                   to={item.to}
                   onClick={() => setOpen(false)}
                   className={cn(
-                    "border-b border-border py-3.5 text-[0.95rem] font-medium transition-colors",
+                    "border-b border-border py-3.5 text-base font-medium transition-colors",
                     pathname === item.to ? "text-primary" : "hover:text-primary",
                   )}
                 >
@@ -214,7 +214,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
 
 function Badge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="absolute top-1.5 right-1.5 grid h-4 min-w-4 animate-[zoom-in-soft_0.25s_ease-out_both] place-items-center rounded-full bg-primary px-1 text-[0.58rem] font-semibold text-primary-foreground">
+    <span className="absolute top-1 right-1 grid min-h-4 min-w-4 animate-[zoom-in-soft_0.25s_ease-out_both] place-items-center rounded-full bg-primary px-1 text-xs leading-none font-semibold text-primary-foreground">
       {children}
     </span>
   );

@@ -4,15 +4,15 @@ import { cn } from "@/lib/utils";
 
 function Card({ t }: { t: Testimonial }) {
   return (
-    <figure className="flex w-[19rem] shrink-0 flex-col rounded-2xl bg-card p-6 shadow-[var(--shadow-card)] sm:w-[22rem]">
-      <Quote className="h-5 w-5 text-[var(--brand-orange)]" aria-hidden />
-      <blockquote className="mt-3 flex-1 text-[0.86rem] leading-relaxed text-foreground/85">
+    <figure className="flex w-[19rem] shrink-0 flex-col rounded-lg bg-card p-6 shadow-[var(--shadow-card)] sm:w-[22rem]">
+      <Quote className="h-5 w-5 text-primary" aria-hidden />
+      <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-foreground/85">
         {t.quote}
       </blockquote>
       <figcaption className="mt-5 flex items-center justify-between gap-3">
         <span>
-          <span className="block text-[0.82rem] font-semibold">{t.name}</span>
-          <span className="block text-[0.72rem] text-muted-foreground">{t.location}</span>
+          <span className="block text-sm font-semibold">{t.name}</span>
+          <span className="block text-xs text-muted-foreground">{t.location}</span>
         </span>
         <span className="flex gap-0.5" aria-label={`${t.rating} out of 5`}>
           {Array.from({ length: 5 }).map((_, s) => (
@@ -21,7 +21,7 @@ function Card({ t }: { t: Testimonial }) {
               className={cn(
                 "h-3 w-3",
                 s < Math.round(t.rating)
-                  ? "fill-[var(--brand-amber)] text-[var(--brand-amber)]"
+                  ? "fill-gold text-gold"
                   : "text-border",
               )}
               aria-hidden

@@ -44,10 +44,17 @@ export function ScrollProgress() {
  */
 export function StickyCta() {
   const [shown, setShown] = useState(false);
+  const [scrollingDown, setScrollingDown] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
-    const onScroll = () => setShown(window.scrollY > 760);
+    let previous = window.scrollY;
+    const onScroll = () => {
+      const current = window.scrollY;
+      setShown(current > 760);
+      setScrollingDown(current > previous && current - previous > 3);
+      previous = current;
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -60,22 +67,24 @@ export function StickyCta() {
     <div
       className={cn(
         "fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+4.75rem)] z-40 flex items-center gap-2 transition-all duration-500 md:bottom-6 md:right-6",
-        shown ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0",
+        shown && !scrollingDown
+          ? "translate-y-0 opacity-100"
+          : "pointer-events-none translate-y-6 opacity-0",
       )}
     >
       <button
         type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         aria-label="Back to top"
-        className="press grid h-11 w-11 place-items-center rounded-full border border-border bg-background/95 text-foreground shadow-[var(--shadow-card)] backdrop-blur-md hover:bg-muted"
+        className="press grid h-10 w-10 place-items-center rounded-full border border-border bg-background/95 text-foreground shadow-[var(--shadow-card)] backdrop-blur-md hover:bg-muted"
       >
         <ArrowUp className="h-4 w-4" aria-hidden />
       </button>
       <Link
         to="/books"
-        className="press inline-flex h-11 items-center gap-2 rounded-full bg-foreground pl-5 pr-4 text-[0.82rem] font-semibold text-background shadow-[var(--shadow-card)] hover:bg-foreground/90"
+        className="press hidden h-10 items-center gap-2 rounded-full bg-foreground px-4 text-xs font-semibold text-background shadow-[var(--shadow-card)] hover:bg-foreground/90 sm:inline-flex"
       >
-        Browse ebooks · $2.97
+        Browse eBooks
         <ArrowRight className="h-4 w-4" aria-hidden />
       </Link>
     </div>

@@ -2,19 +2,16 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
-  ArrowUpRight,
   Baby,
   Coins,
   Download,
   Dumbbell,
   HeartHandshake,
   Infinity as InfinityIcon,
-  Quote,
   Search,
   ShieldCheck,
   Smartphone,
   Sprout,
-  Star,
 } from "lucide-react";
 import {
   books,
@@ -93,13 +90,13 @@ function Hero() {
             </Tilt>
           </Parallax>
 
-          <p className="mt-5 text-center text-[0.62rem] tracking-[0.14em] text-muted-foreground uppercase sm:mt-8 sm:text-xs">
+          <p className="mt-5 text-center text-xs tracking-wide text-muted-foreground sm:mt-8">
             Instant PDF download · Lifetime access
           </p>
         </Reveal>
 
         <Reveal delay={70} className="order-2 max-w-xl lg:self-start">
-          <p className="max-w-md text-[0.94rem] leading-relaxed text-muted-foreground">
+          <p className="max-w-md text-base leading-relaxed text-muted-foreground">
             Discover practical eBooks on self-care, money, relationships, health and parenting.
             Read anytime, anywhere, and take a step towards a better tomorrow.
           </p>
@@ -140,7 +137,7 @@ function Hero() {
             <button
               type="submit"
               aria-label="Search"
-              className="press grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand text-white"
+              className="press grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand text-primary-foreground"
             >
               <ArrowRight className="h-4 w-4" />
             </button>
@@ -224,7 +221,10 @@ function AutoBookStack() {
         didSwipe.current = false;
       }}
     >
-      <div key={activeIndex} className="flex animate-fade-in items-end justify-center gap-2.5 sm:gap-5">
+      <div
+        key={activeIndex}
+        className="book-stack-enter flex min-h-[min(63vw,30rem)] items-end justify-center gap-2.5 sm:min-h-[30rem] sm:gap-5"
+      >
         {stack.map((book, i) => (
           <Link
             key={book.id}
@@ -233,7 +233,7 @@ function AutoBookStack() {
             preload="intent"
             draggable={false}
             className={cn(
-              "cover-plate block w-[25%] shrink-0 transition-all duration-500 hover:-translate-y-3",
+               "cover-plate block w-[25%] shrink-0 transition-[transform,opacity,box-shadow] duration-500 ease-out hover:-translate-y-3",
               i === 1 ? "w-[40%] -translate-y-3 sm:-translate-y-6" : "translate-y-3 opacity-95",
               i === 0 && "-rotate-3",
               i === 2 && "rotate-3",
@@ -257,8 +257,8 @@ function AutoBookStack() {
 function Stat({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <dd className="font-display text-xl font-medium sm:text-[1.75rem]">{children}</dd>
-      <dt className="mt-1 text-[0.62rem] leading-snug tracking-[0.08em] text-muted-foreground uppercase sm:text-[0.72rem]">
+      <dd className="font-display text-xl font-medium sm:text-3xl">{children}</dd>
+      <dt className="mt-1 text-xs leading-snug tracking-wide text-muted-foreground">
         {label}
       </dt>
     </div>
@@ -280,12 +280,12 @@ function TrustStrip() {
       <ul className="container-page grid gap-x-6 gap-y-6 py-8 sm:grid-cols-2 lg:grid-cols-4">
         {trust.map((t, i) => (
           <Reveal key={t.title} as="li" delay={i * 70} className="group flex items-center gap-3.5">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color-mix(in_oklab,var(--brand-orange)_12%,transparent)] text-[var(--brand-red)] transition-transform duration-300 group-hover:-translate-y-0.5">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-accent text-primary transition-transform duration-300 group-hover:-translate-y-0.5">
               <t.icon className="h-5 w-5" aria-hidden />
             </span>
             <span className="min-w-0">
-              <span className="block text-[0.88rem] font-semibold">{t.title}</span>
-              <span className="block text-[0.78rem] text-muted-foreground">{t.note}</span>
+              <span className="block text-sm font-semibold">{t.title}</span>
+              <span className="block text-xs text-muted-foreground">{t.note}</span>
             </span>
           </Reveal>
         ))}
@@ -310,7 +310,7 @@ function Head({
   return (
     <div className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-10">
       <div className="min-w-0">
-        <h2 className="font-display text-[1.65rem] font-medium tracking-[-0.01em] sm:text-[2.1rem]">
+        <h2 className="font-display text-3xl font-medium sm:text-4xl">
           {title}
         </h2>
         {note ? <p className="mt-2 max-w-xl text-sm text-muted-foreground">{note}</p> : null}
@@ -318,7 +318,7 @@ function Head({
       {to ? (
         <Link
           to={to}
-          className="group inline-flex items-center gap-1.5 text-[0.82rem] font-semibold text-[var(--brand-red)]"
+          className="group inline-flex items-center gap-1.5 text-sm font-semibold text-primary"
         >
           {cta ?? "View All"}
           <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
@@ -352,7 +352,7 @@ function CategoryBand() {
                 <Link
                   to="/books"
                   search={{ q: undefined, category: c.slug }}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_24px_50px_-24px_rgba(11,22,51,0.35)]"
+                  className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-all duration-500 hover:-translate-y-3 hover:shadow-[var(--shadow-raised)]"
                 >
                   <span
                     className="grid aspect-[4/3] place-items-center"
@@ -362,19 +362,19 @@ function CategoryBand() {
                     }}
                   >
                     <Icon
-                      className="h-11 w-11 text-[var(--brand-red)] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[6deg]"
+                      className="h-11 w-11 text-primary transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[6deg]"
                       strokeWidth={1.25}
                       aria-hidden
                     />
                   </span>
                   <span className="flex flex-1 items-end justify-between gap-3 p-4">
                     <span>
-                      <span className="block text-[0.92rem] font-semibold">{c.name}</span>
-                      <span className="mt-1 block text-[0.75rem] text-muted-foreground">
+                      <span className="block text-base font-semibold">{c.name}</span>
+                      <span className="mt-1 block text-xs text-muted-foreground">
                         {c.tagline}
                       </span>
                     </span>
-                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-border text-[var(--brand-red)] transition-colors group-hover:bg-brand group-hover:text-white">
+                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-border text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
                       <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                     </span>
                   </span>
@@ -404,7 +404,7 @@ function StoryBand() {
       />
       <div className="relative container-page grid items-center gap-12 py-16 lg:grid-cols-[1fr_1.1fr_auto] lg:gap-10 lg:py-24">
         <Reveal>
-          <p className="text-[0.7rem] tracking-[0.22em] text-background/60 uppercase">
+          <p className="text-xs tracking-wide text-background/70">
             Knowledge creates real change
           </p>
           <h2 className="mt-5 font-display text-[2.2rem] leading-[1.08] font-medium sm:text-[2.9rem]">
@@ -412,13 +412,13 @@ function StoryBand() {
             <br />
             Just Books
           </h2>
-          <p className="mt-5 max-w-sm text-[0.92rem] leading-relaxed text-background/75">
+          <p className="mt-5 max-w-sm text-base leading-relaxed text-background/75">
             {storeConfig.name} is built to help you learn, grow and evolve with practical knowledge
             you can apply in real life.
           </p>
           <Link
             to="/about"
-            className="press mt-8 inline-flex h-11 items-center gap-2 rounded-full bg-brand px-6 text-sm font-semibold text-white"
+            className="press mt-8 inline-flex h-11 items-center gap-2 rounded-full bg-brand px-6 text-sm font-semibold text-primary-foreground"
           >
             Our Story <ArrowRight className="h-4 w-4" />
           </Link>
@@ -451,10 +451,17 @@ function StoryBand() {
           </Parallax>
         </Reveal>
 
-        <Reveal delay={200} as="ul" className="flex gap-8 lg:flex-col lg:gap-10">
+        <Reveal
+          delay={200}
+          as="ul"
+          className="grid grid-cols-3 overflow-hidden rounded-lg border border-background/15 bg-background/5 lg:grid-cols-1"
+        >
           {steps.map((s, i) => (
-            <li key={s} className="flex items-center gap-3">
-              <span className="h-px w-8 bg-background/35 lg:w-10" aria-hidden />
+            <li
+              key={s}
+              className="flex min-w-24 items-center gap-3 border-background/15 px-4 py-4 not-last:border-r lg:border-r-0 lg:not-last:border-b"
+            >
+              <span className="h-px w-5 bg-background/40" aria-hidden />
               <span className="font-display text-lg font-medium sm:text-2xl">{s}</span>
               <span className="sr-only">step {i + 1}</span>
             </li>
@@ -490,14 +497,14 @@ function OfferBanner() {
   return (
     <section className="container-page pb-4 [overflow-x:clip]">
       <Reveal>
-        <div className="glow-breathe relative overflow-hidden rounded-3xl bg-brand px-7 py-10 text-white sm:px-12 sm:py-12">
+        <div className="glow-breathe relative overflow-hidden rounded-lg bg-brand px-7 py-10 text-primary-foreground sm:px-12 sm:py-12">
           <div
             aria-hidden
             className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-background/10 blur-2xl"
           />
           <div className="relative grid items-center gap-8 lg:grid-cols-[1.2fr_auto]">
             <div>
-              <p className="text-[0.7rem] tracking-[0.22em] text-white/75 uppercase">
+              <p className="text-xs tracking-wide text-primary-foreground/75">
                 Limited time offer
               </p>
               <h2 className="mt-4 font-display text-[2.1rem] leading-[1.1] font-medium sm:text-[2.8rem]">
@@ -505,12 +512,12 @@ function OfferBanner() {
                 <br />
                 On Every eBook
               </h2>
-              <p className="mt-4 text-sm text-white/85">
+              <p className="mt-4 text-sm text-primary-foreground/85">
                 Every title $2.97 instead of $7.50 · instant PDF download
               </p>
               <Link
                 to="/books"
-                className="press mt-7 inline-flex h-12 items-center gap-2 rounded-full bg-white px-7 text-sm font-semibold text-[var(--brand-crimson)]"
+                className="press mt-7 inline-flex h-12 items-center gap-2 rounded-full bg-card px-7 text-sm font-semibold text-primary"
               >
                 Shop All Deals <ArrowRight className="h-4 w-4" />
               </Link>
@@ -525,7 +532,7 @@ function OfferBanner() {
                     className="aspect-[2/3] w-full object-cover"
                   />
                 </div>
-                <span className="absolute -top-5 -right-5 grid h-16 w-16 place-items-center rounded-full bg-white text-center text-[0.72rem] leading-tight font-bold text-[var(--brand-crimson)]">
+                <span className="absolute -top-5 -right-5 grid h-16 w-16 place-items-center rounded-full bg-card text-center text-xs leading-tight font-bold text-primary">
                   80%
                   <br />
                   OFF
@@ -544,10 +551,10 @@ function OfferBanner() {
 function Founder() {
   return (
     <section className="section-y">
-      <div className="container-page grid items-center gap-10 rounded-3xl border border-border bg-card p-8 shadow-[var(--shadow-card)] sm:p-12 lg:grid-cols-[auto_1fr_auto]">
+      <div className="container-page grid items-center gap-10 rounded-lg border border-border bg-card p-8 shadow-[var(--shadow-card)] sm:p-12 lg:grid-cols-[auto_1fr_auto]">
         <Reveal className="flex justify-center">
           <span
-            className="grid h-32 w-32 place-items-center rounded-2xl font-display text-4xl font-medium text-white"
+            className="grid h-32 w-32 place-items-center rounded-lg font-display text-4xl font-medium text-primary-foreground"
             style={{ background: "var(--gradient-brand)" }}
             aria-hidden
           >
@@ -559,8 +566,8 @@ function Founder() {
             “Knowledge has the power to transform lives. My mission is to make practical learning
             accessible to everyone, everywhere.”
           </blockquote>
-          <p className="mt-6 text-[0.92rem] font-semibold">Dr. Ankit Sharma</p>
-          <p className="text-[0.8rem] text-muted-foreground">Founder, {storeConfig.name}</p>
+          <p className="mt-6 text-base font-semibold">Dr. Ankit Sharma</p>
+          <p className="text-sm text-muted-foreground">Founder, {storeConfig.name}</p>
         </Reveal>
         <Reveal delay={160} className="hidden text-right lg:block">
           <p className="font-display text-[1.4rem] leading-tight text-brand italic">
@@ -598,7 +605,7 @@ function Newsletter() {
   return (
     <section className="container-page pb-16 sm:pb-24">
       <Reveal>
-        <div className="grid items-center gap-6 rounded-3xl bg-brand px-7 py-10 text-white sm:px-12 lg:grid-cols-2">
+        <div className="grid items-center gap-6 rounded-lg bg-brand px-7 py-10 text-primary-foreground sm:px-12 lg:grid-cols-2">
           <div>
             <h2 className="font-display text-[1.7rem] font-medium sm:text-[2.1rem]">
               Join Our Newsletter
@@ -612,7 +619,7 @@ function Newsletter() {
               e.preventDefault();
               setDone(true);
             }}
-            className="flex h-14 items-center gap-2 rounded-full bg-white pr-2 pl-5 lg:justify-self-end lg:w-full"
+             className="flex h-14 items-center gap-2 rounded-full bg-card pr-2 pl-5 lg:justify-self-end lg:w-full"
           >
             <label htmlFor="newsletter-email" className="sr-only">
               Email address
@@ -630,13 +637,13 @@ function Newsletter() {
               type="submit"
               disabled={done}
               aria-label="Subscribe"
-              className="press grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand text-white disabled:opacity-60"
+              className="press grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand text-primary-foreground disabled:opacity-60"
             >
-              <ArrowUpRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4" />
             </button>
           </form>
           {done ? (
-            <p className="text-xs text-white/90 lg:col-span-2">Thanks — you're on the list.</p>
+            <p className="text-xs text-primary-foreground/90 lg:col-span-2">Thanks — you're on the list.</p>
           ) : null}
         </div>
       </Reveal>
