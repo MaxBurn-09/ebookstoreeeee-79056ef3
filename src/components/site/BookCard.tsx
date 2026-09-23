@@ -11,6 +11,7 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
   const wished = isWishlisted(book.id);
   const inCart = cart.some((l) => l.id === book.id);
   const [loaded, setLoaded] = useState(false);
+  const [imageSrc, setImageSrc] = useState(`/covers/${book.slug}.webp`);
   const off = Math.round((1 - book.price / book.oldPrice) * 100);
 
   return (
@@ -26,15 +27,18 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
           className="block"
         >
           <img
-            src={`/covers/${book.slug}.webp`}
+            src={imageSrc}
             alt=""
             loading={priority ? "eager" : "lazy"}
             decoding="async"
             width={640}
             height={960}
             onLoad={() => setLoaded(true)}
-            onError={(event) => {
-              event.currentTarget.style.visibility = "hidden";
+            onError={() => {
+              if (imageSrc !== book.cover) {
+                setImageSrc(book.cover);
+                return;
+              }
               setLoaded(true);
             }}
             className={cn(
