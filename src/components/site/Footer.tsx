@@ -40,7 +40,7 @@ export function Footer() {
 
   return (
     <footer className="border-t border-border bg-card">
-      <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-12">
+      <div className="container-page grid gap-7 py-12 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-9 sm:py-14 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-12">
         <Reveal>
           <Link to="/" aria-label="Future Grow Academy — home" className="inline-block">
             <img src={logo.url} alt="Future Grow Academy" loading="lazy" className="h-11 w-auto" />
