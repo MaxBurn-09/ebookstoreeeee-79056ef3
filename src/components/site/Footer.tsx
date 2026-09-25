@@ -1,6 +1,6 @@
 import type { JSX, SVGProps } from "react";
 import { Link } from "@tanstack/react-router";
-import { Facebook, Instagram, Linkedin, Mail, MapPin, Youtube } from "lucide-react";
+import { Facebook, Globe, Instagram, Linkedin, Mail, MapPin, Youtube } from "lucide-react";
 import { storeConfig, categories } from "@/data/catalog";
 import logo from "@/assets/fga-logo.png.asset.json";
 import { Reveal } from "@/components/site/Reveal";
@@ -51,7 +51,7 @@ export function Footer() {
 
           <ul className="mt-6 flex flex-wrap gap-2.5" aria-label="Follow Future Grow Academy">
             {storeConfig.socials.map((s) => {
-              const Icon = socialIcons[s.label];
+              const Icon = socialIcons[s.label] ?? Globe;
               return (
                 <li key={s.label}>
                   <a
