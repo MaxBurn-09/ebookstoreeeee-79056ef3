@@ -1,6 +1,6 @@
 import type { ComponentType, SVGProps } from "react";
 import { Link } from "@tanstack/react-router";
-import { Facebook, Globe, Instagram, Linkedin, Mail, MapPin, Youtube } from "lucide-react";
+import { Facebook, Globe, Instagram, Linkedin, Mail, MapPin, Youtube, type LucideIcon } from "lucide-react";
 import { storeConfig, categories } from "@/data/catalog";
 import logo from "@/assets/fga-logo.png.asset.json";
 import { Reveal } from "@/components/site/Reveal";
@@ -23,7 +23,7 @@ function PinterestIcon({ className }: IconProps) {
   );
 }
 
-const socialIcons: Record<string, ComponentType<IconProps>> = {
+const socialIcons: Record<string, LucideIcon | ComponentType<IconProps>> = {
   Facebook,
   X: XIcon,
   Instagram,
