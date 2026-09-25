@@ -48,7 +48,6 @@ function HomePage() {
       <StoryBand />
       <BestSelling />
       <OfferBanner />
-      <Founder />
       <Reviews />
       <Newsletter />
     </>
@@ -542,43 +541,6 @@ function OfferBanner() {
           </div>
         </div>
       </Reveal>
-    </section>
-  );
-}
-
-/* -------------------------------------------------------------- founder */
-
-function Founder() {
-  return (
-    <section className="section-y">
-      <div className="container-page grid items-center gap-10 rounded-lg border border-border bg-card p-8 shadow-[var(--shadow-card)] sm:p-12 lg:grid-cols-[auto_1fr_auto]">
-        <Reveal className="flex justify-center">
-          <span
-            className="grid h-32 w-32 place-items-center rounded-lg font-display text-4xl font-medium text-primary-foreground"
-            style={{ background: "var(--gradient-brand)" }}
-            aria-hidden
-          >
-            AS
-          </span>
-        </Reveal>
-        <Reveal delay={90}>
-          <blockquote className="font-display text-[1.3rem] leading-[1.5] font-medium sm:text-[1.55rem]">
-            “Knowledge has the power to transform lives. My mission is to make practical learning
-            accessible to everyone, everywhere.”
-          </blockquote>
-          <p className="mt-6 text-base font-semibold">Dr. Ankit Sharma</p>
-          <p className="text-sm text-muted-foreground">Founder, {storeConfig.name}</p>
-        </Reveal>
-        <Reveal delay={160} className="hidden text-right lg:block">
-          <p className="font-display text-[1.4rem] leading-tight text-brand italic">
-            A Brighter
-            <br />
-            Tomorrow
-          </p>
-          <p className="mt-6 font-display text-lg italic">Dr. Ankit Sharma</p>
-          <span className="mt-2 block h-px w-40 bg-foreground/25" aria-hidden />
-        </Reveal>
-      </div>
     </section>
   );
 }
