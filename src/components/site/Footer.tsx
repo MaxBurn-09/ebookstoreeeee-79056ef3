@@ -1,4 +1,4 @@
-import type { SVGProps } from "react";
+import type { JSX, SVGProps } from "react";
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Youtube } from "lucide-react";
 import { storeConfig, categories } from "@/data/catalog";
@@ -23,7 +23,7 @@ function PinterestIcon({ className }: IconProps) {
   );
 }
 
-const socialIcons: Record<string, (props: IconProps) => React.JSX.Element> = {
+const socialIcons: Record<string, (props: IconProps) => JSX.Element> = {
   Facebook,
   X: XIcon,
   Instagram,
