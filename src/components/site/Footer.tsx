@@ -125,7 +125,8 @@ export function Footer() {
               </li>
             ))}
           </ul>
-        </Reveal>
+          </Reveal>
+        </div>
       </div>
 
       <div className="border-t border-border">
