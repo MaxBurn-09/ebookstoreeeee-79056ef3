@@ -96,20 +96,20 @@ export function Footer() {
           </ul>
         </Reveal>
 
-        <Reveal as="nav" aria-label="Categories" delay={120}>
-          <h2 className="eyebrow">Categories</h2>
-          <ul className="mt-4 space-y-2.5">
-            {categories.map((c) => (
-              <li key={c.slug}>
-                <Link to="/books" search={{ q: undefined, category: c.slug }} className={linkClass}>
-                  {c.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+          <Reveal as="nav" aria-label="Categories" delay={120} className="min-w-0">
+            <h2 className="eyebrow">Categories</h2>
+            <ul className="mt-4 space-y-2.5">
+              {categories.map((c) => (
+                <li key={c.slug}>
+                  <Link to="/books" search={{ q: undefined, category: c.slug }} className={linkClass}>
+                    {c.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
 
-        <Reveal as="nav" aria-label="Legal" delay={180}>
+          <Reveal as="nav" aria-label="Legal" delay={180} className="min-w-0">
           <h2 className="eyebrow">Legal</h2>
           <ul className="mt-4 space-y-2.5">
             {storeConfig.legal.map((l) => (
