@@ -1,71 +1,11 @@
-import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { toast } from "sonner";
-import { BookOpen, Download, Loader2, LogOut, ShieldCheck } from "lucide-react";
+import { BookOpen, Loader2, LogOut, ReceiptText, ShieldCheck } from "lucide-react";
 import { getMyOrders } from "@/lib/orders.functions";
-import { getEbookLink } from "@/lib/library.functions";
+import { LibraryActions } from "@/components/site/LibraryActions";
 import { useAuth } from "@/lib/auth";
 import { formatPrice } from "@/data/catalog";
-
-/** Read / download buttons that fetch a fresh signed link for an owned ebook. */
-function LibraryActions({ slug, title }: { slug: string; title: string }) {
-  const fetchLink = useServerFn(getEbookLink);
-  const [busy, setBusy] = useState<"read" | "download" | null>(null);
-
-  const open = async (mode: "read" | "download") => {
-    setBusy(mode);
-    try {
-      const { url } = await fetchLink({ data: { slug } });
-      if (mode === "read") {
-        window.open(url, "_blank", "noopener");
-      } else {
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${title}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      }
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Could not open this ebook.");
-    } finally {
-      setBusy(null);
-    }
-  };
-
-  return (
-    <>
-      <button
-        type="button"
-        onClick={() => open("read")}
-        disabled={busy !== null}
-        className="press inline-flex h-9 items-center gap-1.5 rounded-full bg-foreground px-4 text-xs font-semibold text-background hover:bg-foreground/90 disabled:opacity-60"
-      >
-        {busy === "read" ? (
-          <Loader2 className="h-3.5 w-3.5 animate-spin" />
-        ) : (
-          <BookOpen className="h-3.5 w-3.5" />
-        )}
-        Read
-      </button>
-      <button
-        type="button"
-        onClick={() => open("download")}
-        disabled={busy !== null}
-        className="press inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-4 text-xs font-semibold hover:bg-muted disabled:opacity-60"
-      >
-        {busy === "download" ? (
-          <Loader2 className="h-3.5 w-3.5 animate-spin" />
-        ) : (
-          <Download className="h-3.5 w-3.5" />
-        )}
-        Download
-      </button>
-    </>
-  );
-}
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -95,7 +35,7 @@ function DashboardPage() {
     queryFn: () => fetchOrders(),
   });
 
-  const items = (orders ?? []).flatMap((o) =>
+  const items = (orders ?? []).filter((o) => o.status === "paid").flatMap((o) =>
     (o.order_items ?? []).map((i) => ({ ...i, orderDate: o.created_at })),
   );
 
@@ -183,6 +123,23 @@ function DashboardPage() {
             ))}
           </div>
         )}
+        {(orders ?? []).length > 0 ? (
+          <div className="mt-14">
+            <h2 className="flex items-center gap-2 text-xl font-semibold"><ReceiptText className="h-5 w-5 text-primary" /> Order history</h2>
+            <ul className="mt-5 divide-y divide-border rounded-2xl border border-border glass">
+              {(orders ?? []).map((o) => (
+                <li key={o.id}>
+                  <Link to="/order/$id" params={{ id: o.id }} className="flex flex-wrap items-center justify-between gap-3 p-4 hover:bg-muted/50">
+                    <span className="text-sm font-semibold">#{o.id.slice(0, 8).toUpperCase()}</span>
+                    <span className="text-sm text-muted-foreground">{new Date(o.created_at).toLocaleDateString()} · {o.order_items.length} ebook(s)</span>
+                    <span className={o.status === "paid" ? "rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary" : "rounded-full bg-muted px-2.5 py-0.5 text-xs font-semibold text-muted-foreground"}>{o.status}</span>
+                    <span className="text-sm font-semibold tabular-nums">{formatPrice(Number(o.total))}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </div>
     </section>
   );

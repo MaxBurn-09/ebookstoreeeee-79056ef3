@@ -1,3 +1,4 @@
+import { pageHead, SITE_URL } from "@/lib/seo";
 import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import {
@@ -33,15 +34,13 @@ export const Route = createFileRoute("/book/$slug")({
     }
     const { book } = loaderData;
     const title = `${book.title} — Future Grow Academy eBook`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: book.blurb.slice(0, 155) },
-        { property: "og:title", content: title },
-        { property: "og:description", content: book.blurb.slice(0, 155) },
-        { property: "og:type", content: "product" },
-      ],
-    };
+    return pageHead({
+      title,
+      description: book.blurb.slice(0, 155),
+      path: `/book/${book.slug}`,
+      type: "product",
+      image: `${SITE_URL}/covers/${book.slug}.webp`,
+    });
   },
   component: BookDetail,
 });
