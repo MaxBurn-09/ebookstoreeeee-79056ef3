@@ -638,6 +638,7 @@ export const storeConfig = {
     { label: "Shop", to: "/books" },
     { label: "Categories", to: "/categories" },
     { label: "Bundles", to: "/bundles" },
+    { label: "Book Finder", to: "/book-finder" },
     { label: "New Additions", to: "/new-arrivals" },
     { label: "Blog", to: "https://futuregrowacademy.com/", external: true },
     { label: "Services", to: "/services" },

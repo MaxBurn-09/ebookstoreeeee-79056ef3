@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BlogRouteImport } from './routes/blog'
+import { Route as BookFinderRouteImport } from './routes/book-finder'
 import { Route as BooksRouteImport } from './routes/books'
 import { Route as BundlesRouteImport } from './routes/bundles'
 import { Route as CartRouteImport } from './routes/cart'
@@ -60,6 +61,11 @@ const AuthRoute = AuthRouteImport.update({
 const BlogRoute = BlogRouteImport.update({
   id: '/blog',
   path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookFinderRoute = BookFinderRouteImport.update({
+  id: '/book-finder',
+  path: '/book-finder',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BooksRoute = BooksRouteImport.update({
@@ -187,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
+  '/book-finder': typeof BookFinderRoute
   '/books': typeof BooksRoute
   '/bundles': typeof BundlesRoute
   '/cart': typeof CartRoute
@@ -216,6 +223,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
+  '/book-finder': typeof BookFinderRoute
   '/books': typeof BooksRoute
   '/bundles': typeof BundlesRoute
   '/cart': typeof CartRoute
@@ -246,6 +254,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
+  '/book-finder': typeof BookFinderRoute
   '/books': typeof BooksRoute
   '/bundles': typeof BundlesRoute
   '/cart': typeof CartRoute
@@ -277,6 +286,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/blog'
+    | '/book-finder'
     | '/books'
     | '/bundles'
     | '/cart'
@@ -306,6 +316,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/blog'
+    | '/book-finder'
     | '/books'
     | '/bundles'
     | '/cart'
@@ -335,6 +346,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/blog'
+    | '/book-finder'
     | '/books'
     | '/bundles'
     | '/cart'
@@ -366,6 +378,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   BlogRoute: typeof BlogRouteWithChildren
+  BookFinderRoute: typeof BookFinderRoute
   BooksRoute: typeof BooksRoute
   BundlesRoute: typeof BundlesRoute
   CartRoute: typeof CartRoute
@@ -414,6 +427,13 @@ declare module '@tanstack/react-router' {
       path: '/blog'
       fullPath: '/blog'
       preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book-finder': {
+      id: '/book-finder'
+      path: '/book-finder'
+      fullPath: '/book-finder'
+      preLoaderRoute: typeof BookFinderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/books': {
@@ -646,6 +666,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   BlogRoute: BlogRouteWithChildren,
+  BookFinderRoute: BookFinderRoute,
   BooksRoute: BooksRoute,
   BundlesRoute: BundlesRoute,
   CartRoute: CartRoute,

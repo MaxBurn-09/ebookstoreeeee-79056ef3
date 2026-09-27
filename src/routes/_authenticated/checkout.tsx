@@ -73,7 +73,7 @@ function CheckoutPage() {
           </p>
           <Link
             to="/books"
-            className="press mt-6 inline-flex h-12 items-center rounded-full bg-foreground px-6 text-sm font-semibold text-background hover:bg-foreground/90"
+            className="press mt-6 inline-flex h-12 items-center btn-gloss rounded-full bg-brand px-6 text-sm font-semibold text-primary-foreground"
           >
             Browse the library
           </Link>
@@ -91,7 +91,7 @@ function CheckoutPage() {
         <div className="mt-9 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
           <form
             onSubmit={onSubmit}
-            className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8"
+            className="glass rounded-2xl border border-border p-6 sm:p-8"
           >
             <h2 className="text-base font-semibold">Billing details</h2>
             <p className="mt-1 text-xs text-muted-foreground">
@@ -122,14 +122,14 @@ function CheckoutPage() {
             <button
               type="submit"
               disabled={busy}
-              className="press mt-8 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground text-sm font-semibold text-background hover:bg-foreground/90 disabled:opacity-60"
+              className="press mt-8 inline-flex h-12 w-full items-center justify-center gap-2 btn-gloss rounded-full bg-brand text-sm font-semibold text-primary-foreground disabled:opacity-60"
             >
               {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
               Place order · {formatPrice(cartSubtotal)}
             </button>
           </form>
 
-          <aside className="h-fit rounded-2xl border border-border bg-secondary/40 p-6 shadow-[var(--shadow-card)]">
+          <aside className="glass h-fit rounded-2xl border border-border p-6 lg:sticky lg:top-28">
             <h2 className="text-base font-semibold">Order summary</h2>
             <ul className="mt-5 space-y-4">
               {lineBooks.map(({ book, qty }) => (
@@ -141,7 +141,7 @@ function CheckoutPage() {
                     className="h-20 w-14 rounded-md object-cover"
                   />
                   <div className="min-w-0 flex-1">
-                    <p className="line-clamp-2 text-[0.82rem] font-medium">{book.title}</p>
+                    <p className="line-clamp-2 text-sm font-medium">{book.title}</p>
                     <p className="mt-0.5 text-xs text-muted-foreground">PDF · Qty {qty}</p>
                   </div>
                   <span className="text-sm font-semibold tabular-nums">
@@ -189,7 +189,7 @@ function Method({
       onClick={onClick}
       aria-pressed={active}
       className={`press rounded-xl border p-4 text-left transition-colors ${
-        active ? "border-foreground bg-muted" : "border-border hover:border-foreground/30"
+        active ? "border-primary bg-card ring-2 ring-primary/20" : "border-border bg-card hover:border-foreground/30"
       }`}
     >
       <span className="block text-sm font-semibold">{label}</span>
@@ -211,13 +211,13 @@ function Field({
 }) {
   return (
     <label className="grid gap-1.5">
-      <span className="text-[0.78rem] font-semibold">{label}</span>
+      <span className="text-sm font-semibold">{label}</span>
       <input
         required
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="h-12 rounded-xl border border-border bg-background px-4 text-sm outline-none transition-colors focus:border-foreground/40"
+        className="h-12 rounded-xl border border-border bg-card px-4 text-base outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/15"
       />
     </label>
   );
