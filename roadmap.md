@@ -13,3 +13,7 @@
 - [ ] Live payments (Razorpay/PayPal) — blocked: merchant credentials not supplied.
 
 - [ ] Complete the 16-item homepage usability and consistency audit pass.
+
+- [ ] Reconnect Google Drive in new workspace
+- [ ] AI mood-based book recommendations
+- [ ] Glossy cart & checkout
