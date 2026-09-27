@@ -21,6 +21,7 @@ import {
   storeConfig,
 } from "@/data/catalog";
 import { BookCard } from "@/components/site/BookCard";
+import { Bookshelf } from "@/components/site/Bookshelf";
 import { Reveal } from "@/components/site/Reveal";
 import { ReviewWall } from "@/components/site/ReviewWall";
 import { CountUp, Parallax, Tilt } from "@/components/site/Motion";
@@ -45,6 +46,7 @@ function HomePage() {
       <Hero />
       <TrustStrip />
       <CategoryBand />
+      <Bookshelf />
       <StoryBand />
       <BestSelling />
       <OfferBanner />
