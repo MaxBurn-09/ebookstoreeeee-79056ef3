@@ -1,11 +1,6 @@
-import { useState } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
-import { toast } from "sonner";
-import { Download, Loader2, Lock, ShieldCheck } from "lucide-react";
-import { placeOrder } from "@/lib/orders.functions";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Download, Lock } from "lucide-react";
 import { useStore } from "@/lib/store";
-import { useAuth } from "@/lib/auth";
 import { formatPrice } from "@/data/catalog";
 
 export const Route = createFileRoute("/_authenticated/checkout")({
@@ -15,12 +10,12 @@ export const Route = createFileRoute("/_authenticated/checkout")({
       {
         name: "description",
         content:
-          "Complete your purchase and get instant access to your ebooks in your reading library.",
+          "Review the ebooks and bundle prices in your bag before purchasing.",
       },
       { property: "og:title", content: "Checkout — Future Grow Academy" },
       {
         property: "og:description",
-        content: "Secure checkout with instant PDF delivery to your account.",
+        content: "Review your selected ebooks and discounted bundles.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -30,38 +25,7 @@ export const Route = createFileRoute("/_authenticated/checkout")({
 });
 
 function CheckoutPage() {
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const { lineBooks, cartSubtotal, clearCart } = useStore();
-  const submit = useServerFn(placeOrder);
-
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState(user?.email ?? "");
-  const [provider, setProvider] = useState<"razorpay" | "paypal">("paypal");
-  const [busy, setBusy] = useState(false);
-
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (lineBooks.length === 0) return;
-    setBusy(true);
-    try {
-      await submit({
-        data: {
-          fullName,
-          email,
-          provider,
-          items: lineBooks.map((l) => ({ slug: l.book.slug, quantity: l.qty })),
-        },
-      });
-      clearCart();
-      toast.success("Order confirmed — your ebooks are in your library.");
-      navigate({ to: "/dashboard" });
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Checkout failed. Please try again.");
-    } finally {
-      setBusy(false);
-    }
-  }
+  const { lineBooks, cartSubtotal, cartListTotal, bundleDiscount, appliedBundles } = useStore();
 
   if (lineBooks.length === 0) {
     return (
@@ -85,51 +49,18 @@ function CheckoutPage() {
   return (
     <section className="section-y">
       <div className="container-page">
-        <p className="eyebrow">Secure checkout</p>
-        <h1 className="mt-2 text-3xl font-semibold sm:text-4xl">Complete your order</h1>
+        <p className="eyebrow">Order review</p>
+        <h1 className="mt-2 text-3xl font-semibold sm:text-4xl">Review your order</h1>
 
         <div className="mt-9 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <form
-            onSubmit={onSubmit}
-            className="glass rounded-2xl border border-border p-6 sm:p-8"
-          >
-            <h2 className="text-base font-semibold">Billing details</h2>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Ebooks are delivered digitally — no shipping address needed.
-            </p>
+          <div className="glass h-fit rounded-lg border border-border p-6 sm:p-8" role="status">
+            <Lock className="h-6 w-6 text-primary" aria-hidden />
+            <h2 className="mt-4 text-xl font-semibold">Payments are not available yet</h2>
+            <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground">Your selections remain in your bag. No charge will be made and no ebooks will be marked as purchased until payment is available.</p>
+            <Link to="/cart" className="mt-6 inline-flex text-sm font-semibold text-primary underline underline-offset-4">Back to bag</Link>
+          </div>
 
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <Field label="Full name" value={fullName} onChange={setFullName} type="text" />
-              <Field label="Email for delivery" value={email} onChange={setEmail} type="email" />
-            </div>
-
-            <h2 className="mt-8 text-base font-semibold">Payment method</h2>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <Method
-                label="PayPal"
-                note="Cards & PayPal · worldwide"
-                active={provider === "paypal"}
-                onClick={() => setProvider("paypal")}
-              />
-              <Method
-                label="Razorpay"
-                note="UPI, cards & netbanking · India"
-                active={provider === "razorpay"}
-                onClick={() => setProvider("razorpay")}
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={busy}
-              className="press mt-8 inline-flex h-12 w-full items-center justify-center gap-2 btn-gloss rounded-full bg-brand text-sm font-semibold text-primary-foreground disabled:opacity-60"
-            >
-              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
-              Place order · {formatPrice(cartSubtotal)}
-            </button>
-          </form>
-
-          <aside className="glass h-fit rounded-2xl border border-border p-6 lg:sticky lg:top-28">
+          <aside className="glass h-fit rounded-lg border border-border p-6 lg:sticky lg:top-28">
             <h2 className="text-base font-semibold">Order summary</h2>
             <ul className="mt-5 space-y-4">
               {lineBooks.map(({ book, qty }) => (
@@ -150,6 +81,11 @@ function CheckoutPage() {
                 </li>
               ))}
             </ul>
+            {appliedBundles.length > 0 && <div className="mt-5 space-y-2 border-t border-border pt-4 text-sm">
+              {appliedBundles.map(({ bundle }, index) => <p key={`${bundle.slug}-${index}`} className="flex justify-between gap-3"><span>{bundle.name}</span><span className="font-medium text-primary">Bundle applied</span></p>)}
+              <p className="flex justify-between gap-3 text-muted-foreground"><span>Individual prices</span><span className="tabular-nums">{formatPrice(cartListTotal)}</span></p>
+              <p className="flex justify-between gap-3 text-primary"><span>Bundle savings</span><span className="tabular-nums">−{formatPrice(bundleDiscount)}</span></p>
+            </div>}
             <div className="mt-5 flex items-baseline justify-between border-t border-border pt-4">
               <span className="text-sm font-medium">Total</span>
               <span className="text-2xl font-semibold tabular-nums">
@@ -158,67 +94,12 @@ function CheckoutPage() {
             </div>
             <ul className="mt-5 space-y-3 border-t border-border pt-4 text-xs text-muted-foreground">
               <li className="flex items-center gap-2">
-                <Download className="h-4 w-4 text-forest" aria-hidden /> Instant access in your
-                library
-              </li>
-              <li className="flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-forest" aria-hidden /> Secure payment
+                <Download className="h-4 w-4 text-forest" aria-hidden /> Digital PDFs after purchase
               </li>
             </ul>
           </aside>
         </div>
       </div>
     </section>
-  );
-}
-
-function Method({
-  label,
-  note,
-  active,
-  onClick,
-}: {
-  label: string;
-  note: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      className={`press rounded-xl border p-4 text-left transition-colors ${
-        active ? "border-primary bg-card ring-2 ring-primary/20" : "border-border bg-card hover:border-foreground/30"
-      }`}
-    >
-      <span className="block text-sm font-semibold">{label}</span>
-      <span className="mt-0.5 block text-xs text-muted-foreground">{note}</span>
-    </button>
-  );
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-  type,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  type: string;
-}) {
-  return (
-    <label className="grid gap-1.5">
-      <span className="text-sm font-semibold">{label}</span>
-      <input
-        required
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="h-12 rounded-xl border border-border bg-card px-4 text-base outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/15"
-      />
-    </label>
   );
 }

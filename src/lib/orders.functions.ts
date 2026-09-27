@@ -21,6 +21,8 @@ export const placeOrder = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => placeOrderSchema.parse(data))
   .handler(async ({ data, context }) => {
+    // Never grant paid library access until a payment provider verifies a captured payment.
+    throw new Error("Payments are not available yet. Your cart has been saved; please try again later.");
     const supabase = context.supabase;
     const slugs = data.items.map((i) => i.slug);
 
