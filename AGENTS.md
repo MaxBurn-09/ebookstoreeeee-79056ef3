@@ -8,3 +8,8 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the order-placement server function disabled until a payment provider callback verifies a captured charge; otherwise unpaid orders can unlock private ebooks.
+- Calculate bundle comparisons from current individual book prices, not inflated crossed-out historical prices; this keeps the displayed savings equal to the cart discount.
+- Render scroll reveals visibly by default and animate only after intersection; this keeps content accessible before hydration and avoids blank sections.
+- Keep the store context/hook separate from StoreProvider; React Fast Refresh otherwise invalidates the provider and can render the header against a different context instance during edits.

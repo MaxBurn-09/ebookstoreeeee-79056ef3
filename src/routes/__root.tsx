@@ -11,7 +11,7 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { StoreProvider } from "../lib/store";
+import { StoreProvider } from "../lib/store-provider";
 import { AuthProvider } from "../lib/auth";
 import { Header } from "../components/site/Header";
 import { Footer } from "../components/site/Footer";

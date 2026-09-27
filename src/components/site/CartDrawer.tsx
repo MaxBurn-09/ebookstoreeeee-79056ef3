@@ -5,7 +5,7 @@ import { formatPrice } from "@/data/catalog";
 import { useStore } from "@/lib/store";
 
 export function CartDrawer() {
-  const { drawerOpen, setDrawerOpen, lineBooks, setQty, removeFromCart, cartSubtotal } = useStore();
+  const { drawerOpen, setDrawerOpen, lineBooks, setQty, removeFromCart, cartSubtotal, bundleDiscount, appliedBundles } = useStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -23,8 +23,6 @@ export function CartDrawer() {
   }, [drawerOpen, setDrawerOpen]);
 
   if (!drawerOpen) return null;
-
-  const saved = lineBooks.reduce((sum, l) => sum + (l.book.oldPrice - l.book.price) * l.qty, 0);
 
   return (
     <div className="fixed inset-0 z-[60]">
@@ -133,10 +131,10 @@ export function CartDrawer() {
             </div>
 
             <div className="border-t border-border px-5 py-5">
-              {saved > 0 ? (
+               {bundleDiscount > 0 ? (
                 <div className="mb-3 flex items-center justify-between text-xs text-primary">
-                  <span>You save</span>
-                  <span className="font-semibold tabular-nums">{formatPrice(saved)}</span>
+                   <span>Bundle savings · {appliedBundles.map(({ bundle }) => bundle.name).join(", ")}</span>
+                   <span className="font-semibold tabular-nums">{formatPrice(bundleDiscount)}</span>
                 </div>
               ) : null}
               <div className="flex items-center justify-between">
