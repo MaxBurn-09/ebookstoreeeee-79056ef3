@@ -1,3 +1,4 @@
+import { descriptions } from "./descriptions";
 import cover1 from "@/assets/covers/Your-WHY-Changes-Everything.webp";
 import cover2 from "@/assets/covers/Parenting-Without-Yelling.webp";
 import cover3 from "@/assets/covers/Invisible-Needs-That-Break-Marriages.webp";
@@ -31,7 +32,7 @@ export type Book = {
   badge?: string;
 };
 
-export const books: Book[] = [
+const baseBooks: Book[] = [
   {
     id: "b1",
     slug: "your-why-changes-everything",
@@ -467,7 +468,74 @@ export const books: Book[] = [
       "Shift from heartbreak to personal empowerment"
 ],
   },
+  {
+    id: "b16",
+    slug: "from-failure-to-fearless",
+    title: "From Failure to Fearless",
+    cover: "/covers/from-failure-to-fearless.webp",
+    category: "Self-Care",
+    price: 4.97,
+    oldPrice: 24.85,
+    rating: 4.8,
+    reviews: 0,
+    bought: 0,
+    blurb: "",
+    description: [],
+    bullets: [],
+  },
+  {
+    id: "b17",
+    slug: "calm-under-pressure",
+    title: "Calm Under Pressure",
+    cover: "/covers/calm-under-pressure.webp",
+    category: "Self-Care",
+    price: 4.97,
+    oldPrice: 24.85,
+    rating: 4.8,
+    reviews: 0,
+    bought: 0,
+    blurb: "",
+    description: [],
+    bullets: [],
+  },
+  {
+    id: "b18",
+    slug: "the-power-of-no",
+    title: "The Power of No",
+    cover: "/covers/the-power-of-no.webp",
+    category: "Self-Care",
+    price: 4.97,
+    oldPrice: 24.85,
+    rating: 4.8,
+    reviews: 0,
+    bought: 0,
+    blurb: "",
+    description: [],
+    bullets: [],
+  },
+  {
+    id: "b19",
+    slug: "stop-overthinking-in-7-days",
+    title: "Stop Overthinking in 7 Days",
+    cover: "/covers/stop-overthinking-in-7-days.webp",
+    category: "Self-Care",
+    price: 4.97,
+    oldPrice: 24.85,
+    rating: 4.8,
+    reviews: 0,
+    bought: 0,
+    blurb: "",
+    description: [],
+    bullets: [],
+  },
 ];
+
+// Apply the official descriptions to every title.
+export const books: Book[] = baseBooks.map((b) => {
+  const d = descriptions[b.slug];
+  if (!d || d.length === 0) return b;
+  return { ...b, blurb: d[0] ?? b.blurb, description: d.slice(1) };
+});
 
 export const bySlug = (slug: string) => books.find((b) => b.slug === slug);
 

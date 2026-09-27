@@ -47,7 +47,7 @@ export function Footer() {
   const year = 2026;
 
   return (
-    <footer className="border-t border-border bg-card">
+    <footer className="border-t border-border bg-background">
       <div className="container-page grid gap-8 py-10 sm:py-12 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-12">
         <Reveal className="min-w-0">
           <Link to="/" aria-label="Future Grow Academy — home" className="inline-block">
