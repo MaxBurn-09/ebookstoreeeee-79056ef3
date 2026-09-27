@@ -45,7 +45,7 @@ export function Reveal({ children, className, delay = 0, as, once = true, ...pro
       ref={ref as never}
       {...props}
       style={{ transitionDelay: `${delay}ms` }}
-      className={cn("reveal-init", shown && "reveal-in", className)}
+      className={cn(shown && "reveal-in", className)}
     >
       {children}
     </Tag>
