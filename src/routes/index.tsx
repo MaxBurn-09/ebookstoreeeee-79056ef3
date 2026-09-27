@@ -346,7 +346,7 @@ function CategoryBand() {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
           {categories.map((c, i) => {
             const Icon = categoryIcons[c.slug] ?? Sprout;
-            const count = books.filter((b) => b.category === c.name).length;
+            const picks = books.filter((b) => b.category === c.name).slice(0, 3);
             return (
               <Reveal key={c.slug} delay={i * 60}>
                 <Link
@@ -355,17 +355,45 @@ function CategoryBand() {
                   className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-all duration-500 hover:-translate-y-3 hover:shadow-[var(--shadow-raised)]"
                 >
                   <span
-                    className="grid aspect-[4/3] place-items-center"
+                    className="relative block aspect-[4/3] overflow-hidden"
                     style={{
                       background:
                         "linear-gradient(160deg, color-mix(in oklab, var(--brand-amber) 16%, var(--card)) 0%, color-mix(in oklab, var(--brand-orange) 9%, var(--card)) 100%)",
                     }}
                   >
-                    <Icon
-                      className="h-11 w-11 text-primary transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[6deg]"
-                      strokeWidth={1.25}
+                    <span
                       aria-hidden
+                      className="absolute inset-x-0 bottom-0 h-1/2"
+                      style={{
+                        background:
+                          "radial-gradient(62% 95% at 50% 100%, color-mix(in oklab, var(--brand-amber) 24%, transparent) 0%, transparent 72%)",
+                      }}
                     />
+                    <span
+                      aria-hidden
+                      className="absolute inset-x-5 bottom-0 h-2.5 rounded-[50%] bg-foreground/10 blur-[3px]"
+                    />
+                    <span className="absolute inset-x-0 bottom-[-8px] flex items-end justify-center transition-transform duration-500 group-hover:-translate-y-1.5">
+                      {picks.map((b, j) => (
+                        <img
+                          key={b.id}
+                          src={b.cover}
+                          alt=""
+                          loading="lazy"
+                          className={
+                            j === 1
+                              ? "relative z-[3] w-[37%] rounded-[5px] shadow-[0_12px_26px_-10px_rgb(11_22_51/45%)]"
+                              : "relative z-[2] -ml-[13%] w-[33%] first:ml-0 rounded-[5px] shadow-[0_12px_26px_-12px_rgb(11_22_51/40%)]"
+                          }
+                          style={{
+                            transform: `rotate(${(j - 1) * 8}deg) translateY(${j === 1 ? 0 : 6}px)`,
+                          }}
+                        />
+                      ))}
+                    </span>
+                    <span className="absolute left-3 top-3 z-[4] grid h-8 w-8 place-items-center rounded-full border border-white/50 bg-card/80 shadow-gloss backdrop-blur-sm">
+                      <Icon className="h-4 w-4 text-primary" strokeWidth={1.75} aria-hidden />
+                    </span>
                   </span>
                   <span className="flex flex-1 items-end justify-between gap-3 p-4">
                     <span>
