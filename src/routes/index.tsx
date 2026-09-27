@@ -6,8 +6,10 @@ import {
   Coins,
   Download,
   Dumbbell,
+  Gift,
   HeartHandshake,
   Infinity as InfinityIcon,
+  Layers,
   Search,
   ShieldCheck,
   Smartphone,
@@ -17,9 +19,11 @@ import {
   books,
   mostPopular,
   categories,
-  testimonials,
-  storeConfig,
+  bundles,
+  bundleBooks,
+  formatPrice,
 } from "@/data/catalog";
+import { useStore } from "@/lib/store";
 import { BookCard } from "@/components/site/BookCard";
 import { Bookshelf } from "@/components/site/Bookshelf";
 import { Reveal } from "@/components/site/Reveal";
@@ -27,6 +31,7 @@ import { ReviewWall } from "@/components/site/ReviewWall";
 import { CountUp, Parallax, Tilt } from "@/components/site/Motion";
 import { cn } from "@/lib/utils";
 import { organizationLd, pageHead, websiteLd } from "@/lib/seo";
+import logo from "@/assets/fga-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () =>
