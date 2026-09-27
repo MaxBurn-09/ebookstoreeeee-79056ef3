@@ -605,7 +605,7 @@ export const storeConfig = {
   heroTitle: "Transform Your Future with Powerful eBooks.",
   heroSubtitle:
     "Discover powerful ebooks on personal growth, mindset, finance, relationships and success. Read anytime on your phone, tablet or laptop and start building a better future today.",
-  announcement: "80% OFF everything — instant PDF download",
+  announcement: "Practical eBooks · digital delivery worldwide",
   announcementSecondary: "Digital delivery worldwide · No shipping charges",
   offer: { label: "Limited time offer", headline: "Get 80% OFF", sub: "On Every eBook", note: "Learn new skills with instant PDF downloads. Offer ends soon." },
   email: "help@futuregrowacademy.co",

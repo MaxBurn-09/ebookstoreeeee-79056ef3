@@ -62,10 +62,10 @@ function BundleCard({ bundle, highlight = false }: { bundle: Bundle; highlight?:
     <article
       className={`group flex h-full flex-col overflow-hidden rounded-lg border bg-card shadow-[var(--shadow-gloss)] transition-[box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-raised)] ${highlight ? "border-primary/30" : "border-border"}`}
     >
-      <div className="relative flex h-44 items-end justify-center overflow-hidden border-b border-border bg-secondary px-5 pt-5 sm:h-48">
+      <div className="relative flex h-44 items-end justify-center gap-1 overflow-hidden border-b border-border bg-secondary px-5 pt-5 sm:h-48">
         <div aria-hidden className="absolute inset-x-6 bottom-2 h-8 rounded-[50%] bg-primary/10 blur-xl" />
         {items.slice(0, 5).map((book, i, shown) => (
-          <Link key={book.id} to="/book/$slug" params={{ slug: book.slug }} preload="intent" aria-label={`View ${book.title}`} className="cover-plate relative mb-3 block aspect-[2/3] w-[22%] max-w-24 shrink-0 transition-transform duration-300 hover:z-10 hover:-translate-y-2" style={{ transform: `rotate(${(i - (shown.length - 1) / 2) * 3}deg)` }}>
+          <Link key={book.id} to="/book/$slug" params={{ slug: book.slug }} preload="intent" aria-label={`View ${book.title}`} className="cover-plate relative mb-3 block aspect-[2/3] w-[19%] max-w-24 shrink-0 transition-transform duration-300 hover:z-10 hover:-translate-y-2" style={{ transform: `rotate(${(i - (shown.length - 1) / 2) * 3}deg)` }}>
             <img src={book.cover} alt={book.title} loading="lazy" decoding="async" width={160} height={240} className="h-full w-full object-cover" />
           </Link>
         ))}
