@@ -52,8 +52,8 @@ function HomePage() {
       <TrustStrip />
       <CategoryBand />
       <Bookshelf />
-      <BundleShowcase />
       <BestSelling />
+      <BundleShowcase />
       <Reviews />
       <Newsletter />
     </>
@@ -436,10 +436,10 @@ function BundleShowcase() {
     .filter((b) => b !== undefined);
 
   const features = [
-    { icon: Layers, title: `${items.length} eBooks`, note: "Complete Collection" },
-    { icon: Gift, title: "Exclusive Bonus", note: "Extra Resources" },
-    { icon: InfinityIcon, title: "Lifetime Access", note: "Read Anytime" },
-    { icon: Download, title: "Instant Download", note: "Start Learning Now" },
+    { icon: Layers, title: `${items.length} eBooks`, note: "Complete collection" },
+    { icon: Gift, title: "Exclusive Bonus", note: "Extra resources" },
+    { icon: InfinityIcon, title: "Lifetime Access", note: "Read anytime" },
+    { icon: Download, title: "Instant Download", note: "Start learning now" },
   ];
 
   const sideLayout = [
@@ -453,21 +453,31 @@ function BundleShowcase() {
     <section className="section-y" aria-labelledby="bundle-heading">
       <div className="container-page">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-raised)]">
+          <div className="relative overflow-hidden rounded-2xl bg-forest text-forest-foreground shadow-[var(--shadow-raised)]">
+            {/* ambient accent glows */}
             <div
               aria-hidden
               className="absolute inset-0"
               style={{
                 background:
-                  "radial-gradient(80% 95% at 76% 22%, color-mix(in oklab, var(--brand-amber) 13%, transparent) 0%, transparent 58%), radial-gradient(55% 70% at 96% 88%, color-mix(in oklab, var(--brand-orange) 8%, transparent) 0%, transparent 65%)",
+                  "radial-gradient(78% 95% at 78% 16%, color-mix(in oklab, var(--brand-amber) 17%, transparent) 0%, transparent 58%), radial-gradient(52% 66% at 2% 94%, color-mix(in oklab, var(--brand-crimson) 24%, transparent) 0%, transparent 62%)",
               }}
             />
+            {/* gloss top edge */}
+            <div
+              aria-hidden
+              className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-forest-foreground/40 to-transparent"
+            />
 
-            <div className="relative grid gap-12 px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[45fr_55fr] lg:items-center lg:gap-4 lg:px-14 lg:py-16">
+            <div className="relative grid gap-10 px-6 py-12 sm:px-10 sm:py-14 lg:grid-cols-[46fr_54fr] lg:items-center lg:gap-6 lg:px-14 lg:py-16">
               {/* left — content */}
               <div className="max-w-xl">
-                <p className="flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.22em] uppercase text-muted-foreground">
-                  <span aria-hidden className="h-0.5 w-8 rounded-full bg-brand-orange" />
+                <p className="flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.22em] uppercase text-forest-foreground/65">
+                  <span
+                    aria-hidden
+                    className="h-0.5 w-8 rounded-full"
+                    style={{ background: "var(--brand-amber)" }}
+                  />
                   Premium Bundle Collection
                 </p>
 
@@ -475,32 +485,38 @@ function BundleShowcase() {
                   id="bundle-heading"
                   className="mt-5 font-display text-4xl leading-[1.04] font-medium sm:text-5xl"
                 >
-                  Complete
+                  The Complete
                   <span
                     className="block bg-clip-text text-transparent"
                     style={{
                       backgroundImage:
-                        "linear-gradient(92deg, var(--brand-crimson) 0%, var(--brand-red) 42%, var(--brand-orange) 72%, var(--brand-amber) 100%)",
+                        "linear-gradient(92deg, var(--brand-crimson) 0%, var(--brand-red) 34%, var(--brand-orange) 66%, var(--brand-amber) 100%)",
                     }}
                   >
                     Growth Bundle
                   </span>
                 </h2>
 
-                <p className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground">
-                  Get the complete collection of life-changing eBooks at a special bundle
-                  price. Learn, grow and build a brighter tomorrow with practical knowledge.
+                <p className="mt-5 max-w-md text-base leading-relaxed text-forest-foreground/75">
+                  Every life-changing eBook we publish, in one bundle at a special price.
+                  Learn, grow and build a brighter tomorrow with practical knowledge.
                 </p>
 
-                <ul className="mt-7 grid grid-cols-2 gap-x-5 gap-y-4">
+                <ul className="mt-8 grid grid-cols-2 gap-3">
                   {features.map((f) => (
-                    <li key={f.title} className="flex items-center gap-3">
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border bg-card shadow-gloss">
-                        <f.icon className="h-4.5 w-4.5 text-primary" strokeWidth={1.75} aria-hidden />
-                      </span>
+                    <li
+                      key={f.title}
+                      className="flex items-center gap-3 rounded-lg border border-forest-foreground/10 bg-forest-foreground/[0.06] px-3.5 py-3"
+                    >
+                      <f.icon
+                        className="h-4.5 w-4.5 shrink-0"
+                        style={{ color: "var(--brand-amber)" }}
+                        strokeWidth={1.75}
+                        aria-hidden
+                      />
                       <span className="min-w-0">
                         <span className="block text-sm font-semibold">{f.title}</span>
-                        <span className="block text-xs text-muted-foreground">{f.note}</span>
+                        <span className="block text-xs text-forest-foreground/65">{f.note}</span>
                       </span>
                     </li>
                   ))}
@@ -510,15 +526,21 @@ function BundleShowcase() {
                   <span className="font-display text-4xl font-medium sm:text-5xl">
                     {formatPrice(bundle.price)}
                   </span>
-                  <span className="pb-1 text-lg text-muted-foreground line-through">
+                  <span className="pb-1 text-lg text-forest-foreground/55 line-through">
                     {formatPrice(value)}
                   </span>
-                  <span className="mb-1.5 inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-primary">
+                  <span
+                    className="mb-1.5 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+                    style={{
+                      background: "color-mix(in oklab, var(--brand-amber) 20%, transparent)",
+                      color: "var(--brand-amber)",
+                    }}
+                  >
                     <Gift className="h-3.5 w-3.5" aria-hidden /> Save {off}% Today
                   </span>
                 </div>
 
-                <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
+                <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
                   <button
                     type="button"
                     onClick={() => addBundleToCart(bundle.slug)}
@@ -528,12 +550,17 @@ function BundleShowcase() {
                   </button>
                   <Link
                     to="/bundles"
-                    className="group inline-flex items-center gap-1.5 text-sm font-semibold text-primary"
+                    className="group inline-flex items-center gap-1.5 text-sm font-semibold text-forest-foreground/85 transition-colors hover:text-forest-foreground"
                   >
                     See all bundles
                     <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </div>
+
+                <p className="mt-6 flex items-center gap-2 text-xs text-forest-foreground/60">
+                  <ShieldCheck className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                  Secure checkout · Instant PDF download · Lifetime access
+                </p>
               </div>
 
               {/* right — 3D bundle display */}
@@ -543,7 +570,7 @@ function BundleShowcase() {
                   className="glow-breathe absolute top-[6%] left-1/2 h-[19rem] w-[19rem] -translate-x-1/2 rounded-full sm:h-[26rem] sm:w-[26rem]"
                   style={{
                     background:
-                      "radial-gradient(circle, color-mix(in oklab, var(--brand-amber) 50%, transparent) 0%, color-mix(in oklab, var(--brand-orange) 22%, transparent) 45%, transparent 70%)",
+                      "radial-gradient(circle, color-mix(in oklab, var(--brand-amber) 42%, transparent) 0%, color-mix(in oklab, var(--brand-orange) 18%, transparent) 45%, transparent 70%)",
                   }}
                 />
 
@@ -555,7 +582,7 @@ function BundleShowcase() {
                     background:
                       "radial-gradient(circle at 32% 26%, #ff6a55, var(--brand-crimson) 72%)",
                     boxShadow:
-                      "0 0 0 6px color-mix(in oklab, var(--brand-amber) 40%, transparent), 0 18px 40px -14px color-mix(in oklab, var(--brand-crimson) 60%, transparent)",
+                      "0 0 0 6px color-mix(in oklab, var(--brand-amber) 34%, transparent), 0 18px 40px -14px color-mix(in oklab, var(--brand-crimson) 65%, transparent)",
                   }}
                 >
                   <span className="font-display text-xl leading-none font-semibold text-white sm:text-2xl">
@@ -575,7 +602,7 @@ function BundleShowcase() {
 
                   {/* center — the bundle */}
                   <div className="relative z-[5] w-[25%] shrink-0 sm:w-[27%]">
-                    <div className="relative aspect-[2/3] overflow-hidden rounded-[6px] bg-white shadow-[0_34px_64px_-24px_rgb(11_22_51/50%)] ring-1 ring-border transition-transform duration-300 hover:-translate-y-2">
+                    <div className="relative aspect-[2/3] overflow-hidden rounded-[6px] bg-card shadow-[0_34px_64px_-24px_rgb(0_0_0/60%)] ring-1 ring-forest-foreground/20 transition-transform duration-300 hover:-translate-y-2">
                       {/* page edge */}
                       <span
                         aria-hidden
@@ -633,7 +660,7 @@ function BundleShowcase() {
 
                 {/* marble pedestal */}
                 <div aria-hidden className="relative z-0 mx-auto -mt-2 w-[76%] max-w-md">
-                  <div className="mx-1 h-3.5 rounded-[50%] bg-[linear-gradient(180deg,#f8f3ea,#e7ddcb)] shadow-[0_12px_30px_-14px_rgba(0,0,0,0.4)]" />
+                  <div className="mx-1 h-3.5 rounded-[50%] bg-[linear-gradient(180deg,#f8f3ea,#e7ddcb)] shadow-[0_12px_30px_-14px_rgba(0,0,0,0.5)]" />
                   <div className="mx-3 h-8 rounded-b-[1.3rem] rounded-t-sm bg-[linear-gradient(180deg,#f0e8d9,#ded2ba)]" />
                   <div
                     className="mx-8 h-7 rounded-[50%] blur-md"
@@ -651,15 +678,19 @@ function BundleShowcase() {
                   style={{
                     background:
                       "radial-gradient(circle at 32% 26%, #ffffff, #eae2d2 55%, #cdc1aa 100%)",
-                    boxShadow: "0 16px 26px -12px rgba(0,0,0,0.3)",
+                    boxShadow: "0 16px 26px -12px rgba(0,0,0,0.4)",
                   }}
                 />
 
                 {/* soft floor reflection */}
                 <div
                   aria-hidden
-                  className="mx-auto h-10 w-[70%] max-w-md rounded-[50%] bg-foreground/5 blur-lg"
+                  className="mx-auto h-10 w-[70%] max-w-md rounded-[50%] bg-forest-foreground/10 blur-lg"
                 />
+
+                <p className="relative z-10 mt-4 text-center text-xs text-forest-foreground/55">
+                  All {items.length} eBooks included — nothing else to buy
+                </p>
               </Reveal>
             </div>
           </div>
