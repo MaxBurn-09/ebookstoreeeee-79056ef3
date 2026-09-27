@@ -443,10 +443,10 @@ function BundleShowcase() {
   ];
 
   const sideLayout = [
-    { rotate: -6, lift: 12, w: "w-[23%]" },
-    { rotate: -3, lift: 4, w: "w-[26%]" },
-    { rotate: 3, lift: 4, w: "w-[26%]" },
-    { rotate: 6, lift: 12, w: "w-[23%]" },
+    { rotate: -6, lift: 12, w: "w-[17%]" },
+    { rotate: -3, lift: 4, w: "w-[20%]" },
+    { rotate: 3, lift: 4, w: "w-[20%]" },
+    { rotate: 6, lift: 12, w: "w-[17%]" },
   ];
 
   return (
@@ -574,7 +574,7 @@ function BundleShowcase() {
                   ))}
 
                   {/* center — the bundle */}
-                  <div className="relative z-[5] w-[30%] shrink-0 sm:w-[32%]">
+                  <div className="relative z-[5] w-[25%] shrink-0 sm:w-[27%]">
                     <div className="relative aspect-[2/3] overflow-hidden rounded-[6px] bg-white shadow-[0_34px_64px_-24px_rgb(11_22_51/50%)] ring-1 ring-border transition-transform duration-300 hover:-translate-y-2">
                       {/* page edge */}
                       <span
