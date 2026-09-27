@@ -1,6 +1,15 @@
 import type { ComponentType, SVGProps } from "react";
 import { Link } from "@tanstack/react-router";
-import { Facebook, Globe, Instagram, Linkedin, Mail, MapPin, Youtube, type LucideIcon } from "lucide-react";
+import {
+  Facebook,
+  Globe,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+  Youtube,
+  type LucideIcon,
+} from "lucide-react";
 import { storeConfig, categories } from "@/data/catalog";
 import logo from "@/assets/fga-logo.png.asset.json";
 import { Reveal } from "@/components/site/Reveal";
@@ -32,16 +41,15 @@ const socialIcons: Record<string, LucideIcon | ComponentType<IconProps>> = {
   LinkedIn: Linkedin,
 };
 
-const linkClass =
-  "text-sm text-muted-foreground transition-colors hover:text-foreground";
+const linkClass = "text-sm text-muted-foreground transition-colors hover:text-foreground";
 
 export function Footer() {
   const year = 2026;
 
   return (
     <footer className="border-t border-border bg-card">
-      <div className="container-page grid gap-7 py-12 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-9 sm:py-14 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-12">
-        <Reveal>
+      <div className="container-page grid gap-8 py-10 sm:py-12 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-12">
+        <Reveal className="min-w-0">
           <Link to="/" aria-label="Future Grow Academy — home" className="inline-block">
             <img src={logo.url} alt="Future Grow Academy" loading="lazy" className="h-11 w-auto" />
           </Link>
@@ -82,49 +90,50 @@ export function Footer() {
           </a>
         </Reveal>
 
-        <Reveal as="nav" aria-label="Quick links" delay={60}>
-          <h2 className="eyebrow">Quick Links</h2>
-          <ul className="mt-4 space-y-2.5">
-            {storeConfig.nav.map((item) => (
-              <li key={item.to}>
-                <Link to={item.to} className={linkClass}>
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+        <div className="grid grid-cols-3 gap-x-6 sm:gap-x-10 lg:contents">
+          <Reveal as="nav" aria-label="Quick links" delay={60} className="min-w-0">
+            <h2 className="eyebrow">Quick Links</h2>
+            <ul className="mt-4 space-y-2.5">
+              {storeConfig.nav.map((item) => (
+                <li key={item.to}>
+                  <Link to={item.to} className={linkClass}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
 
-        <Reveal as="nav" aria-label="Categories" delay={120}>
-          <h2 className="eyebrow">Categories</h2>
-          <ul className="mt-4 space-y-2.5">
-            {categories.map((c) => (
-              <li key={c.slug}>
-                <Link to="/books" search={{ q: undefined, category: c.slug }} className={linkClass}>
-                  {c.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+          <Reveal as="nav" aria-label="Categories" delay={120} className="min-w-0">
+            <h2 className="eyebrow">Categories</h2>
+            <ul className="mt-4 space-y-2.5">
+              {categories.map((c) => (
+                <li key={c.slug}>
+                  <Link
+                    to="/books"
+                    search={{ q: undefined, category: c.slug }}
+                    className={linkClass}
+                  >
+                    {c.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
 
-        <Reveal as="nav" aria-label="Legal" delay={180}>
-          <h2 className="eyebrow">Legal</h2>
-          <ul className="mt-4 space-y-2.5">
-            {storeConfig.legal.map((l) => (
-              <li key={l.label}>
-                <a
-                  href={l.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className={linkClass}
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+          <Reveal as="nav" aria-label="Legal" delay={180} className="min-w-0">
+            <h2 className="eyebrow">Legal</h2>
+            <ul className="mt-4 space-y-2.5">
+              {storeConfig.legal.map((l) => (
+                <li key={l.label}>
+                  <a href={l.href} target="_blank" rel="noreferrer noopener" className={linkClass}>
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
       </div>
 
       <div className="border-t border-border">
