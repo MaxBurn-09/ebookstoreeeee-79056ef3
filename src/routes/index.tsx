@@ -418,6 +418,109 @@ function CategoryBand() {
 
 /* ----------------------------------------------------------- story band */
 
+/* --------------------------------------------------------- opening book */
+
+function OpenBook() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setOpen(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className="[perspective:1600px]"
+      onMouseEnter={() => setOpen(true)}
+    >
+      <div className="float-slow relative h-[19rem] w-[min(27rem,80vw)] sm:h-[22rem] [transform:rotateX(10deg)_rotateZ(-2deg)] [transform-style:preserve-3d]">
+        {/* back cover (right board) */}
+        <div className="absolute inset-y-0 right-0 w-1/2 rounded-r-md rounded-l-[2px] bg-[#6b3d20] shadow-[0_50px_90px_-38px_rgba(0,0,0,0.85)]" />
+        {/* page edges on the right side */}
+        <div className="absolute inset-y-[3px] right-[3px] w-[calc(50%-6px)] rounded-r-[3px] bg-[repeating-linear-gradient(to_right,#fdfaf3_0_2px,#ece3d2_2px_3px)]" />
+        {/* spine shadow */}
+        <div className="absolute inset-y-0 left-1/2 w-10 -translate-x-1/2 bg-[radial-gradient(50%_100%_at_50%_50%,rgba(0,0,0,0.28),transparent_70%)]" />
+
+        {/* left inner page — tagline reveal */}
+        <div className="absolute inset-y-[3px] left-[3px] grid w-[calc(50%-6px)] place-items-center rounded-l-[3px] bg-[#fbf7ee] p-5 text-foreground sm:p-6">
+          <div className="text-center">
+            <p className="font-display text-xl leading-snug font-medium sm:text-2xl">
+              Small Books.
+              <br />
+              <span className="text-brand">Big Changes.</span>
+            </p>
+            <svg
+              viewBox="0 0 120 12"
+              aria-hidden
+              className="mx-auto mt-3 h-2.5 w-24 text-brand-orange"
+            >
+              <path
+                d="M3 9 Q 60 -4 117 8"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+            </svg>
+            <p className="mt-4 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+              Practical wisdom you can use today — in minutes, not months.
+            </p>
+          </div>
+        </div>
+
+        {/* right inner page — text lines + quote */}
+        <div className="absolute inset-y-[3px] right-[3px] w-[calc(50%-6px)] rounded-r-[3px] bg-[#fbf7ee] p-5 text-foreground sm:p-6">
+          <div className="space-y-2 pt-1" aria-hidden>
+            {[100, 88, 96, 74, 100, 82].map((w, i) => (
+              <span
+                key={i}
+                className="block h-1.5 rounded-full bg-foreground/10"
+                style={{ width: `${w}%` }}
+              />
+            ))}
+          </div>
+          <p className="mt-5 font-display text-sm font-medium tracking-wide text-foreground/80 sm:text-base">
+            Read. Apply. <span className="text-brand">Transform.</span>
+          </p>
+        </div>
+
+        {/* front cover — hinged at the spine, swings open */}
+        <div
+          className={cn(
+            "absolute inset-y-0 left-0 w-1/2 [transform-style:preserve-3d] [transform-origin:left_center] transition-transform duration-[1700ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]",
+            open && "[transform:rotateY(-162deg)]",
+          )}
+        >
+          {/* cover front — real book cover art */}
+          <img
+            src="/covers/your-why-changes-everything.webp"
+            alt="Your WHY Changes Everything — eBook cover"
+            loading="lazy"
+            className="absolute inset-0 h-full w-full rounded-l-md rounded-r-[2px] object-cover shadow-[0_30px_60px_-30px_rgba(0,0,0,0.7)] [backface-visibility:hidden]"
+          />
+          {/* cover inside (seen while opening) */}
+          <div className="absolute inset-0 rounded-r-md rounded-l-[2px] bg-[#f3ede3] [transform:rotateY(180deg)] [backface-visibility:hidden]">
+            <div className="absolute inset-0 bg-[radial-gradient(120%_100%_at_0%_50%,rgba(0,0,0,0.10),transparent_55%)]" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function StoryBand() {
   const steps = ["Learn", "Grow", "Evolve"];
   return (
