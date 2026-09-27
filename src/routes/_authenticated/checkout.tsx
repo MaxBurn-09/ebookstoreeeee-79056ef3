@@ -57,7 +57,7 @@ function CheckoutPage() {
   const [busy, setBusy] = useState(false);
 
   const pay = async () => {
-    if (name.trim().length < 2) return toast.error("Please enter your full name.");
+    if (name.trim().length < 2) { toast.error("Please enter your full name."); return; }
     setBusy(true);
     try {
       const ok = await loadRazorpay();
