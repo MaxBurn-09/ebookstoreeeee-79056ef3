@@ -52,7 +52,7 @@ function HomePage() {
       <TrustStrip />
       <CategoryBand />
       <Bookshelf />
-      <StoryBand />
+      <BundleShowcase />
       <BestSelling />
       <Reviews />
       <Newsletter />
