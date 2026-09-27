@@ -22,6 +22,7 @@ import { SearchDialog } from "../components/site/SearchDialog";
 import { MobileTabBar } from "../components/site/MobileTabBar";
 import { StickyCta } from "../components/site/StickyCta";
 import { PurchaseNotice } from "../components/site/PurchaseNotice";
+import { BookSellerChat } from "../components/site/BookSellerChat";
 
 function NotFoundComponent() {
   return (
@@ -175,6 +176,7 @@ function RootComponent() {
           </div>
           <StickyCta />
           <PurchaseNotice />
+          <BookSellerChat />
           <MobileTabBar onSearch={() => setSearchOpen(true)} />
           <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
           <CartDrawer />

@@ -28,6 +28,7 @@ import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedCheckoutRouteImport } from './routes/_authenticated/checkout'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as BookSlugRouteImport } from './routes/book.$slug'
 import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
@@ -134,6 +135,11 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -213,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/checkout': typeof AuthenticatedCheckoutRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/api/chat': typeof ApiChatRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/book/$slug': typeof BookSlugRoute
   '/locations/$slug': typeof LocationsSlugRoute
@@ -243,6 +250,7 @@ export interface FileRoutesByTo {
   '/wishlist': typeof WishlistRoute
   '/checkout': typeof AuthenticatedCheckoutRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/api/chat': typeof ApiChatRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/book/$slug': typeof BookSlugRoute
   '/locations/$slug': typeof LocationsSlugRoute
@@ -276,6 +284,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/checkout': typeof AuthenticatedCheckoutRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/api/chat': typeof ApiChatRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/book/$slug': typeof BookSlugRoute
   '/locations/$slug': typeof LocationsSlugRoute
@@ -309,6 +318,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/checkout'
     | '/dashboard'
+    | '/api/chat'
     | '/blog/$slug'
     | '/book/$slug'
     | '/locations/$slug'
@@ -339,6 +349,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/checkout'
     | '/dashboard'
+    | '/api/chat'
     | '/blog/$slug'
     | '/book/$slug'
     | '/locations/$slug'
@@ -371,6 +382,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/checkout'
     | '/_authenticated/dashboard'
+    | '/api/chat'
     | '/blog/$slug'
     | '/book/$slug'
     | '/locations/$slug'
@@ -401,6 +413,7 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WishlistRoute: typeof WishlistRoute
+  ApiChatRoute: typeof ApiChatRoute
   BookSlugRoute: typeof BookSlugRoute
 }
 
@@ -538,6 +551,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/blog/$slug': {
       id: '/blog/$slug'
@@ -698,6 +718,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   WishlistRoute: WishlistRoute,
+  ApiChatRoute: ApiChatRoute,
   BookSlugRoute: BookSlugRoute,
 }
 export const routeTree = rootRouteImport
