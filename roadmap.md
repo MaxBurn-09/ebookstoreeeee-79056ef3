@@ -19,3 +19,5 @@
 - [x] Glossy cart & checkout
 - [x] Polish bundle/category visuals, honest bundle savings, and cart-to-checkout navigation.
 - [x] Verify mobile and desktop purchase path; live payment remains blocked on merchant integration.
+- [x] Replace simulated buyer notifications with compact factual book suggestions.
+- [x] Add a session-only bookstore seller chat for catalog, bundles, support, and official social profiles without disclosing personal names.

@@ -13,3 +13,4 @@
 - Calculate bundle comparisons from current individual book prices, not inflated crossed-out historical prices; this keeps the displayed savings equal to the cart discount.
 - Render scroll reveals visibly by default and animate only after intersection; this keeps content accessible before hydration and avoids blank sections.
 - Keep the store context/hook separate from StoreProvider; React Fast Refresh otherwise invalidates the provider and can render the header against a different context instance during edits.
+- Keep the seller chat session-only and route model calls through the server streaming endpoint; visitors chose no saved history and secrets must stay server-side.
