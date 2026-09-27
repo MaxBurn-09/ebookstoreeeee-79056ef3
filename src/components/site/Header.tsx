@@ -7,6 +7,8 @@ import { useStore } from "@/lib/store";
 import { ScrollProgress } from "@/components/site/StickyCta";
 import { cn } from "@/lib/utils";
 
+const headerNav = storeConfig.nav.filter((i) => !storeConfig.footerOnly.includes(i.to));
+
 export function Header({ onSearch }: { onSearch: () => void }) {
   const { cartCount, wishlist, setDrawerOpen } = useStore();
   const [open, setOpen] = useState(false);
@@ -54,7 +56,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
           scrolled ? "border-border/70 shadow-[0_8px_24px_-16px_oklch(0.26_0.007_275/30%)]" : "border-transparent",
         )}
       >
-        <div className="container-page relative flex h-16 items-center gap-4">
+        <div className="container-page relative flex h-16 items-center gap-4 lg:h-[4.5rem]">
           <button
             type="button"
             className="press -ml-2 grid h-11 w-11 place-items-center rounded-md text-foreground hover:bg-muted lg:hidden"
@@ -75,12 +77,12 @@ export function Header({ onSearch }: { onSearch: () => void }) {
               alt="Future Grow Academy"
               width={480}
               height={160}
-              className="h-8 w-auto transition-opacity duration-200 group-hover:opacity-85 sm:h-9 lg:h-10"
+              className="h-9 w-auto drop-shadow-[0_2px_6px_oklch(0.26_0.05_30/0.18)] transition-transform duration-300 group-hover:scale-[1.03] sm:h-10 lg:h-11"
             />
           </Link>
 
-          <nav aria-label="Main" className="mx-auto hidden items-center gap-1 lg:flex">
-            {storeConfig.nav.map((item) => {
+          <nav aria-label="Main" className="mx-auto hidden items-center gap-0.5 rounded-full border border-border/70 bg-card/60 p-1 shadow-[var(--shadow-gloss)] backdrop-blur-md lg:flex">
+            {headerNav.map((item) => {
               const active = pathname === item.to;
               return (
                 <Link
@@ -89,17 +91,11 @@ export function Header({ onSearch }: { onSearch: () => void }) {
                   preload="intent"
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "relative rounded-md px-3 py-2 text-sm font-medium transition-colors hover:text-foreground",
-                    active ? "text-foreground" : "text-muted-foreground",
+                    "relative whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium transition-all duration-300 hover:bg-background hover:text-foreground xl:px-3.5",
+                    active ? "bg-foreground text-background shadow-sm hover:bg-foreground hover:text-background" : "text-muted-foreground",
                   )}
                 >
                   {item.label}
-                  <span
-                    className={cn(
-                      "absolute inset-x-3 -bottom-0.5 h-px origin-left bg-foreground transition-transform duration-300",
-                      active ? "scale-x-100" : "scale-x-0",
-                    )}
-                  />
                 </Link>
               );
             })}
@@ -109,10 +105,10 @@ export function Header({ onSearch }: { onSearch: () => void }) {
             <button
               type="button"
               onClick={onSearch}
-              className="press hidden h-10 items-center gap-2 rounded-full border border-border px-3.5 text-sm text-muted-foreground hover:border-foreground/25 hover:text-foreground md:flex"
+              className="press hidden h-10 items-center gap-2 rounded-full border border-border px-3.5 text-sm text-muted-foreground hover:border-foreground/25 hover:text-foreground md:flex lg:hidden xl:flex"
             >
               <Search className="h-4 w-4" />
-              <span className="pr-6">Search ebooks</span>
+              <span className="pr-2 xl:pr-6">Search</span>
               <kbd className="grid h-5 place-items-center rounded border border-border bg-muted px-1.5 font-sans text-xs">
                 /
               </kbd>
@@ -121,7 +117,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
               type="button"
               onClick={onSearch}
               aria-label="Search"
-              className="press grid h-11 w-11 place-items-center rounded-md hover:bg-muted md:hidden"
+              className="press grid h-11 w-11 place-items-center rounded-md hover:bg-muted md:hidden lg:grid xl:hidden"
             >
               <Search className="h-5 w-5" />
             </button>
@@ -184,7 +180,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
             </div>
 
             <nav aria-label="Mobile" className="mt-6 flex flex-col">
-              {storeConfig.nav.map((item) => (
+              {headerNav.map((item) => (
                 <Link
                   key={item.to}
                   to={item.to}

@@ -646,6 +646,8 @@ export const storeConfig = {
     { label: "About Us", to: "/about" },
     { label: "Connect", to: "/contact" },
   ] as ReadonlyArray<{ label: string; to: string; external?: boolean }>,
+  /** Items moved out of the header — still listed in the footer. */
+  footerOnly: ["/book-finder", "/locations", "/contact"] as ReadonlyArray<string>,
 };
 
 export type Bundle = {
