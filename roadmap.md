@@ -17,3 +17,5 @@
 - [x] Reconnect Google Drive in new workspace
 - [x] AI mood-based book recommendations
 - [x] Glossy cart & checkout
+- [ ] Polish bundle/category visuals, honest bundle savings, and cart-to-checkout navigation.
+- [ ] Verify mobile and desktop purchase path; live payment remains blocked on merchant integration.
