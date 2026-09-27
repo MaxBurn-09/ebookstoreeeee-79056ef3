@@ -101,7 +101,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       return next;
     });
     toast.success(`${bundle.name} added — bundle price applied`);
-    setDrawerOpen(true);
+    setDrawerOpen(false);
   }, []);
 
   const value = useMemo<StoreValue>(() => {
