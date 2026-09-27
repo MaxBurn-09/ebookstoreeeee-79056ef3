@@ -421,169 +421,300 @@ function CategoryBand() {
   );
 }
 
-/* ----------------------------------------------------------- story band */
+/* ------------------------------------------------------- bundle showcase */
 
-/* --------------------------------------------------------- opening book */
+function BundleShowcase() {
+  const { addBundleToCart } = useStore();
+  const bundle = bundles.find((b) => b.slug === "complete-ebook-collection");
+  if (!bundle) return null;
 
-function OpenBook() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false);
+  const items = bundleBooks(bundle);
+  const value = items.reduce((sum, b) => sum + b.oldPrice, 0);
+  const off = Math.max(1, Math.round((1 - bundle.price / value) * 100));
+  const sides = ["30-days-to-digital-wealth", "find-your-purpose-in-30-days", "parenting-without-yelling", "passive-profits-with-ai"]
+    .map((slug) => books.find((b) => b.slug === slug))
+    .filter((b) => b !== undefined);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          setOpen(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.4 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+  const features = [
+    { icon: Layers, title: `${items.length} eBooks`, note: "Complete Collection" },
+    { icon: Gift, title: "Exclusive Bonus", note: "Extra Resources" },
+    { icon: InfinityIcon, title: "Lifetime Access", note: "Read Anytime" },
+    { icon: Download, title: "Instant Download", note: "Start Learning Now" },
+  ];
+
+  const sideLayout = [
+    { rotate: -6, lift: 12, w: "w-[23%]" },
+    { rotate: -3, lift: 4, w: "w-[26%]" },
+    { rotate: 3, lift: 4, w: "w-[26%]" },
+    { rotate: 6, lift: 12, w: "w-[23%]" },
+  ];
 
   return (
-    <div
-      ref={ref}
-      className="[perspective:1600px]"
-      onMouseEnter={() => setOpen(true)}
-    >
-      <div className="float-slow relative h-[19rem] w-[min(27rem,80vw)] sm:h-[22rem] [transform:rotateX(10deg)_rotateZ(-2deg)] [transform-style:preserve-3d]">
-        {/* back cover (right board) */}
-        <div className="absolute inset-y-0 right-0 w-1/2 rounded-r-md rounded-l-[2px] bg-[#6b3d20] shadow-[0_50px_90px_-38px_rgba(0,0,0,0.85)]" />
-        {/* page edges on the right side */}
-        <div className="absolute inset-y-[3px] right-[3px] w-[calc(50%-6px)] rounded-r-[3px] bg-[repeating-linear-gradient(to_right,#fdfaf3_0_2px,#ece3d2_2px_3px)]" />
-        {/* spine shadow */}
-        <div className="absolute inset-y-0 left-1/2 w-10 -translate-x-1/2 bg-[radial-gradient(50%_100%_at_50%_50%,rgba(0,0,0,0.28),transparent_70%)]" />
-
-        {/* left inner page — tagline reveal */}
-        <div className="absolute inset-y-[3px] left-[3px] grid w-[calc(50%-6px)] place-items-center rounded-l-[3px] bg-[#fbf7ee] p-5 text-foreground sm:p-6">
-          <div className="text-center">
-            <p className="font-display text-xl leading-snug font-medium sm:text-2xl">
-              Small Books.
-              <br />
-              <span className="text-brand">Big Changes.</span>
-            </p>
-            <svg
-              viewBox="0 0 120 12"
-              aria-hidden
-              className="mx-auto mt-3 h-2.5 w-24 text-brand-orange"
-            >
-              <path
-                d="M3 9 Q 60 -4 117 8"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-                strokeLinecap="round"
-              />
-            </svg>
-            <p className="mt-4 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-              Practical wisdom you can use today — in minutes, not months.
-            </p>
-          </div>
-        </div>
-
-        {/* right inner page — text lines + quote */}
-        <div className="absolute inset-y-[3px] right-[3px] w-[calc(50%-6px)] rounded-r-[3px] bg-[#fbf7ee] p-5 text-foreground sm:p-6">
-          <div className="space-y-2 pt-1" aria-hidden>
-            {[100, 88, 96, 74, 100, 82].map((w, i) => (
-              <span
-                key={i}
-                className="block h-1.5 rounded-full bg-foreground/10"
-                style={{ width: `${w}%` }}
-              />
-            ))}
-          </div>
-          <p className="mt-5 font-display text-sm font-medium tracking-wide text-foreground/80 sm:text-base">
-            Read. Apply. <span className="text-brand">Transform.</span>
-          </p>
-        </div>
-
-        {/* front cover — hinged at the spine, swings open */}
-        <div
-          className={cn(
-            "absolute inset-y-0 left-0 w-1/2 [transform-style:preserve-3d] [transform-origin:left_center] transition-transform duration-[1700ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]",
-            open && "[transform:rotateY(-162deg)]",
-          )}
-        >
-          {/* cover front — real book cover art */}
-          <img
-            src="/covers/your-why-changes-everything.webp"
-            alt="Your WHY Changes Everything — eBook cover"
-            loading="lazy"
-            className="absolute inset-0 h-full w-full rounded-l-md rounded-r-[2px] object-cover shadow-[0_30px_60px_-30px_rgba(0,0,0,0.7)] [backface-visibility:hidden]"
-          />
-          {/* cover inside (seen while opening) */}
-          <div className="absolute inset-0 rounded-r-md rounded-l-[2px] bg-[#f3ede3] [transform:rotateY(180deg)] [backface-visibility:hidden]">
-            <div className="absolute inset-0 bg-[radial-gradient(120%_100%_at_0%_50%,rgba(0,0,0,0.10),transparent_55%)]" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function StoryBand() {
-  const steps = ["Learn", "Grow", "Evolve"];
-  return (
-    <section className="relative overflow-hidden border-y border-border bg-foreground text-background">
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-70"
-        style={{
-          background:
-            "radial-gradient(120% 90% at 78% 40%, color-mix(in oklab, var(--brand-orange) 45%, transparent) 0%, transparent 60%), radial-gradient(90% 80% at 15% 90%, color-mix(in oklab, var(--brand-crimson) 40%, transparent) 0%, transparent 65%)",
-        }}
-      />
-      <div className="relative container-page grid items-center gap-12 py-16 lg:grid-cols-[1fr_1.1fr_auto] lg:gap-10 lg:py-24">
+    <section className="section-y" aria-labelledby="bundle-heading">
+      <div className="container-page">
         <Reveal>
-          <p className="text-xs tracking-wide text-background/70">
-            Knowledge creates real change
-          </p>
-          <h2 className="mt-5 font-display text-[2.2rem] leading-[1.08] font-medium sm:text-[2.9rem]">
-            More Than
-            <br />
-            Just Books
-          </h2>
-          <p className="mt-5 max-w-sm text-base leading-relaxed text-background/75">
-            {storeConfig.name} is built to help you learn, grow and evolve with practical knowledge
-            you can apply in real life.
-          </p>
-          <Link
-            to="/about"
-            className="press mt-8 inline-flex h-11 items-center gap-2 rounded-full bg-brand px-6 text-sm font-semibold text-primary-foreground"
-          >
-            Our Story <ArrowRight className="h-4 w-4" />
-          </Link>
-        </Reveal>
+          <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-raised)]">
+            <div
+              aria-hidden
+              className="absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(80% 95% at 76% 22%, color-mix(in oklab, var(--brand-amber) 13%, transparent) 0%, transparent 58%), radial-gradient(55% 70% at 96% 88%, color-mix(in oklab, var(--brand-orange) 8%, transparent) 0%, transparent 65%)",
+              }}
+            />
 
-        <Reveal delay={120} className="flex justify-center">
-          <Parallax speed={0.06}>
-            <OpenBook />
-          </Parallax>
-        </Reveal>
+            <div className="relative grid gap-12 px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[45fr_55fr] lg:items-center lg:gap-4 lg:px-14 lg:py-16">
+              {/* left — content */}
+              <div className="max-w-xl">
+                <p className="flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.22em] uppercase text-muted-foreground">
+                  <span aria-hidden className="h-0.5 w-8 rounded-full bg-brand-orange" />
+                  Premium Bundle Collection
+                </p>
 
-        <Reveal
-          delay={200}
-          as="ul"
-          className="grid grid-cols-3 overflow-hidden rounded-lg border border-background/15 bg-background/5 lg:grid-cols-1"
-        >
-          {steps.map((s, i) => (
-            <li
-              key={s}
-              className="flex min-w-24 items-center gap-3 border-background/15 px-4 py-4 not-last:border-r lg:border-r-0 lg:not-last:border-b"
-            >
-              <span className="h-px w-5 bg-background/40" aria-hidden />
-              <span className="font-display text-lg font-medium sm:text-2xl">{s}</span>
-              <span className="sr-only">step {i + 1}</span>
-            </li>
-          ))}
+                <h2
+                  id="bundle-heading"
+                  className="mt-5 font-display text-4xl leading-[1.04] font-medium sm:text-5xl"
+                >
+                  Complete
+                  <span
+                    className="block bg-clip-text text-transparent"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(92deg, var(--brand-crimson) 0%, var(--brand-red) 42%, var(--brand-orange) 72%, var(--brand-amber) 100%)",
+                    }}
+                  >
+                    Growth Bundle
+                  </span>
+                </h2>
+
+                <p className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground">
+                  Get the complete collection of life-changing eBooks at a special bundle
+                  price. Learn, grow and build a brighter tomorrow with practical knowledge.
+                </p>
+
+                <ul className="mt-7 grid grid-cols-2 gap-x-5 gap-y-4">
+                  {features.map((f) => (
+                    <li key={f.title} className="flex items-center gap-3">
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border bg-card shadow-gloss">
+                        <f.icon className="h-4.5 w-4.5 text-primary" strokeWidth={1.75} aria-hidden />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-sm font-semibold">{f.title}</span>
+                        <span className="block text-xs text-muted-foreground">{f.note}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-8 flex flex-wrap items-end gap-x-4 gap-y-2">
+                  <span className="font-display text-4xl font-medium sm:text-5xl">
+                    {formatPrice(bundle.price)}
+                  </span>
+                  <span className="pb-1 text-lg text-muted-foreground line-through">
+                    {formatPrice(value)}
+                  </span>
+                  <span className="mb-1.5 inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-primary">
+                    <Gift className="h-3.5 w-3.5" aria-hidden /> Save {off}% Today
+                  </span>
+                </div>
+
+                <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
+                  <button
+                    type="button"
+                    onClick={() => addBundleToCart(bundle.slug)}
+                    className="press btn-gloss inline-flex h-13 items-center gap-2 rounded-full bg-brand px-8 text-sm font-semibold text-primary-foreground shadow-[0_14px_34px_-14px_var(--brand-red)] transition-transform duration-300 hover:-translate-y-1"
+                  >
+                    Get Bundle Now <ArrowRight className="h-4 w-4" />
+                  </button>
+                  <Link
+                    to="/bundles"
+                    className="group inline-flex items-center gap-1.5 text-sm font-semibold text-primary"
+                  >
+                    See all bundles
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* right — 3D bundle display */}
+              <Reveal delay={140} className="relative lg:min-h-[30rem]">
+                <div
+                  aria-hidden
+                  className="glow-breathe absolute top-[6%] left-1/2 h-[19rem] w-[19rem] -translate-x-1/2 rounded-full sm:h-[26rem] sm:w-[26rem]"
+                  style={{
+                    background:
+                      "radial-gradient(circle, color-mix(in oklab, var(--brand-amber) 50%, transparent) 0%, color-mix(in oklab, var(--brand-orange) 22%, transparent) 45%, transparent 70%)",
+                  }}
+                />
+
+                {/* floating OFF badge */}
+                <div
+                  aria-hidden
+                  className="float-slow absolute top-0 right-[4%] z-20 grid h-19 w-19 place-items-center rounded-full text-center sm:h-24 sm:w-24"
+                  style={{
+                    background:
+                      "radial-gradient(circle at 32% 26%, #ff6a55, var(--brand-crimson) 72%)",
+                    boxShadow:
+                      "0 0 0 6px color-mix(in oklab, var(--brand-amber) 40%, transparent), 0 18px 40px -14px color-mix(in oklab, var(--brand-crimson) 60%, transparent)",
+                  }}
+                >
+                  <span className="font-display text-xl leading-none font-semibold text-white sm:text-2xl">
+                    {off}%
+                    <span className="mt-0.5 block font-sans text-[0.55rem] font-bold tracking-[0.2em]">
+                      OFF
+                    </span>
+                  </span>
+                </div>
+
+                {/* books on the pedestal */}
+                <div className="relative z-10 flex items-end justify-center gap-1.5 px-2 sm:gap-3">
+                  {/* left pair */}
+                  {sides.slice(0, 2).map((book, i) => (
+                    <BookOnStand key={book.id} book={book} layout={sideLayout[i]!} />
+                  ))}
+
+                  {/* center — the bundle */}
+                  <div className="relative z-[5] w-[30%] shrink-0 sm:w-[32%]">
+                    <div className="relative aspect-[2/3] overflow-hidden rounded-[6px] bg-white shadow-[0_34px_64px_-24px_rgb(11_22_51/50%)] ring-1 ring-border transition-transform duration-300 hover:-translate-y-2">
+                      {/* page edge */}
+                      <span
+                        aria-hidden
+                        className="absolute inset-y-[2px] right-0 w-1.5 rounded-r-[4px]"
+                        style={{
+                          background:
+                            "repeating-linear-gradient(to right, #f5f0e7 0 2px, #e4dccc 2px 3px)",
+                        }}
+                      />
+                      {/* top sheen */}
+                      <span
+                        aria-hidden
+                        className="absolute inset-0 bg-gradient-to-br from-white/70 via-transparent to-transparent"
+                      />
+                      <div className="relative flex h-full flex-col items-center justify-between px-[9%] py-[9%] text-center">
+                        <img src={logo.url} alt="" className="h-6 w-auto sm:h-8" />
+                        <div>
+                          <p className="text-[0.5rem] font-bold tracking-[0.32em] text-muted-foreground sm:text-[0.6rem]">
+                            THE
+                          </p>
+                          <p className="font-display text-base leading-tight font-semibold text-foreground sm:text-[1.35rem]">
+                            COMPLETE
+                          </p>
+                          <p
+                            className="bg-clip-text font-display text-base leading-tight font-semibold text-transparent sm:text-[1.35rem]"
+                            style={{
+                              backgroundImage:
+                                "linear-gradient(92deg, var(--brand-crimson), var(--brand-orange) 70%, var(--brand-amber))",
+                            }}
+                          >
+                            GROWTH
+                          </p>
+                          <p className="font-display text-base leading-tight font-semibold text-foreground sm:text-[1.35rem]">
+                            BUNDLE
+                          </p>
+                          <span aria-hidden className="mx-auto mt-1.5 block h-px w-10 bg-brand-orange/70" />
+                          <p className="mt-2 text-[0.48rem] leading-snug text-muted-foreground sm:text-[0.6rem]">
+                            {items.length} Life-Changing eBooks
+                            <br />
+                            for a Brighter You
+                          </p>
+                        </div>
+                        <p className="text-[0.48rem] font-semibold tracking-[0.14em] uppercase text-foreground/70 sm:text-[0.58rem]">
+                          Learn Today. Grow Tomorrow.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* right pair */}
+                  {sides.slice(2, 4).map((book, i) => (
+                    <BookOnStand key={book.id} book={book} layout={sideLayout[i + 2]!} />
+                  ))}
+                </div>
+
+                {/* marble pedestal */}
+                <div aria-hidden className="relative z-0 mx-auto -mt-2 w-[88%] max-w-xl">
+                  <div className="mx-1 h-3.5 rounded-[50%] bg-[linear-gradient(180deg,#f8f3ea,#e7ddcb)] shadow-[0_12px_30px_-14px_rgba(0,0,0,0.4)]" />
+                  <div className="mx-3 h-8 rounded-b-[1.3rem] rounded-t-sm bg-[linear-gradient(180deg,#f0e8d9,#ded2ba)]" />
+                  <div
+                    className="mx-8 h-7 rounded-[50%] blur-md"
+                    style={{
+                      background:
+                        "radial-gradient(50% 100% at 50% 50%, color-mix(in oklab, var(--brand-amber) 36%, transparent) 0%, transparent 72%)",
+                    }}
+                  />
+                </div>
+
+                {/* marble sphere */}
+                <div
+                  aria-hidden
+                  className="absolute right-[7%] bottom-[6%] hidden h-11 w-11 rounded-full sm:block"
+                  style={{
+                    background:
+                      "radial-gradient(circle at 32% 26%, #ffffff, #eae2d2 55%, #cdc1aa 100%)",
+                    boxShadow: "0 16px 26px -12px rgba(0,0,0,0.3)",
+                  }}
+                />
+
+                {/* floating glass feature card (large screens) */}
+                <div
+                  aria-hidden
+                  className="glass absolute top-1/2 -right-1 z-20 hidden w-44 -translate-y-1/2 rounded-lg p-3.5 xl:block"
+                >
+                  <ul className="space-y-2.5">
+                    {features.map((f) => (
+                      <li key={f.title} className="flex items-center gap-2.5">
+                        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-accent">
+                          <f.icon className="h-3.5 w-3.5 text-primary" strokeWidth={1.75} />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block truncate text-xs font-semibold">{f.title}</span>
+                          <span className="block truncate text-[0.66rem] text-muted-foreground">
+                            {f.note}
+                          </span>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            </div>
+          </div>
         </Reveal>
       </div>
     </section>
+  );
+}
+
+function BookOnStand({
+  book,
+  layout,
+}: {
+  book: (typeof books)[number];
+  layout: { rotate: number; lift: number; w: string };
+}) {
+  return (
+    <div
+      className={cn("shrink-0 transition-transform duration-300 hover:-translate-y-2", layout.w)}
+      style={{ transform: `rotate(${layout.rotate}deg) translateY(${layout.lift}px)` }}
+    >
+      <Link
+        to="/book/$slug"
+        params={{ slug: book.slug }}
+        preload="intent"
+        draggable={false}
+        className="block aspect-[2/3] overflow-hidden rounded-[5px] shadow-[0_26px_50px_-22px_rgb(11_22_51/45%)] ring-1 ring-black/5"
+      >
+        <img
+          src={book.cover}
+          alt={`${book.title} ebook cover`}
+          width={640}
+          height={960}
+          loading="lazy"
+          draggable={false}
+          className="h-full w-full object-cover"
+        />
+      </Link>
+    </div>
   );
 }
 
