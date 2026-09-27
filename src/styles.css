@@ -642,3 +642,8 @@
     scroll-behavior: auto !important;
   }
 }
+
+@keyframes sway {
+  0%, 100% { rotate: -2deg; }
+  50% { rotate: 2deg; }
+}
