@@ -567,7 +567,7 @@ function BundleShowcase() {
                 </div>
 
                 {/* books on the pedestal */}
-                <div className="relative z-10 flex items-end justify-center gap-1.5 px-2 sm:gap-3">
+                <div className="relative z-10 mx-auto flex w-full max-w-[32rem] items-end justify-center gap-1 px-2 sm:max-w-[36rem] sm:gap-2.5">
                   {/* left pair */}
                   {sides.slice(0, 2).map((book, i) => (
                     <BookOnStand key={book.id} book={book} layout={sideLayout[i]!} />
