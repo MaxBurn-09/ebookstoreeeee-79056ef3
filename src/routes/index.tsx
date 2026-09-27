@@ -655,27 +655,11 @@ function BundleShowcase() {
                   }}
                 />
 
-                {/* floating glass feature card (large screens) */}
+                {/* soft floor reflection */}
                 <div
                   aria-hidden
-                  className="glass absolute top-1/2 -right-1 z-20 hidden w-44 -translate-y-1/2 rounded-lg p-3.5 xl:block"
-                >
-                  <ul className="space-y-2.5">
-                    {features.map((f) => (
-                      <li key={f.title} className="flex items-center gap-2.5">
-                        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-accent">
-                          <f.icon className="h-3.5 w-3.5 text-primary" strokeWidth={1.75} />
-                        </span>
-                        <span className="min-w-0">
-                          <span className="block truncate text-xs font-semibold">{f.title}</span>
-                          <span className="block truncate text-[0.66rem] text-muted-foreground">
-                            {f.note}
-                          </span>
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                  className="mx-auto h-10 w-[70%] max-w-md rounded-[50%] bg-foreground/5 blur-lg"
+                />
               </Reveal>
             </div>
           </div>
