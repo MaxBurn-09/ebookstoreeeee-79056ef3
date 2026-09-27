@@ -534,7 +534,7 @@ const baseBooks: Book[] = [
 export const books: Book[] = baseBooks.map((b) => {
   const d = descriptions[b.slug];
   if (!d || d.length === 0) return b;
-  return { ...b, blurb: d[0] ?? b.blurb, description: d.slice(1), bullets: [] };
+  return { ...b, blurb: d[0] ?? b.blurb, description: d.slice(1) };
 });
 
 export const bySlug = (slug: string) => books.find((b) => b.slug === slug);

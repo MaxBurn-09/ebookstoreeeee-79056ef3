@@ -146,6 +146,7 @@ function BookDetail() {
                 Published by {storeConfig.name}
               </p>
 
+              {book.reviews > 0 ? (
               <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
                 <Stars rating={book.rating} />
                 <span className="font-medium">{book.rating.toFixed(1)}</span>
@@ -157,9 +158,11 @@ function BookDetail() {
                   {book.bought.toLocaleString("en-US")} Copies Sold
                 </span>
               </div>
+              ) : null}
 
               <p className="mt-6 leading-relaxed text-foreground/90">{book.blurb}</p>
 
+              {book.bullets.length > 0 ? (<>
               <h2 className="mt-8 text-base font-semibold">What you'll learn</h2>
               <ul className="mt-3 grid gap-2 sm:grid-cols-2">
                 {book.bullets.map((b) => (
@@ -169,6 +172,7 @@ function BookDetail() {
                   </li>
                 ))}
               </ul>
+              </>) : null}
 
               <h2 className="mt-10 text-base font-semibold">About this ebook</h2>
               <div className="mt-3 space-y-4 leading-relaxed text-muted-foreground">
