@@ -16,7 +16,7 @@ export function MobileTabBar({ onSearch }: { onSearch: () => void }) {
   return (
     <nav
       aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-border/70 bg-background/70 pb-[env(safe-area-inset-bottom)] shadow-[inset_0_1px_0_oklch(1_0_0/55%),0_-8px_24px_-16px_oklch(0.26_0.007_275/25%)] backdrop-blur-xl backdrop-saturate-150 md:hidden"
     >
       <ul className="grid grid-cols-5">
         {tabs.map((tab) => {
