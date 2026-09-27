@@ -38,7 +38,7 @@ export const Route = createFileRoute("/")({
     pageHead({
       title: "Learn Today. Grow Tomorrow. | Future Grow Academy eBooks",
       description:
-        "Practical eBooks on self-care, money, relationships, health and parenting. Instant PDF download, lifetime access, every title just $2.97.",
+        "Practical eBooks on self-care, money, relationships, health and parenting. Explore the complete ebook collection and curated bundles.",
       path: "/",
       jsonLd: [organizationLd, websiteLd],
     }),
@@ -429,15 +429,16 @@ function BundleShowcase() {
   if (!bundle) return null;
 
   const items = bundleBooks(bundle);
-  const value = items.reduce((sum, b) => sum + b.oldPrice, 0);
-  const off = Math.max(1, Math.round((1 - bundle.price / value) * 100));
+  const value = items.reduce((sum, b) => sum + b.price, 0);
+  const payable = Math.min(value, bundle.price);
+  const off = value > payable ? Math.round((1 - payable / value) * 100) : 0;
   const sides = ["30-days-to-digital-wealth", "find-your-purpose-in-30-days", "parenting-without-yelling", "passive-profits-with-ai"]
     .map((slug) => books.find((b) => b.slug === slug))
     .filter((b) => b !== undefined);
 
   const features = [
     { icon: Layers, title: `${items.length} eBooks`, note: "Complete collection" },
-    { icon: Gift, title: "Exclusive Bonus", note: "Extra resources" },
+    { icon: Gift, title: "Curated Titles", note: "Every published eBook" },
     { icon: InfinityIcon, title: "Lifetime Access", note: "Read anytime" },
     { icon: Download, title: "Instant Download", note: "Start learning now" },
   ];
@@ -524,30 +525,30 @@ function BundleShowcase() {
 
                 <div className="mt-8 flex flex-wrap items-end gap-x-4 gap-y-2">
                   <span className="font-display text-4xl font-medium sm:text-5xl">
-                    {formatPrice(bundle.price)}
+                    {formatPrice(payable)}
                   </span>
-                  <span className="pb-1 text-lg text-forest-foreground/55 line-through">
+                  {off > 0 && <span className="pb-1 text-lg text-forest-foreground/55 line-through">
                     {formatPrice(value)}
-                  </span>
-                  <span
+                  </span>}
+                  {off > 0 && <span
                     className="mb-1.5 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
                     style={{
                       background: "color-mix(in oklab, var(--brand-amber) 20%, transparent)",
                       color: "var(--brand-amber)",
                     }}
                   >
-                    <Gift className="h-3.5 w-3.5" aria-hidden /> Save {off}% Today
-                  </span>
+                    <Gift className="h-3.5 w-3.5" aria-hidden /> Save {off}% vs individual prices
+                  </span>}
                 </div>
 
                 <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
-                  <button
+                  <Button
                     type="button"
-                    onClick={() => addBundleToCart(bundle.slug)}
+                    onClick={() => { addBundleToCart(bundle.slug); navigate({ to: "/cart" }); }}
                     className="press btn-gloss inline-flex h-13 items-center gap-2 rounded-full bg-brand px-8 text-sm font-semibold text-primary-foreground shadow-[0_14px_34px_-14px_var(--brand-red)] transition-transform duration-300 hover:-translate-y-1"
                   >
-                    Get Bundle Now <ArrowRight className="h-4 w-4" />
-                  </button>
+                    Review bundle <ArrowRight className="h-4 w-4" />
+                  </Button>
                   <Link
                     to="/bundles"
                     className="group inline-flex items-center gap-1.5 text-sm font-semibold text-forest-foreground/85 transition-colors hover:text-forest-foreground"
@@ -559,7 +560,7 @@ function BundleShowcase() {
 
                 <p className="mt-6 flex items-center gap-2 text-xs text-forest-foreground/60">
                   <ShieldCheck className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                  Secure checkout · Instant PDF download · Lifetime access
+                  Digital PDF collection · Lifetime access after purchase
                 </p>
               </div>
 
@@ -575,7 +576,7 @@ function BundleShowcase() {
                 />
 
                 {/* floating OFF badge */}
-                <div
+                {off > 0 && <div
                   aria-hidden
                   className="float-slow absolute top-0 right-[4%] z-20 grid h-16 w-16 place-items-center rounded-full text-center sm:h-20 sm:w-20"
                   style={{
@@ -585,13 +586,13 @@ function BundleShowcase() {
                       "0 0 0 6px color-mix(in oklab, var(--brand-amber) 34%, transparent), 0 18px 40px -14px color-mix(in oklab, var(--brand-crimson) 65%, transparent)",
                   }}
                 >
-                  <span className="font-display text-xl leading-none font-semibold text-white sm:text-2xl">
+                  <span className="font-display text-xl leading-none font-semibold text-forest-foreground sm:text-2xl">
                     {off}%
                     <span className="mt-0.5 block font-sans text-[0.55rem] font-bold tracking-[0.2em]">
                       OFF
                     </span>
                   </span>
-                </div>
+                </div>}
 
                 {/* books on the pedestal */}
                 <div className="relative z-10 mx-auto flex w-full max-w-[32rem] items-end justify-center gap-1 px-2 sm:max-w-[36rem] sm:gap-2.5">
