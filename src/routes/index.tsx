@@ -454,28 +454,7 @@ function StoryBand() {
 
         <Reveal delay={120} className="flex justify-center">
           <Parallax speed={0.06}>
-            <div className="[perspective:1400px]">
-              <div className="float-slow grid w-[min(30rem,82vw)] grid-cols-2 rounded-md bg-[#f6f1e7] text-foreground shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)] [transform:rotateX(14deg)_rotateZ(-2deg)] [transform-style:preserve-3d]">
-                <div className="border-r border-black/10 p-7 [transform:rotateY(6deg)] [transform-origin:right]">
-                  <div className="space-y-2" aria-hidden>
-                    {[92, 100, 84, 96, 70, 100, 88].map((w, i) => (
-                      <span
-                        key={i}
-                        className="block h-1.5 rounded-full bg-foreground/10"
-                        style={{ width: `${w}%` }}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <div className="grid place-items-center p-7 [transform:rotateY(-6deg)] [transform-origin:left]">
-                  <p className="text-center font-display text-xl leading-snug font-medium sm:text-2xl">
-                    A Brighter You
-                    <br />
-                    <span className="text-brand">Starts Here</span>
-                  </p>
-                </div>
-              </div>
-            </div>
+            <OpenBook />
           </Parallax>
         </Reveal>
 
