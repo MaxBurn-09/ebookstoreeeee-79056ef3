@@ -52,8 +52,8 @@ function HomePage() {
       <TrustStrip />
       <CategoryBand />
       <Bookshelf />
-      <BundleShowcase />
       <BestSelling />
+      <BundleShowcase />
       <Reviews />
       <Newsletter />
     </>
