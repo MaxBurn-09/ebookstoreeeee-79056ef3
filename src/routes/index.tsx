@@ -694,7 +694,7 @@ function BookOnStand({
 }) {
   return (
     <div
-      className={cn("shrink-0 transition-transform duration-300 hover:-translate-y-2", layout.w)}
+      className={cn("shrink-0", layout.w)}
       style={{ transform: `rotate(${layout.rotate}deg) translateY(${layout.lift}px)` }}
     >
       <Link
@@ -702,7 +702,7 @@ function BookOnStand({
         params={{ slug: book.slug }}
         preload="intent"
         draggable={false}
-        className="block aspect-[2/3] overflow-hidden rounded-[5px] shadow-[0_26px_50px_-22px_rgb(11_22_51/45%)] ring-1 ring-black/5"
+        className="block aspect-[2/3] overflow-hidden rounded-[5px] shadow-[0_26px_50px_-22px_rgb(11_22_51/45%)] ring-1 ring-black/5 transition-transform duration-300 hover:-translate-y-2"
       >
         <img
           src={book.cover}
