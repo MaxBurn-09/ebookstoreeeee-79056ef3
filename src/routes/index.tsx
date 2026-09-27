@@ -550,7 +550,7 @@ function BundleShowcase() {
                 {/* floating OFF badge */}
                 <div
                   aria-hidden
-                  className="float-slow absolute top-0 right-[4%] z-20 grid h-19 w-19 place-items-center rounded-full text-center sm:h-24 sm:w-24"
+                  className="float-slow absolute top-0 right-[4%] z-20 grid h-16 w-16 place-items-center rounded-full text-center sm:h-20 sm:w-20"
                   style={{
                     background:
                       "radial-gradient(circle at 32% 26%, #ff6a55, var(--brand-crimson) 72%)",
@@ -632,7 +632,7 @@ function BundleShowcase() {
                 </div>
 
                 {/* marble pedestal */}
-                <div aria-hidden className="relative z-0 mx-auto -mt-2 w-[88%] max-w-xl">
+                <div aria-hidden className="relative z-0 mx-auto -mt-2 w-[76%] max-w-md">
                   <div className="mx-1 h-3.5 rounded-[50%] bg-[linear-gradient(180deg,#f8f3ea,#e7ddcb)] shadow-[0_12px_30px_-14px_rgba(0,0,0,0.4)]" />
                   <div className="mx-3 h-8 rounded-b-[1.3rem] rounded-t-sm bg-[linear-gradient(180deg,#f0e8d9,#ded2ba)]" />
                   <div
