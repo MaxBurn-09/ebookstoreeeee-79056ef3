@@ -1,6 +1,15 @@
 import type { ComponentType, SVGProps } from "react";
 import { Link } from "@tanstack/react-router";
-import { Facebook, Globe, Instagram, Linkedin, Mail, MapPin, Youtube, type LucideIcon } from "lucide-react";
+import {
+  Facebook,
+  Globe,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+  Youtube,
+  type LucideIcon,
+} from "lucide-react";
 import { storeConfig, categories } from "@/data/catalog";
 import logo from "@/assets/fga-logo.png.asset.json";
 import { Reveal } from "@/components/site/Reveal";
@@ -32,8 +41,7 @@ const socialIcons: Record<string, LucideIcon | ComponentType<IconProps>> = {
   LinkedIn: Linkedin,
 };
 
-const linkClass =
-  "text-sm text-muted-foreground transition-colors hover:text-foreground";
+const linkClass = "text-sm text-muted-foreground transition-colors hover:text-foreground";
 
 export function Footer() {
   const year = 2026;
@@ -84,24 +92,28 @@ export function Footer() {
 
         <div className="grid grid-cols-3 gap-x-6 sm:gap-x-10 lg:contents">
           <Reveal as="nav" aria-label="Quick links" delay={60} className="min-w-0">
-          <h2 className="eyebrow">Quick Links</h2>
-          <ul className="mt-4 space-y-2.5">
-            {storeConfig.nav.map((item) => (
-              <li key={item.to}>
-                <Link to={item.to} className={linkClass}>
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+            <h2 className="eyebrow">Quick Links</h2>
+            <ul className="mt-4 space-y-2.5">
+              {storeConfig.nav.map((item) => (
+                <li key={item.to}>
+                  <Link to={item.to} className={linkClass}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
 
           <Reveal as="nav" aria-label="Categories" delay={120} className="min-w-0">
             <h2 className="eyebrow">Categories</h2>
             <ul className="mt-4 space-y-2.5">
               {categories.map((c) => (
                 <li key={c.slug}>
-                  <Link to="/books" search={{ q: undefined, category: c.slug }} className={linkClass}>
+                  <Link
+                    to="/books"
+                    search={{ q: undefined, category: c.slug }}
+                    className={linkClass}
+                  >
                     {c.name}
                   </Link>
                 </li>
@@ -110,21 +122,16 @@ export function Footer() {
           </Reveal>
 
           <Reveal as="nav" aria-label="Legal" delay={180} className="min-w-0">
-          <h2 className="eyebrow">Legal</h2>
-          <ul className="mt-4 space-y-2.5">
-            {storeConfig.legal.map((l) => (
-              <li key={l.label}>
-                <a
-                  href={l.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className={linkClass}
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+            <h2 className="eyebrow">Legal</h2>
+            <ul className="mt-4 space-y-2.5">
+              {storeConfig.legal.map((l) => (
+                <li key={l.label}>
+                  <a href={l.href} target="_blank" rel="noreferrer noopener" className={linkClass}>
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </Reveal>
         </div>
       </div>
