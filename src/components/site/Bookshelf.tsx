@@ -52,7 +52,7 @@ function ShelfBook({
           src={`/covers/${slug}.webp`}
           alt={title}
           loading="lazy"
-          className="h-full w-full object-cover"
+          className="animate-shelf-swap h-full w-full object-cover"
         />
         {/* spine + sheen */}
         <span className="pointer-events-none absolute inset-0 rounded-[3px] bg-gradient-to-r from-black/25 via-transparent to-white/10" />
@@ -223,7 +223,7 @@ export function Bookshelf() {
             <div>
               <div className="flex items-end justify-center gap-1.5 px-1 sm:gap-3 sm:px-2 lg:gap-4">
                 {topShelf.map((b, i) => (
-                  <ShelfBook key={`${i}-${b.slug}`} slug={b.slug} title={b.title} index={i} entered={entered} />
+                  <ShelfBook key={b.slug} slug={b.slug} title={b.title} index={i} entered={entered} />
                 ))}
               </div>
               <WoodShelf className="mt-1" />
@@ -231,7 +231,7 @@ export function Bookshelf() {
             <div>
               <div className="flex items-end justify-center gap-1.5 px-1 sm:gap-3 sm:px-2 lg:gap-4">
                 {bottomShelf.map((b, i) => (
-                  <ShelfBook key={`${i}-${b.slug}`} slug={b.slug} title={b.title} index={i + 2} entered={entered} />
+                  <ShelfBook key={b.slug} slug={b.slug} title={b.title} index={i + 2} entered={entered} />
                 ))}
               </div>
               <WoodShelf className="mt-1" />
