@@ -49,7 +49,6 @@ function HomePage() {
       <Bookshelf />
       <StoryBand />
       <BestSelling />
-      <OfferBanner />
       <Reviews />
       <Newsletter />
     </>
@@ -488,61 +487,6 @@ function BestSelling() {
           ))}
         </div>
       </div>
-    </section>
-  );
-}
-
-/* -------------------------------------------------------- offer banner */
-
-function OfferBanner() {
-  return (
-    <section className="container-page pb-4 [overflow-x:clip]">
-      <Reveal>
-        <div className="glow-breathe relative overflow-hidden rounded-lg bg-brand px-7 py-10 text-primary-foreground sm:px-12 sm:py-12">
-          <div
-            aria-hidden
-            className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-background/10 blur-2xl"
-          />
-          <div className="relative grid items-center gap-8 lg:grid-cols-[1.2fr_auto]">
-            <div>
-              <p className="text-xs tracking-wide text-primary-foreground/75">
-                Limited time offer
-              </p>
-              <h2 className="mt-4 font-display text-[2.1rem] leading-[1.1] font-medium sm:text-[2.8rem]">
-                Get 80% OFF
-                <br />
-                On Every eBook
-              </h2>
-              <p className="mt-4 text-sm text-primary-foreground/85">
-                Every title $2.97 instead of $7.50 · instant PDF download
-              </p>
-              <Link
-                to="/books"
-                className="press mt-7 inline-flex h-12 items-center gap-2 rounded-full bg-card px-7 text-sm font-semibold text-primary"
-              >
-                Shop All Deals <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-            <div className="hidden justify-end lg:flex">
-              <div className="float-slow relative w-40 rotate-3">
-                <div className="cover-plate">
-                  <img
-                    src={books[0]!.cover}
-                    alt=""
-                    loading="lazy"
-                    className="aspect-[2/3] w-full object-cover"
-                  />
-                </div>
-                <span className="absolute -top-5 -right-5 grid h-16 w-16 place-items-center rounded-full bg-card text-center text-xs leading-tight font-bold text-primary">
-                  80%
-                  <br />
-                  OFF
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Reveal>
     </section>
   );
 }
