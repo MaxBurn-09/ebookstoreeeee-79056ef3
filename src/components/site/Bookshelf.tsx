@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { books } from "@/data/catalog";
 import { cn } from "@/lib/utils";
 
-const topShelf = books.slice(0, 5);
-const bottomShelf = books.slice(5, 10);
+const PER_SHELF = 5;
+const SHUFFLE_MS = 4200;
 
 /** Natural per-book variation so the row never looks machine-aligned. */
 const variations = [
@@ -41,7 +41,7 @@ function ShelfBook({
         transform: entered
           ? `rotate(${v.tilt}deg) translateY(${-v.lift}px)`
           : undefined,
-        width: `calc(4.4rem * ${v.w})`,
+        width: `calc(clamp(3.3rem, 14.5vw, 6.4rem) * ${v.w})`,
       }}
     >
       <span
@@ -94,6 +94,20 @@ function WoodShelf({ className }: { className?: string }) {
 export function Bookshelf() {
   const ref = useRef<HTMLDivElement>(null);
   const [entered, setEntered] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (!entered || paused || books.length <= PER_SHELF * 2) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const t = window.setInterval(() => setOffset((o) => (o + 1) % books.length), SHUFFLE_MS);
+    return () => window.clearInterval(t);
+  }, [entered, paused]);
+
+  const pick = (start: number) =>
+    Array.from({ length: PER_SHELF }, (_, i) => books[(offset + start + i) % books.length]!);
+  const topShelf = pick(0);
+  const bottomShelf = pick(PER_SHELF);
 
   useEffect(() => {
     const el = ref.current;
@@ -122,8 +136,10 @@ export function Bookshelf() {
       <div
         ref={ref}
         onMouseMove={onMove}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
         className={cn(
-          "relative mx-auto w-[92%] max-w-4xl transition-all duration-1000 ease-out",
+          "relative mx-auto w-[94%] max-w-4xl xl:max-w-5xl 2xl:max-w-6xl transition-all duration-1000 ease-out",
           entered ? "scale-100 opacity-100" : "scale-[0.96] opacity-0",
         )}
         style={{ ["--px" as string]: 0, ["--py" as string]: 0 }}
@@ -133,7 +149,7 @@ export function Bookshelf() {
 
         {/* arch */}
         <div
-          className="relative rounded-t-[10rem] px-6 pb-10 pt-12 sm:rounded-t-[14rem] sm:px-12 sm:pt-16"
+          className="relative rounded-t-[10rem] px-3 pb-10 pt-12 sm:rounded-t-[14rem] sm:px-12 sm:pt-16 lg:rounded-t-[20rem] lg:px-20 lg:pt-20"
           style={{
             background:
               "linear-gradient(180deg,#F3EDE3 0%,#efe7da 60%,#e9e0d2 100%)",
@@ -146,7 +162,7 @@ export function Bookshelf() {
 
           {/* quote */}
           <div className="relative mx-auto mb-8 max-w-xs text-center sm:mb-10">
-            <p className="font-display text-2xl leading-snug text-foreground sm:text-3xl">
+            <p className="font-display text-2xl leading-snug text-foreground sm:text-3xl lg:text-4xl">
               Small Books
               <br />
               Big Changes
@@ -199,23 +215,23 @@ export function Bookshelf() {
 
           {/* shelves */}
           <div
-            className="relative space-y-14 sm:space-y-16"
+            className="relative space-y-12 sm:space-y-16 lg:space-y-20"
             style={{
               transform: `translate(calc(var(--px) * 6px), calc(var(--py) * 4px))`,
             }}
           >
             <div>
-              <div className="flex items-end justify-center gap-2 px-2 sm:gap-3">
+              <div className="flex items-end justify-center gap-1.5 px-1 sm:gap-3 sm:px-2 lg:gap-4">
                 {topShelf.map((b, i) => (
-                  <ShelfBook key={b.slug} slug={b.slug} title={b.title} index={i} entered={entered} />
+                  <ShelfBook key={`${i}-${b.slug}`} slug={b.slug} title={b.title} index={i} entered={entered} />
                 ))}
               </div>
               <WoodShelf className="mt-1" />
             </div>
             <div>
-              <div className="flex items-end justify-center gap-2 px-2 sm:gap-3">
+              <div className="flex items-end justify-center gap-1.5 px-1 sm:gap-3 sm:px-2 lg:gap-4">
                 {bottomShelf.map((b, i) => (
-                  <ShelfBook key={b.slug} slug={b.slug} title={b.title} index={i + 2} entered={entered} />
+                  <ShelfBook key={`${i}-${b.slug}`} slug={b.slug} title={b.title} index={i + 2} entered={entered} />
                 ))}
               </div>
               <WoodShelf className="mt-1" />

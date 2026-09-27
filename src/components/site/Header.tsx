@@ -105,7 +105,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
             <button
               type="button"
               onClick={onSearch}
-              className="press hidden h-10 items-center gap-2 rounded-full border border-border px-3.5 text-sm text-muted-foreground hover:border-foreground/25 hover:text-foreground md:flex"
+              className="press hidden h-10 items-center gap-2 rounded-full border border-border px-3.5 text-sm text-muted-foreground hover:border-foreground/25 hover:text-foreground md:flex lg:hidden xl:flex"
             >
               <Search className="h-4 w-4" />
               <span className="pr-2 xl:pr-6">Search</span>
@@ -117,7 +117,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
               type="button"
               onClick={onSearch}
               aria-label="Search"
-              className="press grid h-11 w-11 place-items-center rounded-md hover:bg-muted md:hidden"
+              className="press grid h-11 w-11 place-items-center rounded-md hover:bg-muted md:hidden lg:grid xl:hidden"
             >
               <Search className="h-5 w-5" />
             </button>

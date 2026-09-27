@@ -647,3 +647,9 @@
   0%, 100% { rotate: -2deg; }
   50% { rotate: 2deg; }
 }
+
+@keyframes shelf-swap {
+  0% { opacity: 0; transform: translateY(14px) scale(0.96); filter: blur(2px); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+.animate-shelf-swap { animation: shelf-swap 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
