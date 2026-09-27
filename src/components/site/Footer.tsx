@@ -82,7 +82,8 @@ export function Footer() {
           </a>
         </Reveal>
 
-        <Reveal as="nav" aria-label="Quick links" delay={60}>
+        <div className="grid grid-cols-3 gap-x-6 sm:gap-x-10 lg:contents">
+          <Reveal as="nav" aria-label="Quick links" delay={60} className="min-w-0">
           <h2 className="eyebrow">Quick Links</h2>
           <ul className="mt-4 space-y-2.5">
             {storeConfig.nav.map((item) => (
