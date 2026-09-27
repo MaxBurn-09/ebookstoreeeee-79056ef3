@@ -37,9 +37,8 @@ export const Route = createFileRoute("/cart")({
 });
 
 function CartPage() {
-  const { lineBooks, setQty, removeFromCart, cartSubtotal } = useStore();
+  const { lineBooks, setQty, removeFromCart, cartSubtotal, cartListTotal, bundleDiscount, appliedBundles } = useStore();
   const total = cartSubtotal;
-  const saved = lineBooks.reduce((s, l) => s + (l.book.oldPrice - l.book.price) * l.qty, 0);
   const suggestions = books.filter((b) => !lineBooks.some((l) => l.book.id === b.id)).slice(0, 4);
 
   return (
@@ -152,9 +151,10 @@ function CartPage() {
             <aside className="glass sticky top-28 rounded-2xl border border-border p-6">
               <h2 className="text-lg font-semibold">Order summary</h2>
               <dl className="mt-5 space-y-3 text-sm">
-                <Row label="Subtotal" value={formatPrice(cartSubtotal)} />
+                <Row label="Individual prices" value={formatPrice(cartListTotal)} />
+                {appliedBundles.map(({ bundle }, index) => <Row key={`${bundle.slug}-${index}`} label={bundle.name} value="Applied" accent />)}
+                {bundleDiscount > 0 ? <Row label="Bundle savings" value={`− ${formatPrice(bundleDiscount)}`} accent /> : null}
                 <Row label="Delivery" value="Instant download" />
-                {saved > 0 ? <Row label="You save" value={`− ${formatPrice(saved)}`} accent /> : null}
                 <div className="flex items-baseline justify-between border-t border-border pt-3">
                   <dt className="text-sm font-medium">Total</dt>
                   <dd className="text-2xl font-semibold tabular-nums">{formatPrice(total)}</dd>
@@ -165,7 +165,7 @@ function CartPage() {
                 className="press group mt-6 flex h-12 w-full items-center justify-center gap-2 btn-gloss rounded-full bg-brand text-sm font-semibold text-primary-foreground transition-shadow hover:shadow-lg"
               >
                 <Lock className="h-4 w-4" aria-hidden />
-                Secure checkout
+                 Review order
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <ul className="mt-6 space-y-3 border-t border-border pt-5 text-xs text-muted-foreground">
@@ -174,8 +174,7 @@ function CartPage() {
                   download
                 </li>
                 <li className="flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4 text-forest" aria-hidden /> Cards accepted
-                  worldwide
+                   <ShieldCheck className="h-4 w-4 text-forest" aria-hidden /> Payments are not available yet; no charge will be made
                 </li>
               </ul>
             </aside>
