@@ -30,6 +30,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { ReviewWall } from "@/components/site/ReviewWall";
 import { CountUp, Parallax, Tilt } from "@/components/site/Motion";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { organizationLd, pageHead, websiteLd } from "@/lib/seo";
 import logo from "@/assets/fga-logo.png.asset.json";
 
@@ -425,6 +426,7 @@ function CategoryBand() {
 
 function BundleShowcase() {
   const { addBundleToCart } = useStore();
+  const navigate = useNavigate();
   const bundle = bundles.find((b) => b.slug === "complete-ebook-collection");
   if (!bundle) return null;
 

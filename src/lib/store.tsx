@@ -43,20 +43,22 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartLine[]>([]);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [restored, setRestored] = useState(false);
 
   useEffect(() => {
     setCart(read<CartLine[]>("pp_cart", []));
     setWishlist(read<string[]>("pp_wishlist", []));
+    setRestored(true);
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined") window.localStorage.setItem("pp_cart", JSON.stringify(cart));
-  }, [cart]);
+    if (restored && typeof window !== "undefined") window.localStorage.setItem("pp_cart", JSON.stringify(cart));
+  }, [cart, restored]);
 
   useEffect(() => {
-    if (typeof window !== "undefined")
+    if (restored && typeof window !== "undefined")
       window.localStorage.setItem("pp_wishlist", JSON.stringify(wishlist));
-  }, [wishlist]);
+  }, [wishlist, restored]);
 
   const addToCart = useCallback((id: string, qty = 1) => {
     setCart((prev) => {
