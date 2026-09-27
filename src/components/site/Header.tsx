@@ -40,8 +40,8 @@ export function Header({ onSearch }: { onSearch: () => void }) {
         Skip to content
       </a>
 
-      <div className="bg-foreground text-background">
-        <div className="container-page flex min-h-8 items-center justify-center gap-3 py-1 text-xs leading-tight tracking-wide">
+      <div className="bg-brand text-primary-foreground">
+        <div className="container-page relative z-10 flex min-h-8 items-center justify-center gap-3 py-1 text-xs leading-tight font-medium tracking-wide">
           <span>{storeConfig.announcement}</span>
           <span className="hidden opacity-50 sm:inline">·</span>
           <span className="hidden opacity-70 sm:inline">{storeConfig.announcementSecondary}</span>
@@ -50,8 +50,8 @@ export function Header({ onSearch }: { onSearch: () => void }) {
 
       <div
         className={cn(
-          "border-b bg-background/88 backdrop-blur-md transition-shadow duration-300",
-          scrolled ? "border-border shadow-[0_1px_0_var(--border)]" : "border-transparent",
+          "border-b bg-background/65 shadow-[inset_0_1px_0_oklch(1_0_0/55%)] backdrop-blur-xl backdrop-saturate-150 transition-shadow duration-300",
+          scrolled ? "border-border/70 shadow-[0_8px_24px_-16px_oklch(0.26_0.007_275/30%)]" : "border-transparent",
         )}
       >
         <div className="container-page relative flex h-16 items-center gap-4">

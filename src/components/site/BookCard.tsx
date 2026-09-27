@@ -59,7 +59,7 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
           onClick={() => toggleWishlist(book.id)}
           aria-label={wished ? `Remove ${book.title} from saved` : `Save ${book.title}`}
           aria-pressed={wished}
-          className="press absolute top-2 right-2 z-10 grid h-9 w-9 place-items-center rounded-full bg-card/92 text-foreground shadow-[var(--shadow-card)] backdrop-blur-sm hover:bg-card focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100"
+          className="press absolute top-2 right-2 z-10 grid h-9 w-9 place-items-center rounded-full border border-white/50 bg-card/70 text-foreground shadow-[var(--shadow-gloss)] backdrop-blur-md hover:bg-card/90 focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100"
         >
           <Heart className={cn("h-4 w-4", wished && "fill-destructive text-destructive")} />
         </button>
@@ -100,7 +100,7 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
               "press relative z-10 inline-flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold",
               inCart
                 ? "border-primary/30 bg-primary/8 text-primary"
-                : "border-border hover:border-foreground/30 hover:bg-foreground hover:text-background",
+                : "btn-gloss border-transparent bg-brand text-primary-foreground shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-raised)]",
             )}
           >
             {inCart ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
