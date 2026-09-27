@@ -57,22 +57,22 @@ function CartPage() {
       </Reveal>
 
       {lineBooks.length === 0 ? (
-        <Reveal className="rounded-2xl border border-dashed border-border py-20 text-center">
+        <Reveal className="glass rounded-2xl border border-dashed border-border py-20 text-center">
           <ShoppingBag className="mx-auto h-9 w-9 text-taupe" aria-hidden />
           <p className="mt-4 text-sm text-muted-foreground">
-            Your bag is empty. Every ebook is just $2.97 today.
+            Your bag is empty. Find your next read in our library.
           </p>
           <Link
             to="/books"
             preload="intent"
-            className="press mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-7 text-sm font-semibold text-background hover:bg-foreground/90"
+            className="press mt-6 inline-flex h-12 items-center gap-2 btn-gloss rounded-full bg-brand px-7 text-sm font-semibold text-primary-foreground"
           >
             Browse ebooks <ArrowRight className="h-4 w-4" />
           </Link>
         </Reveal>
       ) : (
         <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-12">
-          <ul className="divide-y divide-border border-y border-border">
+          <ul className="glass divide-y divide-border rounded-2xl border border-border px-4 sm:px-6">
             {lineBooks.map(({ book, qty }, i) => (
               <li key={book.id}>
                 <Reveal delay={Math.min(i * 70, 350)}>
@@ -114,7 +114,7 @@ function CartPage() {
                       </div>
 
                       <div className="mt-4 flex flex-wrap items-center gap-4">
-                        <div className="flex items-center rounded-full border border-border">
+                        <div className="flex items-center rounded-full border border-border bg-card">
                           <button
                             type="button"
                             aria-label={`Decrease quantity of ${book.title}`}
@@ -149,7 +149,7 @@ function CartPage() {
           </ul>
 
           <Reveal delay={120}>
-            <aside className="sticky top-28 rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
+            <aside className="glass sticky top-28 rounded-2xl border border-border p-6">
               <h2 className="text-lg font-semibold">Order summary</h2>
               <dl className="mt-5 space-y-3 text-sm">
                 <Row label="Subtotal" value={formatPrice(cartSubtotal)} />
@@ -162,7 +162,7 @@ function CartPage() {
               </dl>
               <Link
                 to="/checkout"
-                className="press group mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground text-sm font-semibold text-background transition-colors hover:bg-foreground/90"
+                className="press group mt-6 flex h-12 w-full items-center justify-center gap-2 btn-gloss rounded-full bg-brand text-sm font-semibold text-primary-foreground transition-shadow hover:shadow-lg"
               >
                 <Lock className="h-4 w-4" aria-hidden />
                 Secure checkout
