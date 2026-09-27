@@ -26,7 +26,7 @@ function ShelfBook({
   index: number;
   entered: boolean;
 }) {
-  const v = variations[index % variations.length];
+  const v = variations[index % variations.length] ?? variations[0]!;
   return (
     <Link
       to="/book/$slug"
@@ -99,7 +99,7 @@ export function Bookshelf() {
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
-      ([e]) => e.isIntersecting && setEntered(true),
+      (entries) => entries[0]?.isIntersecting && setEntered(true),
       { threshold: 0.25 },
     );
     io.observe(el);
