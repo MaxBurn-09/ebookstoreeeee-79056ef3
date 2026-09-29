@@ -153,14 +153,16 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const [searchOpen, setSearchOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const measurementId = Route.useLoaderData() as string | null;
 
   useEffect(() => {
-    startAnalytics();
-  }, []);
+    if (measurementId) initAnalytics(measurementId);
+  }, [measurementId]);
 
   useEffect(() => {
     trackPageView(pathname);
   }, [pathname]);
+
 
 
   useEffect(() => {
