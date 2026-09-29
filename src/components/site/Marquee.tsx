@@ -9,7 +9,7 @@ export function Marquee({ items }: { items: string[] }) {
         {row.map((item, i) => (
           <span
             key={i}
-            className="flex shrink-0 items-center gap-10 text-[0.68rem] font-semibold tracking-[0.24em] uppercase"
+            className="flex shrink-0 items-center gap-10 text-xs font-semibold tracking-[0.24em] uppercase"
           >
             {item}
             <BookOpen className="h-3.5 w-3.5 text-gold" />

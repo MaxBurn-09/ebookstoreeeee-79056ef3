@@ -29,7 +29,7 @@ export function MobileTabBar({ onSearch }: { onSearch: () => void }) {
                 preload="intent"
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex h-14 flex-col items-center justify-center gap-1 text-[0.62rem] font-medium transition-colors",
+                  "flex h-14 flex-col items-center justify-center gap-1 text-xs font-medium transition-colors",
                   active ? "text-primary" : "text-muted-foreground",
                 )}
               >
@@ -46,7 +46,7 @@ export function MobileTabBar({ onSearch }: { onSearch: () => void }) {
           <button
             type="button"
             onClick={onSearch}
-            className="flex h-14 w-full flex-col items-center justify-center gap-1 text-[0.62rem] font-medium text-muted-foreground transition-colors"
+            className="flex h-14 w-full flex-col items-center justify-center gap-1 text-xs font-medium text-muted-foreground transition-colors"
           >
             <Search className="h-5 w-5" strokeWidth={1.7} />
             Search
@@ -56,7 +56,7 @@ export function MobileTabBar({ onSearch }: { onSearch: () => void }) {
           <button
             type="button"
             onClick={() => setDrawerOpen(true)}
-            className="flex h-14 w-full flex-col items-center justify-center gap-1 text-[0.62rem] font-medium text-muted-foreground transition-colors"
+            className="flex h-14 w-full flex-col items-center justify-center gap-1 text-xs font-medium text-muted-foreground transition-colors"
           >
             <span className="relative">
               <ShoppingBag className="h-5 w-5" strokeWidth={1.7} />

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
-import { ArrowRight, ArrowUp } from "lucide-react";
+import { useRouterState } from "@tanstack/react-router";
+import { ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /** Thin reading-progress line, shown at the very bottom edge of the header. */
@@ -80,13 +80,6 @@ export function StickyCta() {
       >
         <ArrowUp className="h-4 w-4" aria-hidden />
       </button>
-      <Link
-        to="/books"
-        className="press hidden h-10 items-center gap-2 rounded-full bg-foreground px-4 text-xs font-semibold text-background shadow-[var(--shadow-card)] hover:bg-foreground/90 sm:inline-flex"
-      >
-        Browse eBooks
-        <ArrowRight className="h-4 w-4" aria-hidden />
-      </Link>
     </div>
   );
 }

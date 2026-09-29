@@ -49,7 +49,7 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
         </Link>
 
         {off > 0 ? (
-          <span className="absolute top-2 left-2 rounded-sm bg-foreground/90 px-1.5 py-1 text-xs font-semibold tracking-wide text-background">
+          <span className="absolute top-2 left-2 rounded-full border border-white/80 bg-brand px-2 py-0.5 text-xs font-semibold tracking-wide text-primary-foreground shadow-[var(--shadow-card)]">
             −{off}%
           </span>
         ) : null}
@@ -59,7 +59,7 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
           onClick={() => toggleWishlist(book.id)}
           aria-label={wished ? `Remove ${book.title} from saved` : `Save ${book.title}`}
           aria-pressed={wished}
-          className="press absolute top-2 right-2 z-10 grid h-9 w-9 place-items-center rounded-full border border-white/50 bg-card/70 text-foreground shadow-[var(--shadow-gloss)] backdrop-blur-md hover:bg-card/90 focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100"
+          className="press absolute top-2 right-2 z-10 grid h-9 w-9 place-items-center rounded-full border border-border bg-card text-foreground shadow-[var(--shadow-card)] hover:bg-muted"
         >
           <Heart className={cn("h-4 w-4", wished && "fill-destructive text-destructive")} />
         </button>
@@ -97,7 +97,7 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
             onClick={() => addToCart(book.id)}
             aria-label={`Add ${book.title} to bag`}
             className={cn(
-              "press relative z-10 inline-flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold",
+              "press relative z-10 inline-flex h-9 min-w-[5.75rem] items-center justify-center gap-1.5 rounded-full border px-3 text-xs font-semibold",
               inCart
                 ? "border-primary/30 bg-primary/8 text-primary"
                 : "btn-gloss border-transparent bg-brand text-primary-foreground shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-raised)]",

@@ -200,7 +200,7 @@ export function Badge({ tone = "muted", children }: { tone?: "muted" | "good" | 
   } as const;
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[0.68rem] font-semibold ${tones[tone]}`}
+      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${tones[tone]}`}
     >
       {children}
     </span>

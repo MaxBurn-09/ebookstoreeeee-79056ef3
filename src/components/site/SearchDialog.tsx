@@ -234,7 +234,7 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
             )}
           </div>
 
-          <div className="hidden items-center gap-4 border-t border-border px-4 py-2.5 text-[0.68rem] text-muted-foreground sm:flex">
+          <div className="hidden items-center gap-4 border-t border-border px-4 py-2.5 text-xs text-muted-foreground sm:flex">
             <Key>↑</Key>
             <Key>↓</Key>
             <span>to navigate</span>
@@ -253,7 +253,7 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
 
 function GroupLabel({ children, icon }: { children: React.ReactNode; icon?: React.ReactNode }) {
   return (
-    <p className="flex items-center gap-1.5 px-3 pt-3 pb-1 text-[0.62rem] font-semibold tracking-[0.12em] text-muted-foreground uppercase">
+    <p className="flex items-center gap-1.5 px-3 pt-3 pb-1 text-xs font-semibold tracking-[0.12em] text-muted-foreground uppercase">
       {icon}
       {children}
     </p>
@@ -285,7 +285,7 @@ function RowButton({
 
 function Key({ children }: { children: React.ReactNode }) {
   return (
-    <kbd className="grid h-5 min-w-5 place-items-center rounded border border-border bg-muted px-1 font-sans text-[0.62rem]">
+    <kbd className="grid h-5 min-w-5 place-items-center rounded border border-border bg-muted px-1 font-sans text-xs">
       {children}
     </kbd>
   );

@@ -62,7 +62,7 @@ function AboutPage() {
               ].map(([value, label]) => (
                 <div key={label}>
                   <p className="text-2xl font-semibold text-foreground sm:text-3xl">{value}</p>
-                  <p className="text-[0.62rem] tracking-[0.16em] uppercase">{label}</p>
+                  <p className="text-xs tracking-[0.16em] uppercase">{label}</p>
                 </div>
               ))}
             </div>
