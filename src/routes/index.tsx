@@ -41,7 +41,7 @@ export const Route = createFileRoute("/")({
       description:
         "Practical eBooks on self-care, money, relationships, health and parenting. Explore the complete ebook collection and curated bundles.",
       path: "/",
-      image: "https://ebookstoreeeee.lovable.app/covers/your-why-changes-everything.webp",
+      image: "https://futuregrowacademy.co/covers/your-why-changes-everything.webp",
       jsonLd: [organizationLd, websiteLd],
     }),
   component: HomePage,
