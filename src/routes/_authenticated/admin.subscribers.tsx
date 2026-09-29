@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Download, Trash2 } from "lucide-react";
+import { Download, Loader2, Send, Trash2 } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { sendNewsletter } from "@/lib/newsletter.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminHeading, EmptyState, Loading, Panel } from "@/components/admin/ui";
 
@@ -55,7 +57,9 @@ function SubscribersAdmin() {
         }
       />
 
-      <Panel>
+      <NewsletterComposer />
+
+      <Panel title="Footer sign-ups">
         {rows.length === 0 ? <EmptyState>No subscribers yet.</EmptyState> : null}
         <ul className="grid gap-2">
           {rows.map((r) => (
@@ -87,5 +91,41 @@ function SubscribersAdmin() {
         </ul>
       </Panel>
     </div>
+  );
+}
+
+function NewsletterComposer() {
+  const send = useServerFn(sendNewsletter);
+  const [subject, setSubject] = useState("");
+  const [body, setBody] = useState("");
+  const [busy, setBusy] = useState<null | "test" | "all">(null);
+  const go = async (testOnly: boolean) => {
+    if (!testOnly && !window.confirm("Send this newsletter to every registered customer?")) return;
+    setBusy(testOnly ? "test" : "all");
+    try {
+      const r = await send({ data: { subject, body, testOnly } });
+      toast.success(testOnly ? "Test sent to your inbox." : `Newsletter sent to ${r.sent} customers.`);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not send.");
+    } finally {
+      setBusy(null);
+    }
+  };
+  const ready = subject.trim().length >= 3 && body.trim().length >= 10;
+  return (
+    <Panel title="Send newsletter" description="Emails every customer who has created an account. Send a test to yourself first.">
+      <label className="block text-sm font-medium" htmlFor="nl-subject">Subject</label>
+      <input id="nl-subject" value={subject} onChange={(e) => setSubject(e.target.value)} maxLength={150} className="mt-1.5 h-11 w-full rounded-xl border border-border bg-background px-4 text-sm outline-none focus:ring-2 focus:ring-primary/30" />
+      <label className="mt-4 block text-sm font-medium" htmlFor="nl-body">Message</label>
+      <textarea id="nl-body" value={body} onChange={(e) => setBody(e.target.value)} rows={8} maxLength={20000} placeholder="Leave a blank line between paragraphs." className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/30" />
+      <div className="mt-4 flex flex-wrap gap-3">
+        <button type="button" disabled={!ready || !!busy} onClick={() => go(true)} className="press inline-flex h-11 items-center gap-2 rounded-full border border-border px-5 text-sm font-semibold hover:bg-muted disabled:opacity-50">
+          {busy === "test" ? <Loader2 className="h-4 w-4 animate-spin" /> : null} Send test to me
+        </button>
+        <button type="button" disabled={!ready || !!busy} onClick={() => go(false)} className="press inline-flex h-11 items-center gap-2 rounded-full bg-brand px-5 text-sm font-semibold text-primary-foreground disabled:opacity-50">
+          {busy === "all" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />} Send to all customers
+        </button>
+      </div>
+    </Panel>
   );
 }
