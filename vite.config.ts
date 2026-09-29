@@ -13,6 +13,8 @@ export default defineConfig({
       alias: {
         "entities/lib/decode.js": path.resolve(__dirname, "node_modules/entities/lib/decode.js"),
         "entities/lib/encode.js": path.resolve(__dirname, "node_modules/entities/lib/encode.js"),
+        "entities/lib/escape.js": path.resolve(__dirname, "node_modules/entities/lib/escape.js"),
+        "entities/escape": path.resolve(__dirname, "node_modules/entities/lib/escape.js"),
         entities: path.resolve(__dirname, "node_modules/entities"),
       },
     },
