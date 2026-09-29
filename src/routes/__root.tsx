@@ -10,7 +10,6 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 
-import { startAnalytics, trackPageView } from "../lib/analytics";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
