@@ -17,11 +17,18 @@ export const Route = createFileRoute("/api/chat")({
           if (!body || typeof body !== "object" || !("messages" in body) || !Array.isArray(body.messages)) {
             return Response.json({ error: "Invalid conversation." }, { status: 400 });
           }
-          const messages = body.messages as UIMessage[];
-          if (!messages.length || !messages.every((m) =>
-            m && (m.role === "user" || m.role === "assistant") && Array.isArray(m.parts) &&
-            m.parts.every((p) => p.type === "text" && typeof p.text === "string" && p.text.length <= 2500)
-          )) return Response.json({ error: "Please send a text message about our books." }, { status: 400 });
+          const incoming = body.messages as UIMessage[];
+          if (!incoming.length || !incoming.every((m) => m && (m.role === "user" || m.role === "assistant") && Array.isArray(m.parts))) {
+            return Response.json({ error: "Please send a text message about our books." }, { status: 400 });
+          }
+          // Keep only text parts (assistant replies also carry reasoning/step parts).
+          const messages: UIMessage[] = incoming
+            .map((m) => ({ ...m, parts: m.parts.filter((p) => p.type === "text" && typeof p.text === "string").map((p) => ({ type: "text" as const, text: (p as { text: string }).text.slice(0, 4000) })) }))
+            .filter((m) => m.parts.length > 0)
+            .slice(-20);
+          if (!messages.length || messages[messages.length - 1]?.role !== "user") {
+            return Response.json({ error: "Please send a text message about our books." }, { status: 400 });
+          }
 
           const runIdFetch = createLovableAiGatewayRunIdFetch(getLovableAiGatewayRunId(request));
           const provider = createOpenAI({
