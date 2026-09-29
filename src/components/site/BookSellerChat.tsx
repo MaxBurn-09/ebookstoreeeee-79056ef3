@@ -81,7 +81,7 @@ export function BookSellerChat() {
           </div>
         </section>
       )}
-      {!open && <Button onClick={() => setOpen(true)} aria-label="Chat with our book guide" className="btn-gloss h-12 gap-2 rounded-full px-4 shadow-[var(--shadow-card)]"><MessageCircle className="h-5 w-5" /> <span className="text-sm">Ask about books</span></Button>}
+      {!open && <Button size="icon" onClick={() => setOpen(true)} aria-label="Chat with our book guide" title="Chat with our book guide" className="btn-gloss size-11 rounded-full shadow-[var(--shadow-card)]"><MessageCircle className="size-5" aria-hidden="true" /></Button>}
     </div>
   );
 }
