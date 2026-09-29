@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, LibraryBig, Heart, ShoppingBag, Search } from "lucide-react";
 import { useStore } from "@/lib/store";
@@ -12,11 +13,42 @@ const tabs = [
 export function MobileTabBar({ onSearch }: { onSearch: () => void }) {
   const { cartCount, wishlist, setDrawerOpen } = useStore();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+
+  useEffect(() => {
+    lastY.current = window.scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const delta = y - lastY.current;
+        // Hide when scrolling down past the header, show on any scroll up.
+        if (y > 96 && delta > 6) setHidden(true);
+        else if (delta < -6 || y <= 96) setHidden(false);
+        lastY.current = y;
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Always reveal the bar after navigating to a new page.
+  useEffect(() => {
+    setHidden(false);
+    lastY.current = window.scrollY;
+  }, [pathname]);
 
   return (
     <nav
       aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-border/70 bg-background/70 pb-[env(safe-area-inset-bottom)] shadow-[inset_0_1px_0_oklch(1_0_0/55%),0_-8px_24px_-16px_oklch(0.26_0.007_275/25%)] backdrop-blur-xl backdrop-saturate-150 md:hidden"
+      className={cn(
+        "fixed inset-x-0 bottom-0 z-40 border-t border-border/70 bg-background/70 pb-[env(safe-area-inset-bottom)] shadow-[inset_0_1px_0_oklch(1_0_0/55%),0_-8px_24px_-16px_oklch(0.26_0.007_275/25%)] backdrop-blur-xl backdrop-saturate-150 transition-transform duration-300 ease-out motion-reduce:transition-none md:hidden",
+        hidden ? "translate-y-full" : "translate-y-0",
+      )}
     >
       <ul className="grid grid-cols-5">
         {tabs.map((tab) => {
