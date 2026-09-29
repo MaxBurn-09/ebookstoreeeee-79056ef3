@@ -4,10 +4,12 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
+
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -24,6 +26,8 @@ import { MobileTabBar } from "../components/site/MobileTabBar";
 import { StickyCta } from "../components/site/StickyCta";
 import { PurchaseNotice } from "../components/site/PurchaseNotice";
 import { BookSellerChat } from "../components/site/BookSellerChat";
+import { getAnalyticsMeasurementId } from "../lib/analytics.functions";
+import { initAnalytics, trackPageView } from "../lib/analytics";
 
 function NotFoundComponent() {
   return (
@@ -86,6 +90,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  loader: () => getAnalyticsMeasurementId(),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -146,6 +151,18 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const [searchOpen, setSearchOpen] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const measurementId = Route.useLoaderData() as string | null;
+
+  useEffect(() => {
+    if (measurementId) initAnalytics(measurementId);
+  }, [measurementId]);
+
+  useEffect(() => {
+    trackPageView(pathname);
+  }, [pathname]);
+
+
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
