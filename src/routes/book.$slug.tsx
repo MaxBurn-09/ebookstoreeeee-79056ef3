@@ -125,7 +125,7 @@ function BookDetail() {
                     aria-selected={view === v}
                     onClick={() => setView(v)}
                     className={cn(
-                      "press rounded-md border px-2 py-2 text-[0.66rem] font-semibold capitalize",
+                      "press rounded-md border px-2 py-2 text-xs font-semibold capitalize",
                       view === v
                         ? "border-foreground bg-foreground text-background"
                         : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
@@ -231,7 +231,7 @@ function BookDetail() {
                 {formatPrice(book.oldPrice)}
               </span>
               {off > 0 ? (
-                <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[0.68rem] font-semibold text-primary">
+                <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
                   Save {off}%
                 </span>
               ) : null}

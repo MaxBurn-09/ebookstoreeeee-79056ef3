@@ -72,7 +72,7 @@ function Hero() {
     <section className="relative overflow-hidden border-b border-border bg-background">
       <div className="container-page grid items-center gap-x-10 gap-y-6 py-8 sm:py-12 lg:min-h-[calc(100svh-6rem)] lg:grid-cols-[0.92fr_1.08fr] lg:grid-rows-[auto_auto_auto] lg:gap-y-7 lg:py-16">
         <Reveal className="order-1 max-w-xl lg:self-end">
-          <p className="eyebrow">Digital books for a brighter you</p>
+          <p className="eyebrow normal-case tracking-normal text-sm">Digital books for a brighter you</p>
 
           <h1 className="mt-4 font-display text-[2.75rem] leading-[0.98] font-medium sm:text-6xl lg:text-[4.45rem]">
             Learn Today
@@ -128,7 +128,7 @@ function Hero() {
               e.preventDefault();
               navigate({ to: "/books", search: { q: q || undefined, category: undefined } });
             }}
-            className="mt-5 flex h-13 max-w-md items-center gap-2 rounded-full border border-border bg-card pr-1.5 pl-4 shadow-[var(--shadow-card)] transition-colors focus-within:border-foreground/25"
+            className="mt-9 flex h-13 max-w-md items-center gap-2 rounded-full border border-border bg-card pr-1.5 pl-4 shadow-[var(--shadow-card)] transition-colors focus-within:border-foreground/25"
           >
             <Search className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
             <label htmlFor="hero-search" className="sr-only">
@@ -144,9 +144,9 @@ function Hero() {
             <button
               type="submit"
               aria-label="Search"
-              className="press grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand text-primary-foreground"
+              className="press grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border bg-card text-foreground hover:border-foreground/25"
             >
-              <ArrowRight className="h-4 w-4" />
+              <Search className="h-4 w-4" />
             </button>
           </form>
 
@@ -241,7 +241,7 @@ function AutoBookStack() {
             draggable={false}
             className={cn(
                "cover-plate block w-[25%] shrink-0 transition-[transform,opacity,box-shadow] duration-500 ease-out hover:-translate-y-3",
-              i === 1 ? "w-[40%] -translate-y-3 sm:-translate-y-6" : "translate-y-3 opacity-95",
+              i === 1 ? "w-[33%] -translate-y-3 sm:-translate-y-5" : "translate-y-3 opacity-95",
               i === 0 && "-rotate-3",
               i === 2 && "rotate-3",
             )}
@@ -353,7 +353,7 @@ function CategoryBand() {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
           {categories.map((c, i) => {
             const Icon = categoryIcons[c.slug] ?? Sprout;
-            const picks = books.filter((b) => b.category === c.name).slice(0, 3);
+            const picks = books.filter((b) => b.category === c.name).slice(0, 2);
             return (
               <Reveal key={c.slug} delay={i * 60}>
                 <Link
@@ -387,13 +387,12 @@ function CategoryBand() {
                           src={b.cover}
                           alt=""
                           loading="lazy"
-                          className={
-                            j === 1
-                              ? "relative z-[3] w-[37%] rounded-[5px] shadow-[0_12px_26px_-10px_rgb(11_22_51/45%)]"
-                              : "relative z-[2] -ml-[13%] w-[33%] first:ml-0 rounded-[5px] shadow-[0_12px_26px_-12px_rgb(11_22_51/40%)]"
-                          }
+                          className={cn(
+                            "relative w-[36%] rounded-[5px] shadow-[0_12px_26px_-12px_rgb(11_22_51/40%)]",
+                            j === 1 ? "z-[3] -ml-[8%]" : "z-[2]",
+                          )}
                           style={{
-                            transform: `rotate(${(j - 1) * 8}deg) translateY(${j === 1 ? 0 : 6}px)`,
+                            transform: `rotate(${j === 0 ? -6 : 6}deg) translateY(${j === 0 ? 4 : 0}px)`,
                           }}
                         />
                       ))}
@@ -476,7 +475,7 @@ function BundleShowcase() {
             <div className="relative grid gap-10 px-6 py-12 sm:px-10 sm:py-14 lg:grid-cols-[46fr_54fr] lg:items-center lg:gap-6 lg:px-14 lg:py-16">
               {/* left — content */}
               <div className="max-w-xl">
-                <p className="flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.22em] uppercase text-forest-foreground/65">
+                <p className="flex items-center gap-3 text-xs font-semibold tracking-[0.18em] uppercase text-forest-foreground/75">
                   <span
                     aria-hidden
                     className="h-0.5 w-8 rounded-full"
@@ -591,7 +590,7 @@ function BundleShowcase() {
                 >
                   <span className="font-display text-xl leading-none font-semibold text-forest-foreground sm:text-2xl">
                     {off}%
-                    <span className="mt-0.5 block font-sans text-[0.55rem] font-bold tracking-[0.2em]">
+                    <span className="mt-0.5 block font-sans text-[0.75rem] font-bold tracking-[0.2em]">
                       OFF
                     </span>
                   </span>
@@ -624,7 +623,7 @@ function BundleShowcase() {
                       <div className="relative flex h-full flex-col items-center justify-between px-[9%] py-[9%] text-center">
                         <img src={logo.url} alt="" className="h-6 w-auto sm:h-8" />
                         <div>
-                          <p className="text-[0.5rem] font-bold tracking-[0.32em] text-muted-foreground sm:text-[0.6rem]">
+                          <p className="text-[0.75rem] font-bold tracking-[0.2em] text-muted-foreground">
                             THE
                           </p>
                           <p className="font-display text-base leading-tight font-semibold text-foreground sm:text-[1.35rem]">
@@ -643,13 +642,13 @@ function BundleShowcase() {
                             BUNDLE
                           </p>
                           <span aria-hidden className="mx-auto mt-1.5 block h-px w-10 bg-brand-orange/70" />
-                          <p className="mt-2 text-[0.48rem] leading-snug text-muted-foreground sm:text-[0.6rem]">
+                          <p className="mt-2 text-[0.75rem] leading-snug text-muted-foreground">
                             {items.length} Life-Changing eBooks
                             <br />
                             for a Brighter You
                           </p>
                         </div>
-                        <p className="text-[0.48rem] font-semibold tracking-[0.14em] uppercase text-foreground/70 sm:text-[0.58rem]">
+                        <p className="text-[0.75rem] font-semibold tracking-[0.12em] uppercase text-foreground/75">
                           Learn Today. Grow Tomorrow.
                         </p>
                       </div>

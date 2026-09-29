@@ -54,7 +54,7 @@ function ContactPage() {
               <Icon
                 className={`h-6 w-6 ${title === "WhatsApp" ? "text-[#25D366]" : "text-[var(--brand-red)]"}`}
               />
-              <h2 className="mt-4 text-[0.68rem] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+              <h2 className="mt-4 text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase">
                 {title}
               </h2>
               {href ? (
@@ -82,7 +82,7 @@ function ContactPage() {
           <div className="h-full rounded-2xl border border-border bg-secondary/50 p-6 sm:p-8">
             <h2 className="text-2xl font-semibold">Good to know</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{storeConfig.note}</p>
-            <h3 className="mt-6 text-[0.68rem] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+            <h3 className="mt-6 text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase">
               Follow us
             </h3>
             <div className="mt-3 flex flex-wrap gap-3">

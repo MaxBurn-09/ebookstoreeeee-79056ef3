@@ -104,7 +104,7 @@ function ServicesPage() {
           <ol className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
               <li key={s.title}>
-                <span className="text-[0.66rem] font-semibold tracking-[0.2em] text-[var(--brand-red)] uppercase">
+                <span className="text-xs font-semibold tracking-[0.2em] text-[var(--brand-red)] uppercase">
                   Step {i + 1}
                 </span>
                 <h3 className="mt-1.5 text-[0.98rem] font-semibold">{s.title}</h3>

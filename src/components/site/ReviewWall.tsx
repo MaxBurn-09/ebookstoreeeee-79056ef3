@@ -4,16 +4,12 @@ import { cn } from "@/lib/utils";
 
 function Card({ t }: { t: Testimonial }) {
   return (
-    <figure className="flex w-[19rem] shrink-0 flex-col rounded-lg bg-card p-6 shadow-[var(--shadow-card)] sm:w-[22rem]">
+    <figure className="flex w-[19rem] shrink-0 flex-col self-start rounded-lg bg-card p-6 shadow-[var(--shadow-card)] sm:w-[22rem]">
       <Quote className="h-5 w-5 text-primary" aria-hidden />
-      <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-foreground/85">
+      <blockquote className="mt-3 text-sm leading-relaxed text-foreground/85">
         {t.quote}
       </blockquote>
-      <figcaption className="mt-5 flex items-center justify-between gap-3">
-        <span>
-          <span className="block text-sm font-semibold">{t.name}</span>
-          <span className="block text-xs text-muted-foreground">{t.location}</span>
-        </span>
+      <figcaption className="mt-4 flex flex-col gap-1.5">
         <span className="flex gap-0.5" aria-label={`${t.rating} out of 5`}>
           {Array.from({ length: 5 }).map((_, s) => (
             <Star
@@ -27,6 +23,10 @@ function Card({ t }: { t: Testimonial }) {
               aria-hidden
             />
           ))}
+        </span>
+        <span>
+          <span className="block text-sm font-semibold">{t.name}</span>
+          <span className="block text-xs text-muted-foreground">{t.location}</span>
         </span>
       </figcaption>
     </figure>
@@ -54,11 +54,7 @@ function Row({ items, reverse, seconds }: { items: Testimonial[]; reverse?: bool
 
 /** Auto-scrolling wall of verified reader reviews. Pauses on hover. */
 export function ReviewWall() {
-  const half = Math.ceil(testimonials.length / 2);
   return (
-    <div className="space-y-4">
-      <Row items={testimonials.slice(0, half)} seconds={90} />
-      <Row items={testimonials.slice(half)} seconds={105} reverse />
-    </div>
+    <Row items={testimonials} seconds={120} />
   );
 }

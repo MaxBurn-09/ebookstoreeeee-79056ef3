@@ -105,13 +105,10 @@ export function Header({ onSearch }: { onSearch: () => void }) {
             <button
               type="button"
               onClick={onSearch}
-              className="press hidden h-10 items-center gap-2 rounded-full border border-border px-3.5 text-sm text-muted-foreground hover:border-foreground/25 hover:text-foreground md:flex lg:hidden xl:flex"
+              aria-label="Search (press /)"
+              className="press hidden h-10 w-10 place-items-center rounded-full border border-border bg-card text-foreground hover:border-foreground/25 md:grid lg:hidden xl:grid"
             >
               <Search className="h-4 w-4" />
-              <span className="pr-2 xl:pr-6">Search</span>
-              <kbd className="grid h-5 place-items-center rounded border border-border bg-muted px-1.5 font-sans text-xs">
-                /
-              </kbd>
             </button>
             <button
               type="button"
