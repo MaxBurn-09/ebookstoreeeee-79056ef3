@@ -11,11 +11,9 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        { find: /^entities$/, replacement: path.resolve(__dirname, "node_modules/entities/dist/entities.mjs") },
-        { find: /^entities\/lib\/(decode|encode|escape)\.js$/, replacement: path.resolve(__dirname, "node_modules/entities/lib/$1.js") },
-        { find: /^entities\/decode$/, replacement: path.resolve(__dirname, "node_modules/entities/dist/decode.mjs") },
-        { find: /^entities\/encode$/, replacement: path.resolve(__dirname, "node_modules/entities/dist/encode.mjs") },
-        { find: /^entities\/escape$/, replacement: path.resolve(__dirname, "node_modules/entities/lib/escape.js") },
+        { find: /^entities$/, replacement: path.resolve(__dirname, "node_modules/entities/lib/index.js") },
+        { find: /^entities\/lib\/(decode|encode|escape|decode_codepoint)\.js$/, replacement: path.resolve(__dirname, "node_modules/entities/lib/$1.js") },
+        { find: /^entities\/(decode|encode|escape|decode_codepoint)$/, replacement: path.resolve(__dirname, "node_modules/entities/lib/$1.js") },
       },
     },
   },
