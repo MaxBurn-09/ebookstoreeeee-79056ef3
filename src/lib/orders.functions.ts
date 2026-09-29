@@ -82,7 +82,7 @@ export const verifyPayment = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: order } = await supabaseAdmin
       .from("orders")
-      .select("id,user_id,email,full_name,total,currency,provider_ref,status,order_items(title)")
+      .select("id,user_id,email,full_name,total,currency,provider_ref,status,order_items(title,book_slug,file_url)")
       .eq("id", data.orderId)
       .maybeSingle();
     if (!order || order.user_id !== context.userId || order.provider_ref !== data.razorpay_order_id) {
@@ -115,13 +115,21 @@ export const verifyPayment = createServerFn({ method: "POST" })
     if (order.email) {
       try {
         const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
-        const items = (order.order_items ?? []) as { title: string }[];
+        const items = (order.order_items ?? []) as { title: string; book_slug: string; file_url: string | null }[];
+        const links = await Promise.all(
+          items.map(async (i) => {
+            const path = (i.file_url ?? `${i.book_slug}.pdf`).replace(/^ebooks\//, "");
+            const { data: s } = await supabaseAdmin.storage.from("ebooks").createSignedUrl(path, 60 * 60 * 24 * 7, { download: `${i.book_slug}.pdf` });
+            return { title: i.title, url: s?.signedUrl };
+          }),
+        );
         await sendTemplateEmail("order-ready", order.email, {
           templateData: {
             name: order.full_name,
             orderId: order.id,
             total: `${order.currency === "INR" ? "₹" : "$"}${Number(order.total).toFixed(2)}`,
             books: items.map((i) => i.title),
+            downloads: links,
             orderUrl: `https://futuregrowacademy.co/order/${order.id}`,
           },
           idempotencyKey: `order-ready-${order.id}`,
