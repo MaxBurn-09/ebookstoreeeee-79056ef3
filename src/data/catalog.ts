@@ -696,10 +696,10 @@ export const storeConfig = {
     { label: "LinkedIn", href: "http://linkedin.com/company/futuregrowacademy" },
   ],
   legal: [
-    { label: "Privacy Policy", href: "https://futuregrowacademy.co/privacy/" },
-    { label: "Terms & Conditions", href: "https://futuregrowacademy.co/terms-of-services/" },
-    { label: "Refund Policy", href: "https://futuregrowacademy.co/refund-policy/" },
-    { label: "Cookies Policy", href: "https://futuregrowacademy.co/cookies-policy/" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Terms & Conditions", href: "/terms" },
+    { label: "Refund Policy", href: "/refund-policy" },
+    { label: "Cookies Policy", href: "/cookies-policy" },
   ],
   nav: [
     { label: "Home", to: "/" },
