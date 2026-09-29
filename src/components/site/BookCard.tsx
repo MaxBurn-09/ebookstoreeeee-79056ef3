@@ -76,7 +76,7 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
           >
             {book.title}
           </Link>
-        </h3>
+        </h2>
 
         <div className="mt-2 flex items-center gap-1.5">
           <Stars rating={book.rating} />
