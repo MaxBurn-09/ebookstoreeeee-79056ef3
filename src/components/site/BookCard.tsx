@@ -27,6 +27,10 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
           className="block"
         >
           <img
+            ref={(img) => {
+              // Cached images can finish loading before React attaches onLoad.
+              if (img && img.complete && img.naturalWidth > 0) setLoaded(true);
+            }}
             src={imageSrc}
             alt=""
             loading={priority ? "eager" : "lazy"}
