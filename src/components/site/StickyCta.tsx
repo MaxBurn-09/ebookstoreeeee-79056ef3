@@ -66,7 +66,7 @@ export function StickyCta() {
   return (
     <div
       className={cn(
-        "fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+4.75rem)] z-40 flex items-center gap-2 transition-all duration-500 md:bottom-6 md:right-6",
+        "fixed right-3 bottom-[calc(env(safe-area-inset-bottom)+8.25rem)] z-40 flex items-center gap-2 transition-all duration-500 md:bottom-24 md:right-6",
         shown && !scrollingDown
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-6 opacity-0",

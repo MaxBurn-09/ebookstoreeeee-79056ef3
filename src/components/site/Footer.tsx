@@ -93,7 +93,7 @@ export function Footer() {
         <div className="grid grid-cols-3 gap-x-6 sm:gap-x-10 lg:contents">
           <Reveal as="nav" aria-label="Quick links" delay={60} className="min-w-0">
             <h2 className="eyebrow">Quick Links</h2>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-4 space-y-3.5">
               {storeConfig.nav.map((item) => (
                 <li key={item.to}>
                   <Link to={item.to} className={linkClass}>
@@ -106,7 +106,7 @@ export function Footer() {
 
           <Reveal as="nav" aria-label="Categories" delay={120} className="min-w-0">
             <h2 className="eyebrow">Categories</h2>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-4 space-y-3.5">
               {categories.map((c) => (
                 <li key={c.slug}>
                   <Link
@@ -123,7 +123,7 @@ export function Footer() {
 
           <Reveal as="nav" aria-label="Legal" delay={180} className="min-w-0">
             <h2 className="eyebrow">Legal</h2>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-4 space-y-3.5">
               {storeConfig.legal.map((l) => (
                 <li key={l.label}>
                   <Link to={l.href} className={linkClass}>

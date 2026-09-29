@@ -326,7 +326,7 @@ const baseBooks: Book[] = [
   {
     id: "b11",
     slug: "rewire-in-a-week",
-    title: "REWIRE IN A WEEK",
+    title: "Rewire in a Week",
     cover: cover11,
     category: "Self-Care",
     price: 3.97,

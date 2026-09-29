@@ -67,7 +67,7 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
 
       <div className="mt-3 flex min-w-0 flex-1 flex-col">
         <p className="eyebrow truncate">{book.category}</p>
-        <h3 className="mt-1.5 text-sm leading-snug font-semibold">
+        <h2 className="mt-1.5 text-sm leading-snug font-semibold">
           <Link
             to="/book/$slug"
             params={{ slug: book.slug }}
@@ -76,7 +76,7 @@ export function BookCard({ book, priority = false }: { book: Book; priority?: bo
           >
             {book.title}
           </Link>
-        </h3>
+        </h2>
 
         <div className="mt-2 flex items-center gap-1.5">
           <Stars rating={book.rating} />

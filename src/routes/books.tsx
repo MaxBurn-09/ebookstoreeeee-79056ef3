@@ -198,7 +198,7 @@ function Chip({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "press h-10 shrink-0 snap-start rounded-full border px-4 text-xs font-semibold",
+        "press h-11 shrink-0 snap-start rounded-full border px-5 text-sm font-semibold",
         active
           ? "border-foreground bg-foreground text-background"
           : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
