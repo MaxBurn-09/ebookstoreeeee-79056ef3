@@ -9,8 +9,17 @@ import { Message, MessageContent, MessageResponse } from "@/components/ai-elemen
 import { PromptInput, PromptInputFooter, PromptInputSubmit, PromptInputTextarea } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import logo from "@/assets/fga-logo.png.asset.json";
+import { books, bundles, storeConfig } from "@/data/catalog";
 
 const transport = new DefaultChatTransport({ api: "/api/chat" });
+const trustedChatLinks = new Set([
+  ...books.map((book) => `https://futuregrowacademy.co/book/${book.slug}`),
+  ...bundles.map(() => "https://futuregrowacademy.co/bundles"),
+  ...storeConfig.socials.map((social) => social.href),
+  "https://futuregrowacademy.co/contact", "https://futuregrowacademy.co/refund-policy",
+  "https://futuregrowacademy.co/privacy-policy", "https://futuregrowacademy.co/terms",
+  "https://futuregrowacademy.co/cookies-policy", storeConfig.blogUrl,
+]);
 
 export function BookSellerChat() {
   const [open, setOpen] = useState(false);
@@ -54,7 +63,7 @@ export function BookSellerChat() {
                 <Message key={message.id} from={message.role}>
                   <MessageContent className={message.role === "user" ? "bg-primary text-primary-foreground" : "bg-transparent text-foreground"}>
                     {message.parts.map((part, index) => part.type === "text" ? (
-                      message.role === "assistant" ? <MessageResponse key={index} className="text-sm leading-relaxed [&_a]:text-primary [&_a]:underline">{part.text}</MessageResponse> : <span key={index} className="whitespace-pre-wrap">{part.text}</span>
+                      message.role === "assistant" ? <MessageResponse key={index} linkSafety={{ enabled: true, onLinkCheck: (url) => trustedChatLinks.has(url) }} className="text-sm leading-relaxed [&_a]:text-primary [&_a]:underline">{part.text}</MessageResponse> : <span key={index} className="whitespace-pre-wrap">{part.text}</span>
                     ) : null)}
                   </MessageContent>
                 </Message>
