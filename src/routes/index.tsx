@@ -67,6 +67,14 @@ function HomePage() {
 function Hero() {
   const navigate = useNavigate();
   const [q, setQ] = useState("");
+  const [showDownloadNote, setShowDownloadNote] = useState(true);
+
+  useEffect(() => {
+    const updateDownloadNote = () => setShowDownloadNote(window.scrollY < 60);
+    updateDownloadNote();
+    window.addEventListener("scroll", updateDownloadNote, { passive: true });
+    return () => window.removeEventListener("scroll", updateDownloadNote);
+  }, []);
 
   return (
     <section className="relative overflow-hidden border-b border-border bg-background">
@@ -97,7 +105,12 @@ function Hero() {
             </Tilt>
           </Parallax>
 
-          <p className="mt-5 text-center text-xs tracking-wide text-muted-foreground sm:mt-8">
+          <p
+            className={cn(
+              "mt-5 text-center text-xs tracking-wide text-muted-foreground sm:mt-8 motion-safe:transition-opacity motion-safe:duration-300",
+              !showDownloadNote && "opacity-0",
+            )}
+          >
             Instant PDF download · Lifetime access
           </p>
         </Reveal>
