@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { CreditCard, Download, Landmark, Loader2, Lock, Smartphone } from "lucide-react";
+import { CreditCard, Download, Landmark, Loader2, Lock, QrCode, Smartphone, Wallet } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { useAuth } from "@/lib/auth";
-import { formatPrice } from "@/data/catalog";
+import { detectCurrency, formatMoney, type Currency } from "@/lib/currency";
 import { createPaymentOrder, verifyPayment } from "@/lib/orders.functions";
 
 export const Route = createFileRoute("/_authenticated/checkout")({
@@ -41,10 +41,15 @@ function loadRazorpay() {
   });
 }
 
-const methods = [
-  { icon: CreditCard, label: "Credit / debit card" },
+const methodsINR = [
+  { icon: QrCode, label: "UPI QR / UPI apps" },
+  { icon: CreditCard, label: "Cards" },
   { icon: Landmark, label: "Net banking" },
-  { icon: Smartphone, label: "UPI" },
+  { icon: Wallet, label: "Wallets & Pay Later" },
+];
+const methodsUSD = [
+  { icon: CreditCard, label: "International cards" },
+  { icon: Smartphone, label: "PayPal (if enabled)" },
 ];
 
 function CheckoutPage() {
@@ -55,6 +60,9 @@ function CheckoutPage() {
   const verify = useServerFn(verifyPayment);
   const [name, setName] = useState((user?.user_metadata?.["full_name"] as string) ?? "");
   const [busy, setBusy] = useState(false);
+  const [currency, setCurrency] = useState<Currency>("USD");
+  useEffect(() => setCurrency(detectCurrency()), []);
+  const formatPrice = (n: number) => formatMoney(n, currency);
 
   const pay = async () => {
     if (name.trim().length < 2) { toast.error("Please enter your full name."); return; }
@@ -62,7 +70,7 @@ function CheckoutPage() {
     try {
       const ok = await loadRazorpay();
       if (!ok || !window.Razorpay) throw new Error("Could not load the payment window. Check your connection.");
-      const o = await createOrder({ data: { fullName: name.trim(), items: cart.map((l) => ({ id: l.id, qty: l.qty })) } });
+      const o = await createOrder({ data: { fullName: name.trim(), currency, items: cart.map((l) => ({ id: l.id, qty: l.qty })) } });
       const rzp = new window.Razorpay({
         key: o.keyId,
         amount: o.amount,
@@ -116,15 +124,22 @@ function CheckoutPage() {
             <input id="fullName" value={name} onChange={(e) => setName(e.target.value)} maxLength={120} className="mt-1.5 h-12 w-full rounded-lg border border-border bg-background px-4 text-base outline-none focus:ring-2 focus:ring-primary/30" />
             <p className="mt-3 text-sm text-muted-foreground">Receipt and library access for <span className="font-medium text-foreground">{user?.email}</span></p>
 
+            <h2 className="mt-8 text-lg font-semibold">Pay in</h2>
+            <div className="mt-3 inline-flex rounded-full border border-border bg-card/70 p-1" role="radiogroup" aria-label="Currency">
+              {([["INR", "₹ INR · India"], ["USD", "$ USD · International"]] as const).map(([c, l]) => (
+                <button key={c} type="button" role="radio" aria-checked={currency === c} onClick={() => setCurrency(c)} className={`rounded-full px-4 py-2 text-sm font-medium transition ${currency === c ? "bg-brand text-primary-foreground" : "text-muted-foreground"}`}>{l}</button>
+              ))}
+            </div>
+
             <h2 className="mt-8 text-lg font-semibold">Payment methods</h2>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              {methods.map((m) => (
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {(currency === "INR" ? methodsINR : methodsUSD).map((m) => (
                 <div key={m.label} className="flex items-center gap-2.5 rounded-lg border border-border bg-card/70 p-3.5 text-sm font-medium">
                   <m.icon className="h-5 w-5 text-primary" aria-hidden /> {m.label}
                 </div>
               ))}
             </div>
-            <p className="mt-3 text-xs text-muted-foreground">Choose your method in the secure Razorpay window. Availability of UPI and net banking depends on your bank and country.</p>
+            <p className="mt-3 text-xs text-muted-foreground">{currency === "INR" ? "Scan the UPI QR with GPay, PhonePe, Paytm or any UPI app — or pay by card, net banking or wallet in the secure Razorpay window." : "Pay securely by card in the Razorpay window. Indian buyers: switch to ₹ INR to use UPI."}</p>
 
             <button type="button" onClick={pay} disabled={busy} className="press btn-gloss mt-7 inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-base font-semibold text-primary-foreground disabled:opacity-60">
               {busy ? <Loader2 className="h-5 w-5 animate-spin" /> : <Lock className="h-5 w-5" />} Pay {formatPrice(cartSubtotal)}

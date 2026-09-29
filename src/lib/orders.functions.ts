@@ -82,7 +82,7 @@ export const verifyPayment = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: order } = await supabaseAdmin
       .from("orders")
-      .select("id,user_id,total,provider_ref,status")
+      .select("id,user_id,total,currency,provider_ref,status")
       .eq("id", data.orderId)
       .maybeSingle();
     if (!order || order.user_id !== context.userId || order.provider_ref !== data.razorpay_order_id) {
@@ -105,7 +105,7 @@ export const verifyPayment = createServerFn({ method: "POST" })
       await fetch(`https://api.razorpay.com/v1/payments/${data.razorpay_payment_id}/capture`, {
         method: "POST",
         headers: { Authorization: auth.header, "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: pay.amount, currency: CURRENCY }),
+        body: JSON.stringify({ amount: pay.amount, currency: order.currency }),
       });
     } else if (pay.status !== "captured") {
       throw new Error("Payment was not completed.");
