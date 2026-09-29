@@ -7,10 +7,11 @@ interface Props {
   orderId?: string
   total?: string
   books?: string[]
+  downloads?: { title: string; url?: string }[]
   orderUrl?: string
 }
 
-const OrderReady = ({ name, orderId, total, books = [], orderUrl = 'https://futuregrowacademy.co/dashboard' }: Props) => (
+const OrderReady = ({ name, orderId, total, books = [], downloads = [], orderUrl = 'https://futuregrowacademy.co/dashboard' }: Props) => (
   <Html lang="en" dir="ltr">
     <Head />
     <Preview>Your ebooks are ready to download</Preview>
@@ -18,14 +19,19 @@ const OrderReady = ({ name, orderId, total, books = [], orderUrl = 'https://futu
       <Container style={container}>
         <Text style={brand}>Future Grow Academy</Text>
         <Heading style={h1}>Your ebooks are ready</Heading>
-        <Text style={text}>{name ? `Hi ${name},` : 'Hi there,'} thank you for your order. Your payment is confirmed and your ebooks are waiting in your library.</Text>
-        {books.length > 0 && (
+        <Text style={text}>{name ? `Hi ${name},` : 'Hi there,'} thank you for your order. Your payment is confirmed — download your ebooks below.</Text>
+        {(downloads.length > 0 || books.length > 0) && (
           <>
             <Hr style={hr} />
-            {books.map((b, i) => (
-              <Text key={i} style={item}>• {b}</Text>
-            ))}
+            {downloads.length > 0
+              ? downloads.map((d, i) => (
+                  <Text key={i} style={item}>
+                    • {d.title}{d.url ? <> — <Link href={d.url} style={link}>Download PDF</Link></> : null}
+                  </Text>
+                ))
+              : books.map((b, i) => <Text key={i} style={item}>• {b}</Text>)}
             <Hr style={hr} />
+            {downloads.length > 0 && <Text style={muted}>Download links work for 7 days. Your library keeps the books forever.</Text>}
           </>
         )}
         {(orderId || total) && (
