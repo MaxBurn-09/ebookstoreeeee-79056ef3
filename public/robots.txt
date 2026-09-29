@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://ebookstoreeeee.lovable.app/sitemap.xml
+Sitemap: https://futuregrowacademy.co/sitemap.xml

@@ -1,4 +1,4 @@
-export const SITE_URL = "https://ebookstoreeeee.lovable.app";
+export const SITE_URL = "https://futuregrowacademy.co";
 export const SITE_NAME = "Future Grow Academy";
 
 type HeadOpts = {

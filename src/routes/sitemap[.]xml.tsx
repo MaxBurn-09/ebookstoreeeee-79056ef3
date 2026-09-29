@@ -3,7 +3,7 @@ import { books, categories } from "@/data/catalog";
 import { locations } from "@/data/locations";
 import { blogPosts } from "@/data/blog";
 
-const SITE = "https://ebookstoreeeee.lovable.app";
+const SITE = "https://futuregrowacademy.co";
 
 function buildSitemap() {
   const today = new Date().toISOString().slice(0, 10);
