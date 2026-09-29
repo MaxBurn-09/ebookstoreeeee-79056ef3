@@ -133,7 +133,7 @@ function DashboardPage() {
                     <span className="text-sm font-semibold">#{o.id.slice(0, 8).toUpperCase()}</span>
                     <span className="text-sm text-muted-foreground">{new Date(o.created_at).toLocaleDateString()} · {o.order_items.length} ebook(s)</span>
                     <span className={o.status === "paid" ? "rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary" : "rounded-full bg-muted px-2.5 py-0.5 text-xs font-semibold text-muted-foreground"}>{o.status}</span>
-                    <span className="text-sm font-semibold tabular-nums">{formatPrice(Number(o.total))}</span>
+                    <span className="text-sm font-semibold tabular-nums">{(o.currency === "INR" ? `₹${Number(o.total).toLocaleString("en-IN")}` : formatPrice(Number(o.total)))}</span>
                   </Link>
                 </li>
               ))}

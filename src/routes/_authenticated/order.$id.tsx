@@ -37,7 +37,7 @@ function OrderPage() {
         <div className="glass rounded-2xl border border-border p-6 text-center sm:p-10">
           {paid ? <CheckCircle2 className="mx-auto h-12 w-12 text-primary" /> : <Clock className="mx-auto h-12 w-12 text-muted-foreground" />}
           <h1 className="mt-4 text-3xl font-semibold">{paid ? "Thank you — order confirmed" : "Payment pending"}</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Order #{order.id.slice(0, 8).toUpperCase()} · {new Date(order.created_at).toLocaleDateString()} · {formatPrice(Number(order.total))}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Order #{order.id.slice(0, 8).toUpperCase()} · {new Date(order.created_at).toLocaleDateString()} · {(order.currency === "INR" ? `₹${Number(order.total).toLocaleString("en-IN")}` : formatPrice(Number(order.total)))}</p>
         </div>
         <ul className="mt-6 space-y-3">
           {order.order_items.map((i) => (
