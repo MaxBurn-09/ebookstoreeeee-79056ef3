@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Body, Button, Container, Head, Heading, Hr, Html, Preview, Text } from '@react-email/components'
+import { Body, Button, Container, Head, Heading, Hr, Html, Link, Preview, Text } from '@react-email/components'
 import type { TemplateEntry } from './registry'
 
 interface Props {
@@ -61,4 +61,5 @@ const item = { color: '#0B1633', fontSize: '15px', margin: '4px 0' }
 const muted = { color: '#5E6472', fontSize: '13px', lineHeight: '20px' }
 const hr = { borderColor: '#E9E5DF', margin: '16px 0' }
 const button = { backgroundColor: '#D1002C', color: '#ffffff', borderRadius: '999px', padding: '14px 26px', fontSize: '15px', fontWeight: 600, textDecoration: 'none', display: 'inline-block', margin: '12px 0 16px' }
+const link = { color: '#D1002C', fontWeight: 600 }
 const footer = { color: '#5E6472', fontSize: '12px', marginTop: '24px' }
