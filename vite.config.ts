@@ -10,11 +10,11 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 export default defineConfig({
   vite: {
     resolve: {
-      alias: {
+      alias: [
         { find: /^entities$/, replacement: path.resolve(__dirname, "node_modules/entities/lib/index.js") },
         { find: /^entities\/lib\/(decode|encode|escape|decode_codepoint)\.js$/, replacement: path.resolve(__dirname, "node_modules/entities/lib/$1.js") },
         { find: /^entities\/(decode|encode|escape|decode_codepoint)$/, replacement: path.resolve(__dirname, "node_modules/entities/lib/$1.js") },
-      },
+      ],
     },
   },
   tanstackStart: {
