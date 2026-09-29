@@ -12,6 +12,7 @@ export function NavProgress() {
       return () => clearTimeout(t);
     }
     setVisible(false);
+    return undefined;
   }, [loading]);
 
   return (
