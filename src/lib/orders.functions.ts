@@ -3,8 +3,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { books } from "@/data/catalog";
 import { matchBundles } from "@/lib/bundle-pricing";
-
-const CURRENCY = "USD";
+import { toINR } from "@/lib/currency";
 
 function rzpAuth() {
   const id = process.env["RAZORPAY_KEY_ID"];
@@ -20,6 +19,7 @@ export const createPaymentOrder = createServerFn({ method: "POST" })
     z
       .object({
         fullName: z.string().trim().min(2).max(120),
+        currency: z.enum(["USD", "INR"]).default("USD"),
         items: z.array(z.object({ id: z.string().max(40), qty: z.number().int().min(1).max(10) })).min(1).max(50),
       })
       .parse(d),
@@ -32,14 +32,16 @@ export const createPaymentOrder = createServerFn({ method: "POST" })
     });
     const listed = lines.reduce((s, l) => s + l.book.price * l.qty, 0);
     const { discount } = matchBundles(lines.map((l) => ({ slug: l.book.slug, qty: l.qty, price: l.book.price })));
-    const total = Math.round((listed - discount) * 100) / 100;
+    const usdTotal = Math.round((listed - discount) * 100) / 100;
+    const currency = data.currency;
+    const total = currency === "INR" ? toINR(usdTotal) : usdTotal;
     const email = (context.claims as { email?: string }).email ?? "";
 
     const auth = rzpAuth();
     const res = await fetch("https://api.razorpay.com/v1/orders", {
       method: "POST",
       headers: { Authorization: auth.header, "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: Math.round(total * 100), currency: CURRENCY, receipt: `fga_${Date.now()}` }),
+      body: JSON.stringify({ amount: Math.round(total * 100), currency, receipt: `fga_${Date.now()}` }),
     });
     if (!res.ok) {
       console.error("Razorpay order failed", res.status, await res.text());
@@ -50,16 +52,16 @@ export const createPaymentOrder = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: order, error } = await supabaseAdmin
       .from("orders")
-      .insert({ user_id: context.userId, email, full_name: data.fullName, total, currency: CURRENCY, status: "pending", provider: "razorpay", provider_ref: rzp.id })
+      .insert({ user_id: context.userId, email, full_name: data.fullName, total, currency, status: "pending", provider: "razorpay", provider_ref: rzp.id })
       .select("id")
       .single();
     if (error || !order) throw new Error("Could not create your order.");
     const { error: itemErr } = await supabaseAdmin.from("order_items").insert(
-      lines.map((l) => ({ order_id: order.id, book_slug: l.book.slug, title: l.book.title, cover_url: l.book.cover, file_url: `${l.book.slug}.pdf`, price: l.book.price, quantity: l.qty })),
+      lines.map((l) => ({ order_id: order.id, book_slug: l.book.slug, title: l.book.title, cover_url: l.book.cover, file_url: `${l.book.slug}.pdf`, price: currency === "INR" ? toINR(l.book.price) : l.book.price, quantity: l.qty })),
     );
     if (itemErr) throw new Error("Could not create your order.");
 
-    return { orderId: order.id, razorpayOrderId: rzp.id, amount: rzp.amount, currency: CURRENCY, keyId: auth.id, email, total };
+    return { orderId: order.id, razorpayOrderId: rzp.id, amount: rzp.amount, currency, keyId: auth.id, email, total };
   });
 
 /** Verifies the Razorpay signature and the captured amount before marking an order paid. */
@@ -80,7 +82,7 @@ export const verifyPayment = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: order } = await supabaseAdmin
       .from("orders")
-      .select("id,user_id,total,provider_ref,status")
+      .select("id,user_id,total,currency,provider_ref,status")
       .eq("id", data.orderId)
       .maybeSingle();
     if (!order || order.user_id !== context.userId || order.provider_ref !== data.razorpay_order_id) {
@@ -103,7 +105,7 @@ export const verifyPayment = createServerFn({ method: "POST" })
       await fetch(`https://api.razorpay.com/v1/payments/${data.razorpay_payment_id}/capture`, {
         method: "POST",
         headers: { Authorization: auth.header, "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: pay.amount, currency: CURRENCY }),
+        body: JSON.stringify({ amount: pay.amount, currency: order.currency }),
       });
     } else if (pay.status !== "captured") {
       throw new Error("Payment was not completed.");
