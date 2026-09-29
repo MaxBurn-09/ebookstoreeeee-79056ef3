@@ -27,6 +27,8 @@ import { MobileTabBar } from "../components/site/MobileTabBar";
 import { StickyCta } from "../components/site/StickyCta";
 import { PurchaseNotice } from "../components/site/PurchaseNotice";
 import { BookSellerChat } from "../components/site/BookSellerChat";
+import { getAnalyticsMeasurementId } from "../lib/analytics.functions";
+import { initAnalytics, trackPageView } from "../lib/analytics";
 
 function NotFoundComponent() {
   return (
@@ -89,6 +91,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  loader: () => getAnalyticsMeasurementId(),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
