@@ -126,9 +126,9 @@ export function Footer() {
             <ul className="mt-4 space-y-2.5">
               {storeConfig.legal.map((l) => (
                 <li key={l.label}>
-                  <a href={l.href} target="_blank" rel="noreferrer noopener" className={linkClass}>
+                  <Link to={l.href} className={linkClass}>
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
