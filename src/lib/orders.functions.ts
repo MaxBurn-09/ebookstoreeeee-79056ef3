@@ -130,6 +130,19 @@ export const verifyPayment = createServerFn({ method: "POST" })
         console.error("Order email failed", e);
       }
     }
+    try {
+      const { resendSend, RESEND_FROM, ADMIN_EMAILS, escapeHtml } = await import("@/lib/resend.server");
+      const items = ((order.order_items ?? []) as { title: string }[]).map((i) => `<li>${escapeHtml(i.title)}</li>`).join("");
+      const amount = `${order.currency === "INR" ? "₹" : "$"}${Number(order.total).toFixed(2)}`;
+      await resendSend({
+        from: RESEND_FROM,
+        to: ADMIN_EMAILS,
+        subject: `New order ${amount} — ${order.email}`,
+        html: `<div style="font-family:Arial,sans-serif;color:#0B1633"><h2>New paid order</h2><p><b>Customer:</b> ${escapeHtml(order.full_name ?? "")} (${escapeHtml(order.email)})<br/><b>Total:</b> ${amount}<br/><b>Order:</b> ${order.id}</p><ul>${items}</ul><p><a href="https://futuregrowacademy.co/admin/orders">Open orders in admin</a></p></div>`,
+      });
+    } catch (e) {
+      console.error("Admin notify failed", e);
+    }
     return { ok: true };
   });
 
