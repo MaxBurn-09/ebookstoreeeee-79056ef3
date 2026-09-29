@@ -155,7 +155,6 @@ function RootComponent() {
   const measurementId = Route.useLoaderData() as string | null;
 
   useEffect(() => {
-    console.log("[ga-debug] measurementId:", measurementId);
     if (measurementId) initAnalytics(measurementId);
   }, [measurementId]);
 
