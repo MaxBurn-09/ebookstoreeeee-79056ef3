@@ -82,7 +82,7 @@ export const verifyPayment = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: order } = await supabaseAdmin
       .from("orders")
-      .select("id,user_id,total,currency,provider_ref,status")
+      .select("id,user_id,email,full_name,total,currency,provider_ref,status,order_items(title)")
       .eq("id", data.orderId)
       .maybeSingle();
     if (!order || order.user_id !== context.userId || order.provider_ref !== data.razorpay_order_id) {
@@ -112,6 +112,24 @@ export const verifyPayment = createServerFn({ method: "POST" })
     }
 
     await supabaseAdmin.from("orders").update({ status: "paid" }).eq("id", order.id);
+    if (order.email) {
+      try {
+        const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
+        const items = (order.order_items ?? []) as { title: string }[];
+        await sendTemplateEmail("order-ready", order.email, {
+          templateData: {
+            name: order.full_name,
+            orderId: order.id,
+            total: `${order.currency === "INR" ? "₹" : "$"}${Number(order.total).toFixed(2)}`,
+            books: items.map((i) => i.title),
+            orderUrl: `https://futuregrowacademy.co/order/${order.id}`,
+          },
+          idempotencyKey: `order-ready-${order.id}`,
+        });
+      } catch (e) {
+        console.error("Order email failed", e);
+      }
+    }
     return { ok: true };
   });
 
