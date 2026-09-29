@@ -99,7 +99,7 @@ function ServicesPage() {
       </div>
 
       <Reveal delay={120}>
-        <div className="mt-14 rounded-2xl border border-border bg-secondary/50 p-6 sm:p-8">
+        <div className="mt-14 rounded-2xl border border-border bg-card p-6 sm:p-8">
           <h2 className="text-2xl font-semibold">How we work</h2>
           <ol className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
