@@ -18,6 +18,7 @@ import { Footer } from "../components/site/Footer";
 import { CartDrawer } from "../components/site/CartDrawer";
 import { Toaster } from "../components/ui/sonner";
 import { PageTransition } from "../components/site/PageTransition";
+import { NavProgress } from "../components/site/NavProgress";
 import { SearchDialog } from "../components/site/SearchDialog";
 import { MobileTabBar } from "../components/site/MobileTabBar";
 import { StickyCta } from "../components/site/StickyCta";
@@ -164,6 +165,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <StoreProvider>
+          <NavProgress />
           <div className="flex min-h-screen flex-col">
             <Header onSearch={() => setSearchOpen(true)} />
             <main id="main" className="flex-1 pb-14 md:pb-0">
